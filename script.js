@@ -1,6 +1,6 @@
 /**
- * Universal CEF System - Final Implementation
- * Real-time system with money, time, and all features from universal.pwn
+ * Universal CEF System - Complete Implementation
+ * Works with universal.pwn gamemode
  */
 
 // Global variables - matching your PAWN enum
@@ -98,11 +98,22 @@ let currentBonusData = {
     salary: 0
 };
 
+let currentPoolData = {
+    name: '',
+    number: 0,
+    job: '',
+    passid: 0,
+    bankcash: 0,
+    havehouse: 0,
+    havecarid: '',
+    havebiz: ''
+};
+
 let currentTime = new Date();
 
 // Initialize CEF system
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Universal CEF System - Final Implementation initialized');
+    console.log('Universal CEF System - Complete Implementation initialized');
     initializeEventListeners();
     setupCEFCommunication();
     startRealTimeClock();
@@ -223,6 +234,18 @@ function simulateCEFEvents() {
     setTimeout(() => {
         handleGameCEFBank(125000);
     }, 6000);
+    
+    // Simulate pool data
+    setTimeout(() => {
+        handleDataPoolName('TestPlayer');
+        handleDataPoolNumber(12345);
+        handleDataPoolJob('Police Officer');
+        handleDataPoolPassid(987654);
+        handleDataPoolBankcash(150000);
+        handleDataPoolHavehouse(1);
+        handleDataPoolHavecarid('5');
+        handleDataPoolHavebiz('None');
+    }, 7000);
 }
 
 // CEF Event Handlers - Based on real usage from universal.pwn
@@ -435,6 +458,79 @@ function handleQuestFrame(quest) {
     if (questPanel && questFrame) {
         questFrame.innerHTML = `Quest Frame ${quest} Content`;
         showPanel('quest-panel');
+    }
+}
+
+// Pool Data System - Real implementation from universal.pwn
+function handleDataPoolName(name) {
+    console.log('Pool name:', name);
+    currentPoolData.name = name;
+    const poolName = document.getElementById('pool-name');
+    if (poolName) {
+        poolName.textContent = name;
+    }
+}
+
+function handleDataPoolNumber(number) {
+    console.log('Pool number:', number);
+    currentPoolData.number = number;
+    const poolNumber = document.getElementById('pool-number');
+    if (poolNumber) {
+        poolNumber.textContent = number;
+    }
+}
+
+function handleDataPoolJob(job) {
+    console.log('Pool job:', job);
+    currentPoolData.job = job;
+    const poolJob = document.getElementById('pool-job');
+    if (poolJob) {
+        poolJob.textContent = job;
+    }
+}
+
+function handleDataPoolPassid(passid) {
+    console.log('Pool passid:', passid);
+    currentPoolData.passid = passid;
+    const poolPassid = document.getElementById('pool-passid');
+    if (poolPassid) {
+        poolPassid.textContent = passid;
+    }
+}
+
+function handleDataPoolBankcash(bankcash) {
+    console.log('Pool bankcash:', bankcash);
+    currentPoolData.bankcash = bankcash;
+    const poolBankcash = document.getElementById('pool-bankcash');
+    if (poolBankcash) {
+        poolBankcash.textContent = formatMoney(bankcash);
+    }
+}
+
+function handleDataPoolHavehouse(house) {
+    console.log('Pool house:', house);
+    currentPoolData.havehouse = house;
+    const poolHouse = document.getElementById('pool-house');
+    if (poolHouse) {
+        poolHouse.textContent = house ? 'Yes' : 'No';
+    }
+}
+
+function handleDataPoolHavecarid(carid) {
+    console.log('Pool carid:', carid);
+    currentPoolData.havecarid = carid;
+    const poolCarid = document.getElementById('pool-carid');
+    if (poolCarid) {
+        poolCarid.textContent = carid;
+    }
+}
+
+function handleDataPoolHavebiz(biz) {
+    console.log('Pool biz:', biz);
+    currentPoolData.havebiz = biz;
+    const poolBiz = document.getElementById('pool-business');
+    if (poolBiz) {
+        poolBiz.textContent = biz;
     }
 }
 
@@ -858,6 +954,32 @@ function handleCEFEvent(eventName, ...args) {
             break;
         case 'game:CEF:bank':
             handleGameCEFBank(args[0]);
+            break;
+            
+        // Pool Data System
+        case 'data:pool:name':
+            handleDataPoolName(args[0]);
+            break;
+        case 'data:pool:number':
+            handleDataPoolNumber(args[0]);
+            break;
+        case 'data:pool:job':
+            handleDataPoolJob(args[0]);
+            break;
+        case 'data:pool:passid':
+            handleDataPoolPassid(args[0]);
+            break;
+        case 'data:pool:bankcash':
+            handleDataPoolBankcash(args[0]);
+            break;
+        case 'data:pool:havehouse':
+            handleDataPoolHavehouse(args[0]);
+            break;
+        case 'data:pool:havecarid':
+            handleDataPoolHavecarid(args[0]);
+            break;
+        case 'data:pool:havebiz':
+            handleDataPoolHavebiz(args[0]);
             break;
             
         default:

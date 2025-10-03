@@ -1,4 +1,4 @@
-/* Universal CEF System - Final Implementation */
+/* Universal CEF System - Complete Implementation */
 
 * {
     margin: 0;
@@ -612,6 +612,56 @@ body {
     padding: 20px;
     min-height: 200px;
     color: #ffffff;
+}
+
+/* Pool Data Panel */
+#pool-panel {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    border: 2px solid #4a90e2;
+}
+
+.pool-container {
+    padding: 25px;
+}
+
+.pool-header h3 {
+    color: #ffffff;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pool-info {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.pool-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.pool-item:last-child {
+    margin-bottom: 0;
+}
+
+.pool-item .label {
+    color: #ecf0f1;
+    font-weight: 500;
+}
+
+.pool-item span:last-child {
+    color: #ffffff;
+    font-weight: 600;
 }
 
 /* Utility Classes */
