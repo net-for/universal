@@ -1,6 +1,6 @@
 /**
- * Universal CEF System JavaScript
- * Handles all CEF events from SA-MP server
+ * Universal CEF System - Real Implementation
+ * Based on actual usage from universal.pwn
  */
 
 // Global variables
@@ -31,7 +31,7 @@ let currentBonusData = {
 
 // Initialize CEF system
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Universal CEF System initialized');
+    console.log('Universal CEF System - Real Implementation initialized');
     initializeEventListeners();
     setupCEFCommunication();
 });
@@ -85,10 +85,8 @@ function initializeEventListeners() {
 function setupCEFCommunication() {
     // Listen for CEF events from SA-MP server
     if (typeof mp !== 'undefined') {
-        // This would be used in actual CEF environment
         console.log('CEF environment detected');
     } else {
-        // For testing purposes
         console.log('Running in test mode - CEF events will be simulated');
         simulateCEFEvents();
     }
@@ -125,8 +123,7 @@ function simulateCEFEvents() {
     }, 1000);
 }
 
-// CEF Event Handlers
-// These functions handle events sent from SA-MP server via cef_emit_event
+// CEF Event Handlers - Based on real usage from universal.pwn
 
 // Authentication System
 function handleDataPoolReg(data) {
@@ -203,7 +200,6 @@ function handleHudPinfo(health, armor, level, playerid, money, bank, zone) {
 
 function handleDataHudStats(status) {
     console.log('HUD stats status:', status);
-    // Handle different status states
     const hudPanel = document.getElementById('hud-panel');
     if (status === 5) {
         hudPanel.style.opacity = '1';
@@ -265,7 +261,6 @@ function handleSpawnInfo(level) {
 
 function handleSpawnLock(member, familyMember, location) {
     console.log('Spawn lock:', { member, familyMember, location });
-    // Handle spawn location locking based on member status
     const spawnLocations = document.querySelectorAll('.spawn-location');
     spawnLocations.forEach((location, index) => {
         const isLocked = (index + 1) > member && (index + 1) > familyMember;
@@ -288,6 +283,43 @@ function handlePhoneNumberCall(number) {
 function handleBankClickedApp(app) {
     console.log('Bank app clicked:', app);
     // Handle bank app interactions
+}
+
+// Job System
+function handleJobFrame(frame) {
+    console.log('Job frame:', frame);
+    const jobPanel = document.getElementById('job-panel');
+    const jobFrame = document.getElementById('job-frame');
+    
+    if (jobPanel && jobFrame) {
+        jobFrame.innerHTML = `Job Frame ${frame} Content`;
+        showPanel('job-panel');
+    }
+}
+
+// Quest System
+function handleQuestFrame(quest) {
+    console.log('Quest frame:', quest);
+    const questPanel = document.getElementById('quest-panel');
+    const questFrame = document.getElementById('quest-frame');
+    
+    if (questPanel && questFrame) {
+        questFrame.innerHTML = `Quest Frame ${quest} Content`;
+        showPanel('quest-panel');
+    }
+}
+
+// Money System
+function handleGameCEFMoney(cash) {
+    console.log('Money update:', cash);
+    currentPlayerData.money = cash;
+    updatePlayerInfoDisplay();
+}
+
+function handleGameCEFBank(cash) {
+    console.log('Bank update:', cash);
+    currentPlayerData.bank = cash;
+    updatePlayerInfoDisplay();
 }
 
 // UI Update Functions
@@ -535,12 +567,12 @@ function sendToServer(event, data) {
     }
 }
 
-// CEF Event Router
-// This function routes CEF events from SA-MP to appropriate handlers
+// CEF Event Router - Based on real events from universal.pwn
 function handleCEFEvent(eventName, ...args) {
     console.log('CEF Event received:', eventName, args);
     
     switch (eventName) {
+        // Authentication System
         case 'data:pool:reg':
             handleDataPoolReg(args[0]);
             break;
@@ -550,6 +582,8 @@ function handleCEFEvent(eventName, ...args) {
         case 'atv:name':
             handleAtvName(args[0]);
             break;
+            
+        // HUD System
         case 'Hud:zona':
             handleHudZona(args[0]);
             break;
@@ -562,9 +596,13 @@ function handleCEFEvent(eventName, ...args) {
         case 'data:hud:stats':
             handleDataHudStats(args[0]);
             break;
+            
+        // Vehicle System
         case 'data:vehicle':
             handleDataVehicle(args[0], args[1], args[2], args[3], args[4]);
             break;
+            
+        // Notification System
         case 'data:not':
             handleDataNot(args[0], args[1], args[2], args[3], args[4], args[5]);
             break;
@@ -574,15 +612,21 @@ function handleCEFEvent(eventName, ...args) {
         case 'job:bonus':
             handleJobBonus(args[0]);
             break;
+            
+        // Bank System
         case 'bank:info':
             handleBankInfo(args[0], args[1]);
             break;
+            
+        // Spawn System
         case 'spawn:info':
             handleSpawnInfo(args[0]);
             break;
         case 'spawn:lock':
             handleSpawnLock(args[0], args[1], args[2]);
             break;
+            
+        // Phone System
         case 'Taxi:app':
             handleTaxiApp(args[0]);
             break;
@@ -595,6 +639,25 @@ function handleCEFEvent(eventName, ...args) {
         case 'Clicked:app':
             handleAppClick('gps');
             break;
+            
+        // Job System
+        case 'job:frame':
+            handleJobFrame(args[0]);
+            break;
+            
+        // Quest System
+        case 'quest:frame':
+            handleQuestFrame(args[0]);
+            break;
+            
+        // Money System
+        case 'game:CEF:money':
+            handleGameCEFMoney(args[0]);
+            break;
+        case 'game:CEF:bank':
+            handleGameCEFBank(args[0]);
+            break;
+            
         default:
             console.log('Unknown CEF event:', eventName, args);
     }

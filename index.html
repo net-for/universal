@@ -3,194 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal CEF System</title>
+    <title>Universal CEF System - Real</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Main Container -->
-    <div id="main-container">
-        
-        <!-- Authentication System -->
-        <div id="auth-panel" class="panel hidden">
-            <div class="auth-container">
-                <div class="auth-header">
-                    <h2 id="auth-title">Authentication</h2>
+    <!-- Authentication Panel -->
+    <div id="auth-panel" class="panel hidden">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2 id="auth-title">Authentication</h2>
+            </div>
+            <div class="auth-content">
+                <div id="reg-form" class="form-section">
+                    <input type="text" id="reg-username" placeholder="Username" maxlength="50">
+                    <input type="password" id="reg-password" placeholder="Password" maxlength="65">
+                    <input type="email" id="reg-email" placeholder="Email" maxlength="51">
+                    <button id="reg-submit">Register</button>
                 </div>
-                <div class="auth-content">
-                    <div id="reg-form" class="form-section">
-                        <input type="text" id="reg-username" placeholder="Username" maxlength="50">
-                        <input type="password" id="reg-password" placeholder="Password" maxlength="65">
-                        <input type="email" id="reg-email" placeholder="Email" maxlength="51">
-                        <button id="reg-submit">Register</button>
-                    </div>
-                    <div id="login-form" class="form-section">
-                        <input type="password" id="login-password" placeholder="Password" maxlength="65">
-                        <button id="login-submit">Login</button>
-                    </div>
+                <div id="login-form" class="form-section">
+                    <input type="password" id="login-password" placeholder="Password" maxlength="65">
+                    <button id="login-submit">Login</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- HUD System -->
-        <div id="hud-panel" class="panel">
-            <!-- Player Info -->
-            <div id="player-info" class="hud-section">
-                <div class="info-item">
+    <!-- HUD Panel -->
+    <div id="hud-panel" class="panel">
+        <!-- Player Info -->
+        <div id="player-info" class="hud-section">
+            <div class="info-item">
+                <span class="label">Health:</span>
+                <div class="progress-bar">
+                    <div id="health-bar" class="progress-fill health"></div>
+                </div>
+                <span id="health-text">100</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Armor:</span>
+                <div class="progress-bar">
+                    <div id="armor-bar" class="progress-fill armor"></div>
+                </div>
+                <span id="armor-text">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Level:</span>
+                <span id="level-text">1</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Money:</span>
+                <span id="money-text">$0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Bank:</span>
+                <span id="bank-text">$0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Zone:</span>
+                <span id="zone-text">Unknown</span>
+            </div>
+        </div>
+
+        <!-- Zone Status -->
+        <div id="zone-status" class="hud-section">
+            <div id="zone-indicator" class="zone-indicator safe">Safe Zone</div>
+        </div>
+
+        <!-- Timers -->
+        <div id="timers" class="hud-section">
+            <div class="timer-item">
+                <span class="label">Jail Time:</span>
+                <span id="jail-timer">0</span>
+            </div>
+            <div class="timer-item">
+                <span class="label">Taxi Time:</span>
+                <span id="taxi-timer">0</span>
+            </div>
+        </div>
+
+        <!-- Bonus Info -->
+        <div id="bonus-info" class="hud-section">
+            <div id="bonus-indicator" class="bonus-indicator hidden">Bonus Active</div>
+        </div>
+    </div>
+
+    <!-- Vehicle Panel -->
+    <div id="vehicle-panel" class="panel hidden">
+        <div class="vehicle-container">
+            <div class="vehicle-header">
+                <h3>Vehicle Status</h3>
+            </div>
+            <div class="vehicle-content">
+                <div class="vehicle-item">
+                    <span class="label">Engine:</span>
+                    <span id="engine-status" class="status off">Off</span>
+                </div>
+                <div class="vehicle-item">
+                    <span class="label">Doors:</span>
+                    <span id="doors-status" class="status locked">Locked</span>
+                </div>
+                <div class="vehicle-item">
+                    <span class="label">Lights:</span>
+                    <span id="lights-status" class="status off">Off</span>
+                </div>
+                <div class="vehicle-item">
+                    <span class="label">Fuel:</span>
+                    <div class="progress-bar">
+                        <div id="fuel-bar" class="progress-fill fuel"></div>
+                    </div>
+                    <span id="fuel-text">100%</span>
+                </div>
+                <div class="vehicle-item">
                     <span class="label">Health:</span>
                     <div class="progress-bar">
-                        <div id="health-bar" class="progress-fill"></div>
+                        <div id="vehicle-health-bar" class="progress-fill vehicle-health"></div>
                     </div>
-                    <span id="health-text">100</span>
+                    <span id="vehicle-health-text">1000</span>
                 </div>
-                <div class="info-item">
-                    <span class="label">Armor:</span>
-                    <div class="progress-bar">
-                        <div id="armor-bar" class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container">
+        <!-- Notifications will be dynamically added here -->
+    </div>
+
+    <!-- Phone Panel -->
+    <div id="phone-panel" class="panel hidden">
+        <div class="phone-container">
+            <div class="phone-header">
+                <h3>Phone</h3>
+                <button id="phone-close">×</button>
+            </div>
+            <div class="phone-content">
+                <div class="phone-apps">
+                    <button class="app-button" data-app="taxi">Taxi</button>
+                    <button class="app-button" data-app="bank">Bank</button>
+                    <button class="app-button" data-app="gps">GPS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Panel -->
+    <div id="bank-panel" class="panel hidden">
+        <div class="bank-container">
+            <div class="bank-header">
+                <h3>Bank</h3>
+                <button id="bank-close">×</button>
+            </div>
+            <div class="bank-content">
+                <div class="bank-info">
+                    <div class="bank-item">
+                        <span class="label">Cash:</span>
+                        <span id="bank-cash">$0</span>
                     </div>
-                    <span id="armor-text">0</span>
+                    <div class="bank-item">
+                        <span class="label">Roulette Money:</span>
+                        <span id="bank-roulette">$0</span>
+                    </div>
                 </div>
-                <div class="info-item">
+            </div>
+        </div>
+    </div>
+
+    <!-- Spawn Panel -->
+    <div id="spawn-panel" class="panel hidden">
+        <div class="spawn-container">
+            <div class="spawn-header">
+                <h3>Choose Spawn Location</h3>
+            </div>
+            <div class="spawn-content">
+                <div class="spawn-info">
                     <span class="label">Level:</span>
-                    <span id="level-text">1</span>
+                    <span id="spawn-level">1</span>
                 </div>
-                <div class="info-item">
-                    <span class="label">Money:</span>
-                    <span id="money-text">$0</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Bank:</span>
-                    <span id="bank-text">$0</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Zone:</span>
-                    <span id="zone-text">Unknown</span>
-                </div>
-            </div>
-
-            <!-- Zone Status -->
-            <div id="zone-status" class="hud-section">
-                <div id="zone-indicator" class="zone-indicator safe">Safe Zone</div>
-            </div>
-
-            <!-- Timers -->
-            <div id="timers" class="hud-section">
-                <div class="timer-item">
-                    <span class="label">Jail Time:</span>
-                    <span id="jail-timer">0</span>
-                </div>
-                <div class="timer-item">
-                    <span class="label">Taxi Time:</span>
-                    <span id="taxi-timer">0</span>
-                </div>
-            </div>
-
-            <!-- Bonus Info -->
-            <div id="bonus-info" class="hud-section">
-                <div id="bonus-indicator" class="bonus-indicator hidden">Bonus Active</div>
-            </div>
-        </div>
-
-        <!-- Vehicle System -->
-        <div id="vehicle-panel" class="panel hidden">
-            <div class="vehicle-container">
-                <div class="vehicle-header">
-                    <h3>Vehicle Status</h3>
-                </div>
-                <div class="vehicle-content">
-                    <div class="vehicle-item">
-                        <span class="label">Engine:</span>
-                        <span id="engine-status" class="status">Off</span>
-                    </div>
-                    <div class="vehicle-item">
-                        <span class="label">Doors:</span>
-                        <span id="doors-status" class="status">Locked</span>
-                    </div>
-                    <div class="vehicle-item">
-                        <span class="label">Lights:</span>
-                        <span id="lights-status" class="status">Off</span>
-                    </div>
-                    <div class="vehicle-item">
-                        <span class="label">Fuel:</span>
-                        <div class="progress-bar">
-                            <div id="fuel-bar" class="progress-fill"></div>
-                        </div>
-                        <span id="fuel-text">100%</span>
-                    </div>
-                    <div class="vehicle-item">
-                        <span class="label">Health:</span>
-                        <div class="progress-bar">
-                            <div id="vehicle-health-bar" class="progress-fill"></div>
-                        </div>
-                        <span id="vehicle-health-text">1000</span>
-                    </div>
+                <div class="spawn-locations">
+                    <button class="spawn-location" data-location="1">Location 1</button>
+                    <button class="spawn-location" data-location="2">Location 2</button>
+                    <button class="spawn-location" data-location="3">Location 3</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Notification System -->
-        <div id="notification-container">
-            <!-- Notifications will be dynamically added here -->
-        </div>
-
-        <!-- Phone System -->
-        <div id="phone-panel" class="panel hidden">
-            <div class="phone-container">
-                <div class="phone-header">
-                    <h3>Phone</h3>
-                    <button id="phone-close">×</button>
-                </div>
-                <div class="phone-content">
-                    <div class="phone-apps">
-                        <button class="app-button" data-app="taxi">Taxi</button>
-                        <button class="app-button" data-app="bank">Bank</button>
-                        <button class="app-button" data-app="gps">GPS</button>
-                    </div>
+    <!-- Job Panel -->
+    <div id="job-panel" class="panel hidden">
+        <div class="job-container">
+            <div class="job-header">
+                <h3>Job System</h3>
+            </div>
+            <div class="job-content">
+                <div id="job-frame" class="job-frame">
+                    <!-- Job content will be loaded here -->
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Bank System -->
-        <div id="bank-panel" class="panel hidden">
-            <div class="bank-container">
-                <div class="bank-header">
-                    <h3>Bank</h3>
-                    <button id="bank-close">×</button>
-                </div>
-                <div class="bank-content">
-                    <div class="bank-info">
-                        <div class="bank-item">
-                            <span class="label">Cash:</span>
-                            <span id="bank-cash">$0</span>
-                        </div>
-                        <div class="bank-item">
-                            <span class="label">Roulette Money:</span>
-                            <span id="bank-roulette">$0</span>
-                        </div>
-                    </div>
+    <!-- Quest Panel -->
+    <div id="quest-panel" class="panel hidden">
+        <div class="quest-container">
+            <div class="quest-header">
+                <h3>Quest System</h3>
+            </div>
+            <div class="quest-content">
+                <div id="quest-frame" class="quest-frame">
+                    <!-- Quest content will be loaded here -->
                 </div>
             </div>
         </div>
-
-        <!-- Spawn System -->
-        <div id="spawn-panel" class="panel hidden">
-            <div class="spawn-container">
-                <div class="spawn-header">
-                    <h3>Choose Spawn Location</h3>
-                </div>
-                <div class="spawn-content">
-                    <div class="spawn-info">
-                        <span class="label">Level:</span>
-                        <span id="spawn-level">1</span>
-                    </div>
-                    <div class="spawn-locations">
-                        <button class="spawn-location" data-location="1">Location 1</button>
-                        <button class="spawn-location" data-location="2">Location 2</button>
-                        <button class="spawn-location" data-location="3">Location 3</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script src="script.js"></script>

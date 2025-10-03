@@ -1,4 +1,4 @@
-/* Universal CEF System Styles */
+/* Universal CEF System - Real Implementation */
 
 * {
     margin: 0;
@@ -12,12 +12,6 @@ body {
     color: #ffffff;
     overflow: hidden;
     user-select: none;
-}
-
-#main-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
 }
 
 /* Panel Base Styles */
@@ -152,24 +146,23 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #4a90e2, #357abd);
     transition: width 0.3s ease;
     border-radius: 4px;
 }
 
-#health-bar {
+.progress-fill.health {
     background: linear-gradient(90deg, #e74c3c, #c0392b);
 }
 
-#armor-bar {
+.progress-fill.armor {
     background: linear-gradient(90deg, #3498db, #2980b9);
 }
 
-#fuel-bar {
+.progress-fill.fuel {
     background: linear-gradient(90deg, #f39c12, #e67e22);
 }
 
-#vehicle-health-bar {
+.progress-fill.vehicle-health {
     background: linear-gradient(90deg, #27ae60, #229954);
 }
 
@@ -535,27 +528,67 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    #hud-panel {
-        width: 250px;
-        top: 10px;
-        left: 10px;
-    }
-    
-    #vehicle-panel {
-        width: 250px;
-        top: 10px;
-        right: 10px;
-    }
-    
-    .phone-apps {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .spawn-locations {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.spawn-location:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Job Panel */
+#job-panel {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    border: 2px solid #f39c12;
+}
+
+.job-container {
+    padding: 25px;
+}
+
+.job-header h3 {
+    color: #ffffff;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.job-frame {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 200px;
+    color: #ffffff;
+}
+
+/* Quest Panel */
+#quest-panel {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    border: 2px solid #a569bd;
+}
+
+.quest-container {
+    padding: 25px;
+}
+
+.quest-header h3 {
+    color: #ffffff;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.quest-frame {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 200px;
+    color: #ffffff;
 }
 
 /* Utility Classes */
@@ -581,4 +614,27 @@ body {
 
 .text-info {
     color: #3498db;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #hud-panel {
+        width: 250px;
+        top: 10px;
+        left: 10px;
+    }
+    
+    #vehicle-panel {
+        width: 250px;
+        top: 10px;
+        right: 10px;
+    }
+    
+    .phone-apps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .spawn-locations {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
