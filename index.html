@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal CEF System - Real</title>
+    <title>Universal CEF System - Final</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -62,6 +62,18 @@
                 <span class="label">Zone:</span>
                 <span id="zone-text">Unknown</span>
             </div>
+            <div class="info-item">
+                <span class="label">Weapon:</span>
+                <span id="weapon-text">Fist</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Ammo:</span>
+                <span id="ammo-text">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Wanted:</span>
+                <span id="wanted-text">0</span>
+            </div>
         </div>
 
         <!-- Zone Status -->
@@ -79,11 +91,27 @@
                 <span class="label">Taxi Time:</span>
                 <span id="taxi-timer">0</span>
             </div>
+            <div class="timer-item">
+                <span class="label">Admin Level:</span>
+                <span id="admin-level">0</span>
+            </div>
         </div>
 
         <!-- Bonus Info -->
         <div id="bonus-info" class="hud-section">
             <div id="bonus-indicator" class="bonus-indicator hidden">Bonus Active</div>
+        </div>
+
+        <!-- Real Time Clock -->
+        <div id="real-time" class="hud-section">
+            <div class="time-item">
+                <span class="label">Time:</span>
+                <span id="current-time">00:00:00</span>
+            </div>
+            <div class="time-item">
+                <span class="label">Date:</span>
+                <span id="current-date">01/01/2024</span>
+            </div>
         </div>
     </div>
 

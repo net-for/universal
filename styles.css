@@ -1,4 +1,4 @@
-/* Universal CEF System - Real Implementation */
+/* Universal CEF System - Final Implementation */
 
 * {
     margin: 0;
@@ -104,7 +104,7 @@ body {
 #hud-panel {
     top: 20px;
     left: 20px;
-    width: 300px;
+    width: 320px;
     background: rgba(0, 0, 0, 0.7);
     border: 1px solid #333;
 }
@@ -130,7 +130,7 @@ body {
 }
 
 .label {
-    min-width: 60px;
+    min-width: 70px;
     color: #ccc;
     font-weight: 500;
 }
@@ -203,6 +203,29 @@ body {
 
 .timer-item:last-child {
     margin-bottom: 0;
+}
+
+/* Real Time Clock */
+.time-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.time-item:last-child {
+    margin-bottom: 0;
+}
+
+#current-time {
+    color: #4a90e2;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+}
+
+#current-date {
+    color: #4a90e2;
+    font-weight: 600;
 }
 
 /* Bonus Indicator */
@@ -619,7 +642,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     #hud-panel {
-        width: 250px;
+        width: 280px;
         top: 10px;
         left: 10px;
     }

@@ -1,19 +1,88 @@
 /**
- * Universal CEF System - Real Implementation
- * Based on actual usage from universal.pwn
+ * Universal CEF System - Final Implementation
+ * Real-time system with money, time, and all features from universal.pwn
  */
 
-// Global variables
+// Global variables - matching your PAWN enum
 let currentPlayerData = {
-    health: 100,
-    armor: 0,
+    name: '',
+    password: '',
+    email: '',
     level: 1,
+    exp: 0,
     money: 0,
     bank: 0,
-    zone: 'Unknown',
+    health: 100,
+    armor: 0,
+    admin: 0,
+    login: 0,
+    member: 0,
+    familyMember: 0,
+    wanted: 0,
     jailTime: 0,
     taxiTime: 0,
-    admin: 0
+    number: 0,
+    mobile: 0,
+    house: 0,
+    business: 0,
+    rouletMoney: 0,
+    vip: 0,
+    vipDays: 0,
+    repPositive: 0,
+    repNegative: 0,
+    kills: 0,
+    deaths: 0,
+    warns: 0,
+    sex: 0,
+    skin: [0, 0, 0, 0],
+    skinSlot: 0,
+    leader: 0,
+    rank: 0,
+    fracSkin: 0,
+    fracStatus: 0,
+    familyRank: 0,
+    familyMansion: 0,
+    jail: 0,
+    jailCell: 0,
+    mute: 0,
+    muteTime: 0,
+    ban: 0,
+    banDays: 0,
+    bullet: 0,
+    drugs: 0,
+    addiction: 0,
+    healme: 0,
+    adminWarning: 0,
+    regIp: '',
+    changePassData: '',
+    changePassTime: '',
+    changePassIP: '',
+    authorization: '',
+    keyip: '',
+    checkip: 0,
+    settings: [0, 0, 0, 0, 0],
+    licenses: [0, 0, 0],
+    accessories: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    promoCodeUsed: 0,
+    satiety: 0,
+    deadPool: 0,
+    passport: 0,
+    numberBalance: 0,
+    houseMoney: 0,
+    resident: 0,
+    spawnType: 0,
+    trailerCar: 0,
+    trailerCarSafe: [0, 0, 0, 0, 0, 0],
+    trailerCarPos: [0, 0, 0, 0],
+    trailerCarTuning: [0, 0, 0, 0, 0],
+    carStatus: 0,
+    playerPos: [0, 0, 0, 0],
+    playerPosInt: 0,
+    playerPosVirt: 0,
+    taxi: 0,
+    zone: 'Unknown',
+    weapon: 0,
+    ammo: 0
 };
 
 let currentVehicleData = {
@@ -29,11 +98,14 @@ let currentBonusData = {
     salary: 0
 };
 
+let currentTime = new Date();
+
 // Initialize CEF system
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Universal CEF System - Real Implementation initialized');
+    console.log('Universal CEF System - Final Implementation initialized');
     initializeEventListeners();
     setupCEFCommunication();
+    startRealTimeClock();
 });
 
 // Initialize event listeners
@@ -92,6 +164,24 @@ function setupCEFCommunication() {
     }
 }
 
+// Start real-time clock
+function startRealTimeClock() {
+    updateClock();
+    setInterval(updateClock, 1000);
+}
+
+function updateClock() {
+    currentTime = new Date();
+    const timeString = currentTime.toLocaleTimeString();
+    const dateString = currentTime.toLocaleDateString();
+    
+    const timeElement = document.getElementById('current-time');
+    const dateElement = document.getElementById('current-date');
+    
+    if (timeElement) timeElement.textContent = timeString;
+    if (dateElement) dateElement.textContent = dateString;
+}
+
 // Simulate CEF events for testing
 function simulateCEFEvents() {
     // Simulate player data updates
@@ -102,7 +192,10 @@ function simulateCEFEvents() {
             level: 5,
             money: 50000,
             bank: 100000,
-            zone: 'Los Santos'
+            zone: 'Los Santos',
+            weapon: 24,
+            ammo: 30,
+            wanted: 2
         });
     }, 2000);
     
@@ -121,6 +214,15 @@ function simulateCEFEvents() {
     setTimeout(() => {
         showNotification('Welcome', 'Welcome to the server!', 'success');
     }, 1000);
+    
+    // Simulate money updates
+    setTimeout(() => {
+        handleGameCEFMoney(75000);
+    }, 5000);
+    
+    setTimeout(() => {
+        handleGameCEFBank(125000);
+    }, 6000);
 }
 
 // CEF Event Handlers - Based on real usage from universal.pwn
@@ -147,6 +249,7 @@ function handleDataPoolReg(data) {
 
 function handleRegName(name) {
     console.log('Registration name:', name);
+    currentPlayerData.name = name;
     const nameInput = document.getElementById('reg-username');
     if (nameInput) {
         nameInput.value = name;
@@ -155,13 +258,29 @@ function handleRegName(name) {
 
 function handleAtvName(name) {
     console.log('ATV name:', name);
+    currentPlayerData.name = name;
     const nameInput = document.getElementById('reg-username');
     if (nameInput) {
         nameInput.value = name;
     }
 }
 
-// HUD System
+// HUD System - Real implementation from universal.pwn
+function handleHudPinfo(health, armor, level, playerid, money, bank, zone, weapon, ammo, wanted) {
+    console.log('Player info update:', { health, armor, level, playerid, money, bank, zone, weapon, ammo, wanted });
+    currentPlayerData.health = health;
+    currentPlayerData.armor = armor;
+    currentPlayerData.level = level;
+    currentPlayerData.money = money;
+    currentPlayerData.bank = bank;
+    currentPlayerData.zone = zone;
+    currentPlayerData.weapon = weapon;
+    currentPlayerData.ammo = ammo;
+    currentPlayerData.wanted = wanted;
+    
+    updatePlayerInfoDisplay();
+}
+
 function handleHudZona(status) {
     console.log('Zone status:', status);
     const zoneIndicator = document.getElementById('zone-indicator');
@@ -184,18 +303,6 @@ function handleHudTimers(jailTime, taxiTime, admin) {
     currentPlayerData.admin = admin;
     
     updateTimerDisplay();
-}
-
-function handleHudPinfo(health, armor, level, playerid, money, bank, zone) {
-    console.log('Player info update:', { health, armor, level, playerid, money, bank, zone });
-    currentPlayerData.health = health;
-    currentPlayerData.armor = armor;
-    currentPlayerData.level = level;
-    currentPlayerData.money = money;
-    currentPlayerData.bank = bank;
-    currentPlayerData.zone = zone;
-    
-    updatePlayerInfoDisplay();
 }
 
 function handleDataHudStats(status) {
@@ -242,16 +349,35 @@ function handleJobBonus(status) {
 // Bank System
 function handleBankInfo(cash, rouletteMoney) {
     console.log('Bank info:', { cash, rouletteMoney });
+    currentPlayerData.money = cash;
+    currentPlayerData.rouletMoney = rouletteMoney;
+    
     const bankCash = document.getElementById('bank-cash');
     const bankRoulette = document.getElementById('bank-roulette');
     
     if (bankCash) bankCash.textContent = formatMoney(cash);
     if (bankRoulette) bankRoulette.textContent = formatMoney(rouletteMoney);
+    
+    updatePlayerInfoDisplay();
+}
+
+// Money System - Real implementation from universal.pwn
+function handleGameCEFMoney(cash) {
+    console.log('Money update:', cash);
+    currentPlayerData.money = cash;
+    updatePlayerInfoDisplay();
+}
+
+function handleGameCEFBank(cash) {
+    console.log('Bank update:', cash);
+    currentPlayerData.bank = cash;
+    updatePlayerInfoDisplay();
 }
 
 // Spawn System
 function handleSpawnInfo(level) {
     console.log('Spawn info:', level);
+    currentPlayerData.level = level;
     const spawnLevel = document.getElementById('spawn-level');
     if (spawnLevel) {
         spawnLevel.textContent = level;
@@ -261,6 +387,9 @@ function handleSpawnInfo(level) {
 
 function handleSpawnLock(member, familyMember, location) {
     console.log('Spawn lock:', { member, familyMember, location });
+    currentPlayerData.member = member;
+    currentPlayerData.familyMember = familyMember;
+    
     const spawnLocations = document.querySelectorAll('.spawn-location');
     spawnLocations.forEach((location, index) => {
         const isLocked = (index + 1) > member && (index + 1) > familyMember;
@@ -309,19 +438,6 @@ function handleQuestFrame(quest) {
     }
 }
 
-// Money System
-function handleGameCEFMoney(cash) {
-    console.log('Money update:', cash);
-    currentPlayerData.money = cash;
-    updatePlayerInfoDisplay();
-}
-
-function handleGameCEFBank(cash) {
-    console.log('Bank update:', cash);
-    currentPlayerData.bank = cash;
-    updatePlayerInfoDisplay();
-}
-
 // UI Update Functions
 function updatePlayerInfo(data) {
     Object.assign(currentPlayerData, data);
@@ -337,6 +453,9 @@ function updatePlayerInfoDisplay() {
     const moneyText = document.getElementById('money-text');
     const bankText = document.getElementById('bank-text');
     const zoneText = document.getElementById('zone-text');
+    const weaponText = document.getElementById('weapon-text');
+    const ammoText = document.getElementById('ammo-text');
+    const wantedText = document.getElementById('wanted-text');
     
     if (healthBar) {
         healthBar.style.width = currentPlayerData.health + '%';
@@ -366,6 +485,23 @@ function updatePlayerInfoDisplay() {
     
     if (zoneText) {
         zoneText.textContent = currentPlayerData.zone;
+    }
+    
+    if (weaponText) {
+        weaponText.textContent = getWeaponName(currentPlayerData.weapon);
+    }
+    
+    if (ammoText) {
+        ammoText.textContent = currentPlayerData.ammo;
+    }
+    
+    if (wantedText) {
+        wantedText.textContent = currentPlayerData.wanted;
+        if (currentPlayerData.wanted > 0) {
+            wantedText.style.color = '#e74c3c';
+        } else {
+            wantedText.style.color = '#27ae60';
+        }
     }
 }
 
@@ -417,6 +553,7 @@ function updateVehicleInfoDisplay() {
 function updateTimerDisplay() {
     const jailTimer = document.getElementById('jail-timer');
     const taxiTimer = document.getElementById('taxi-timer');
+    const adminLevel = document.getElementById('admin-level');
     
     if (jailTimer) {
         jailTimer.textContent = formatTime(currentPlayerData.jailTime);
@@ -424,6 +561,15 @@ function updateTimerDisplay() {
     
     if (taxiTimer) {
         taxiTimer.textContent = formatTime(currentPlayerData.taxiTime);
+    }
+    
+    if (adminLevel) {
+        adminLevel.textContent = currentPlayerData.admin;
+        if (currentPlayerData.admin > 0) {
+            adminLevel.style.color = '#f39c12';
+        } else {
+            adminLevel.style.color = '#ffffff';
+        }
     }
 }
 
@@ -454,6 +600,11 @@ function handleRegistration() {
         showNotification('Error', 'Please fill in all fields', 'error');
         return;
     }
+    
+    // Store registration data
+    currentPlayerData.name = username;
+    currentPlayerData.password = password;
+    currentPlayerData.email = email;
     
     // Send registration data to server
     sendToServer('cefregistration', `${username},${password},${email}`);
@@ -540,6 +691,57 @@ function getNotificationType(type) {
     }
 }
 
+function getWeaponName(weaponId) {
+    const weapons = {
+        0: 'Fist',
+        1: 'Brass Knuckles',
+        2: 'Golf Club',
+        3: 'Nightstick',
+        4: 'Knife',
+        5: 'Baseball Bat',
+        6: 'Shovel',
+        7: 'Pool Cue',
+        8: 'Katana',
+        9: 'Chainsaw',
+        10: 'Purple Dildo',
+        11: 'White Dildo',
+        12: 'Vibrator',
+        13: 'Silver Vibrator',
+        14: 'Flowers',
+        15: 'Cane',
+        16: 'Grenade',
+        17: 'Tear Gas',
+        18: 'Molotov Cocktail',
+        22: 'Pistol',
+        23: 'Silenced Pistol',
+        24: 'Desert Eagle',
+        25: 'Shotgun',
+        26: 'Sawed-off Shotgun',
+        27: 'Combat Shotgun',
+        28: 'Micro Uzi',
+        29: 'MP5',
+        30: 'AK-47',
+        31: 'M4',
+        32: 'Tec-9',
+        33: 'Country Rifle',
+        34: 'Sniper Rifle',
+        35: 'Rocket Launcher',
+        36: 'Heat-Seeking RPG',
+        37: 'Flamethrower',
+        38: 'Minigun',
+        39: 'Satchel Charge',
+        40: 'Detonator',
+        41: 'Spray Can',
+        42: 'Fire Extinguisher',
+        43: 'Camera',
+        44: 'Night Vision Goggles',
+        45: 'Thermal Goggles',
+        46: 'Parachute'
+    };
+    
+    return weapons[weaponId] || 'Unknown';
+}
+
 function formatMoney(amount) {
     return '$' + amount.toLocaleString();
 }
@@ -591,7 +793,7 @@ function handleCEFEvent(eventName, ...args) {
             handleHudTimers(args[0], args[1], args[2]);
             break;
         case 'Hud:pinfo':
-            handleHudPinfo(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+            handleHudPinfo(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
             break;
         case 'data:hud:stats':
             handleDataHudStats(args[0]);
