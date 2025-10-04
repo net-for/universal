@@ -1,212 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="ka">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1251">
-<link rel="stylesheet" type="text/css" href="css/hud.css">
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-<link href="css/css2.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barley Role Play - Registration/Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <!-- Speedometer HUD -->
-    <div class="speed" style="display: none;">
-        <div class="speed-box">
-            <svg width="231" height="201" id="circle" viewBox="0 0 231 201" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M226.661 115.753C226.661 54.5009 177.006 4.84592 115.753 4.84592C54.5009 4.84592 4.84595 54.5009 4.84595 115.753C4.84595 147.716 18.3664 176.52 40 196.759" stroke="white" stroke-width="10" stroke-linecap="round"></path>
-                <text x="45" y="185" font-size="10" fill="#fff" font-weight="bold">0</text>
-                <text x="25" y="155" font-size="10" fill="#fff" font-weight="bold">40</text>
-                <text x="15" y="115" font-size="10" fill="#fff" font-weight="bold">80</text>
-                <text x="25" y="75" font-size="10" fill="#fff" font-weight="bold">120</text>
-                <text x="55" y="40" font-size="10" fill="#fff" font-weight="bold">160</text>
-                <text x="100" y="25" font-size="10" fill="#fff" font-weight="bold">200</text>
-                <text x="150" y="35" font-size="10" fill="#fff" font-weight="bold">240</text>
-                <text x="185" y="70" font-size="10" fill="#fff" font-weight="bold">280</text>
-                <text x="200" y="115" font-size="10" fill="#fff" font-weight="bold">300</text>
-            </svg>
-            <div class="strelka"></div>
-            <div class="speed-text">044</div>
-            <div class="turn-icon">
-                <div class="turn-left"><img src="images/turn.svg" alt="" class="icon"></div>
-                <div class="turn-right"><img src="images/turn.svg" alt="" class="icon"></div>
-            </div>
-        </div>
-
-        <div class="fuel-box">
-            <svg width="125" height="120" id="circle-fuel" viewBox="0 0 250 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M226.661 115.753C226.661 54.5009 177.006 4.84592 115.753 4.84592C54.5009 4.84592 4.84595 54.5009 4.84595 115.753" stroke="white" stroke-width="10" stroke-linecap="round"></path>
-                <text x="15" y="120" font-size="14" fill="#fff" font-weight="bold">E</text>
-                <text x="105" y="35" font-size="14" fill="#fff" font-weight="bold">50%</text>
-                <text x="210" y="120" font-size="14" fill="#fff" font-weight="bold">F</text>
-            </svg>
-            <div class="fuel"></div>
-        </div>
-
-        <div class="icon-speed">
-            <img src="images/engine.svg" class="icon-engine icon">
-            <img src="images/lock.svg" class="icon-lock icon">
-            <img src="images/lights.svg" class="icon-lights icon">
-        </div>
+    <!-- Background Animation -->
+    <div class="background">
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+        <div class="clouds"></div>
     </div>
 
-    <!-- Main HUD -->
-    <div class="box" id="hud-container" style="display: block;">
-        <div class="logoName">
-            <div class="time_date">
-                <img src="images/time.png" alt="" style="margin-right:10px;" width="20px">
-                <div class="block">
-                    <div id="time" class="time">16:19</div>
-                    <div id="date" class="date">03.03.2023</div>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <div class="logo">
+                <h1>BARLEY</h1>
+                <span class="role">ROLE</span>
+                <span class="play">PLAY</span>
+            </div>
+            <p class="server-info">Georgian Roleplay Server</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-container" id="loginForm">
+            <div class="form-header">
+                <h2>Avtorizacia</h2>
+                <p>Sheiyvanot Tqveni Monacemebi</p>
+            </div>
+            
+            <form id="login" onsubmit="return handleLogin(event)">
+                <div class="input-group">
+                    <label for="loginUsername">Motamashis Saxeli</label>
+                    <input type="text" id="loginUsername" placeholder="Name_Surname" readonly>
+                    <span class="input-icon">👤</span>
                 </div>
-                <img src="images/Luxury.png" class="logo" alt="" width="50px">
-                <div class="block">
-                    <div class="serverName">Rcokety</div>
-                    <div class="rolePlay">Roleplay</div>
+                
+                <div class="input-group">
+                    <label for="loginPassword">Paroli</label>
+                    <input type="password" id="loginPassword" placeholder="Sheiyvanot Paroli" required>
+                    <span class="input-icon">🔒</span>
+                    <span class="toggle-password" onclick="togglePassword('loginPassword')">👁️</span>
+                </div>
+                
+                <button type="submit" class="btn-primary">
+                    <span>Shesvla</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </form>
+            
+            <div class="form-footer">
+                <p>Ar Gaqvt Angharishi? <a href="#" onclick="showRegister()">Daregistrirdi</a></p>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="form-container hidden" id="registerForm">
+            <div class="form-header">
+                <h2>Registracia</h2>
+                <p>Shექmnა Axali Angarishi</p>
+            </div>
+            
+            <form id="register" onsubmit="return handleRegister(event)">
+                <div class="input-group">
+                    <label for="regUsername">Motamashis Saxeli</label>
+                    <input type="text" id="regUsername" placeholder="Name_Surname" readonly>
+                    <span class="input-icon">👤</span>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regPassword">Paroli</label>
+                    <input type="password" id="regPassword" placeholder="5-20 Simbolo" required minlength="5" maxlength="20">
+                    <span class="input-icon">🔒</span>
+                    <span class="toggle-password" onclick="togglePassword('regPassword')">👁️</span>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regPasswordConfirm">Parolis Gameraeba</label>
+                    <input type="password" id="regPasswordConfirm" placeholder="Gaimoret Paroli" required minlength="5" maxlength="20">
+                    <span class="input-icon">🔒</span>
+                    <span class="toggle-password" onclick="togglePassword('regPasswordConfirm')">👁️</span>
+                </div>
+                
+                <div class="password-requirements">
+                    <p>Parolis Motkhovnebi:</p>
+                    <ul>
+                        <li id="req-length">✓ 5-20 Simbolo</li>
+                        <li id="req-letter">✓ Ertkhel Minchum Aso</li>
+                        <li id="req-number">✓ Ertkhel Minchum Cifri</li>
+                    </ul>
+                </div>
+                
+                <button type="submit" class="btn-primary">
+                    <span>Sheqmna</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </form>
+            
+            <div class="form-footer">
+                <p>Ukve Gaqvt Angarishi? <a href="#" onclick="showLogin()">Shesuli</a></p>
+            </div>
+        </div>
+
+        <!-- Gender Selection Form -->
+        <div class="form-container hidden" id="genderForm">
+            <div class="form-header">
+                <h2>Airchiet Sqesi</h2>
+                <p>Personazhis Sqesis Archevani</p>
+            </div>
+            
+            <div class="gender-selection">
+                <div class="gender-card" onclick="selectGender('male')">
+                    <div class="gender-icon">♂</div>
+                    <h3>Kaci</h3>
+                    <p>Male Character</p>
+                </div>
+                
+                <div class="gender-card" onclick="selectGender('female')">
+                    <div class="gender-icon">♀</div>
+                    <h3>Qali</h3>
+                    <p>Female Character</p>
                 </div>
             </div>
+        </div>
 
-            <div class="fist">
-                <img id="weapon" class="img_fist" src="index_files/0.png" alt="" width="55px">
-                <div class="block progresss">
-                    <div class="progress-bar">
-                        <progress id="hp_progress" value="30" max="100"></progress>
-                        <img class="img" src="images/health.png" alt="" width="16px">
-                    </div>
-                    <div class="progress-bar">
-                        <progress id="armour_progress" class="armour" value="30" max="100"></progress>
-                        <img class="img" src="images/armour.png" alt="" width="16px">
-                    </div>
-                    <div class="progress-bar">
-                        <progress id="eat_progress" class="eat" value="30" max="100"></progress>
-                        <img class="img" style="margin-left: 11.5px;" src="images/eat.png" alt="" width="14px">
-                    </div>
-                    <div class="progress-bar" id="breath-zone" style="display: none;">
-                        <progress id="breath_progress" class="breath" value="30" max="100"></progress>
-                        <img class="img" style="margin-left: 11.5px;" src="images/breath.png" alt="" width="14px">
-                    </div>
-                </div>
-            </div>
+        <!-- Loading Screen -->
+        <div class="loading-screen hidden" id="loadingScreen">
+            <div class="spinner"></div>
+            <p>Monacemta Chatvirtva...</p>
+        </div>
 
-            <div class="moneyClass">
-                <div class="money" id="money">1 000 000</div>
-                <img src="images/green_ruble.png" class="logoRub" width="18px">
-            </div>
+        <!-- Success Message -->
+        <div class="success-message hidden" id="successMessage">
+            <div class="success-icon">✓</div>
+            <h3>Warmatebit!</h3>
+            <p id="successText"></p>
         </div>
     </div>
 
-    <!-- Pool Data Interface -->
-    <div id="pool-container" style="display: none;">
-        <div class="pool-box">
-            <h2>Player Pool Information</h2>
-            <div class="pool-item"><span class="label">Name:</span> <span class="value" id="pool-name"></span></div>
-            <div class="pool-item"><span class="label">Number:</span> <span class="value" id="pool-number"></span></div>
-            <div class="pool-item"><span class="label">Job:</span> <span class="value" id="pool-job"></span></div>
-            <div class="pool-item"><span class="label">Pass ID:</span> <span class="value" id="pool-passid"></span></div>
-            <div class="pool-item"><span class="label">Bank Cash:</span> <span class="value" id="pool-bankcash"></span></div>
-            <div class="pool-item"><span class="label">House:</span> <span class="value" id="pool-havehouse"></span></div>
-            <div class="pool-item"><span class="label">Car ID:</span> <span class="value" id="pool-havecarid"></span></div>
-            <div class="pool-item"><span class="label">Business:</span> <span class="value" id="pool-havebiz"></span></div>
-        </div>
-    </div>
+    <!-- Particles Effect -->
+    <canvas id="particles"></canvas>
 
-    <!-- Main Menu Interface -->
-    <div id="cef-menu" style="display: none;">
-        <div class="menu-box">
-            <h2>Main Menu</h2>
-            <button id="menu-inventory">Inventory</button>
-            <button id="menu-stats">Stats</button>
-            <button id="menu-close">Close</button>
-        </div>
-    </div>
-
-    <script>
-        const arrowSpeed = document.getElementsByClassName('strelka')[0];
-        const speedValue = document.getElementsByClassName('speed-text')[0];
-        const zeroLength = 3;
-
-        function updateSpeed(speed) {
-            arrowSpeed.style.transform = `rotate(${58 + (speed / 1.75)}deg)`;
-            speedValue.innerHTML = speed.toString().padStart(zeroLength, '0');
-        }
-
-        function updateFuel(fuel) {
-            document.getElementsByClassName("fuel")[0].style.transform = `rotate(${85 + (fuel * 5)}deg)`;
-        }
-
-        setInterval(() => {
-            const d = new Date();
-            const month = d.getMonth() + 1;
-            document.getElementById("time").innerText = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
-            document.getElementById("date").innerText = `${d.getDate().toString().padStart(2,'0')}.${month.toString().padStart(2,'0')}.${d.getFullYear()}`;
-        }, 1000);
-
-        // Example cef events
-        cef.emit("game:hud:setComponentVisible", "interface", false);
-        cef.emit("game:data:pollPlayerStats", true, 50);
-
-        // Player stats handler
-        cef.on("game:data:playerStats", (hp, max_hp, arm, breath, wanted, weapon, ammo, max_ammo, money, speed) => {
-            document.getElementById('hp_progress').value = hp;
-            document.getElementById('armour_progress').value = arm;
-            document.getElementById("money").innerText = money.toLocaleString('ru');
-            updateSpeed(Math.round(speed));
-
-            if(weapon > 0) {
-                if(document.getElementById("ammo")) {
-                    document.getElementById("ammo").style.display = "block";
-                    document.getElementById("ammo").innerText = `${ammo} / ${max_ammo}`;
-                }
-                document.getElementById("weapon").src = `index_files/guns/${weapon}.png`;
-            } else {
-                if(document.getElementById("ammo")) document.getElementById("ammo").style.display = "none";
-                document.getElementById("weapon").src = "img/0.png";
-            }
-
-            document.getElementById("breath-zone").style.display = breath > 0 ? "block" : "none";
-            document.getElementById('breath_progress').value = breath;
-        });
-
-        // Speed icon updates
-        cef.on("update-speed-icon", (icon, value) => {
-            const opacity = value === 0 ? 0.5 : 1;
-            if(icon === 1) document.getElementsByClassName("icon-engine")[0].style.opacity = opacity;
-            if(icon === 2) document.getElementsByClassName("icon-lock")[0].style.opacity = opacity;
-            if(icon === 3) document.getElementsByClassName("icon-lights")[0].style.opacity = opacity;
-        });
-
-        cef.on("update-speed-fuel", (fuel) => updateFuel(fuel));
-        cef.on("update-speed-turn", (type, value) => {
-            const opacity = value === 0 ? 0.5 : 1;
-            if(type === 1) document.getElementsByClassName("turn-left")[0].style.opacity = opacity;
-            if(type === 2) document.getElementsByClassName("turn-right")[0].style.opacity = opacity;
-        });
-
-        cef.on("show-speed", () => document.getElementsByClassName("speed")[0].style.display = "block");
-        cef.on("hide-speed", () => document.getElementsByClassName("speed")[0].style.display = "none");
-
-        // Pool data
-        const poolFields = ["name","number","job","passid","bankcash","havehouse","havecarid","havebiz"];
-        poolFields.forEach(field => {
-            cef.on(`data:pool:${field}`, val => {
-                const el = document.getElementById(`pool-${field}`);
-                if(el) el.innerText = field === "bankcash" ? val.toLocaleString('ru') : val;
-            });
-        });
-
-        cef.on("show-pool", () => document.getElementById("pool-container").style.display = "block");
-        cef.on("hide-pool", () => document.getElementById("pool-container").style.display = "none");
-
-        // Main Menu
-        cef.on("show-mainmenu", show => {
-            const menu = document.getElementById("cef-menu");
-            if(!menu) return;
-            menu.style.display = show ? "block" : "none";
-        });
-
-        const menuClose = document.getElementById("menu-close");
-        if(menuClose) {
-            menuClose.addEventListener("click", () => cef.emit("hide-mainmenu"));
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+
