@@ -218,19 +218,28 @@ function selectGender(gender) {
 
 function selectSpawn(spawnType) {
     debug('Spawn selected: ' + spawnType);
+    debug('Spawn type length: ' + spawnType.length);
 
     showLoading();
 
     // Try CEF communication
     if (typeof cef !== 'undefined') {
         debug('cef object found, trying cef.emit...');
+        debug('Sending spawn event: ' + spawnType);
 
         try {
+            debug('Calling cef.emit with spawnType: ' + spawnType);
             cef.emit('selectSpawn', spawnType);
-            debug('cef.emit called successfully');
+            debug('cef.emit called successfully for spawn');
+
+            // Add a small delay to see if it works
+            setTimeout(() => {
+                debug('Checking if spawn event was processed...');
+            }, 1000);
+
         } catch (error) {
             debug('ERROR calling cef.emit: ' + error);
-            alert('CEF communication failed!');
+            alert('CEF communication failed! Error: ' + error);
         }
     } else {
         debug('ERROR: cef object not found!');
@@ -264,29 +273,35 @@ debug('CEF Script loaded successfully!');
 
 // Check CEF object and methods
 setTimeout(() => {
-    debug('Checking cef object after 2 seconds...');
+    debug('🔍 Checking cef object after 2 seconds...');
     if (typeof cef !== 'undefined') {
-        debug('cef object found: ' + typeof cef);
+        debug('✅ cef object found: ' + typeof cef);
 
         // Check available methods
         const methods = ['emit', 'trigger', 'call', 'on', 'subscribe'];
         methods.forEach(method => {
             if (cef[method]) {
-                debug('✓ cef.' + method + ' found');
+                debug('✅ cef.' + method + ' method found');
             } else {
-                debug('✗ cef.' + method + ' not found');
+                debug('❌ cef.' + method + ' method not found');
             }
         });
 
         // Try to call a test event
         try {
-            debug('Testing cef.emit with test event...');
+            debug('🧪 Testing cef.emit with test event...');
             cef.emit('test', 'hello');
-            debug('Test event sent successfully');
+            debug('✅ Test event sent successfully');
+
+            // Check if test event was received after delay
+            setTimeout(() => {
+                debug('🔍 Checking if test event was processed by server...');
+            }, 1000);
+
         } catch (error) {
-            debug('ERROR sending test event: ' + error);
+            debug('❌ ERROR sending test event: ' + error);
         }
     } else {
-        debug('ERROR: cef object not found!');
+        debug('❌ ERROR: cef object not found!');
     }
 }, 2000);
