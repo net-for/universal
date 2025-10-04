@@ -1,29 +1,35 @@
 // CEF Integration for Spawnchoose
 document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners to all spawn options
-    const spawnButtons = document.querySelectorAll('[class*="rectangle-3462456"]');
+    // Map the buttons to correct spawn types:
+    // 0: Fraction Spawn (rectangle-34624563-8wRukR)
+    // 1: House Spawn (rectangle-34624562-8wRukR)
+    // 2: Random Spawn (rectangle-34624561-8wRukR)
+    // 3: Last Position Spawn (rectangle-34624564-8wRukR)
+    const buttonMapping = [
+        { selector: '.rectangle-34624563-8wRukR', spawnType: 0 }, // Fraction Spawn
+        { selector: '.rectangle-34624562-8wRukR', spawnType: 1 }, // House Spawn
+        { selector: '.rectangle-34624561-8wRukR', spawnType: 2 }, // Random Spawn
+        { selector: '.rectangle-34624564-8wRukR', spawnType: 3 }  // Last Position Spawn
+    ];
     
-    spawnButtons.forEach((button, index) => {
-        // Map the buttons to correct spawn types:
-        // 0: Fraction Spawn
-        // 1: House Spawn
-        // 2: Random Spawn
-        // 3: Last Position Spawn
-        let spawnType = index;
-        
-        button.addEventListener('click', function() {
-            // Send spawn choice to server (0-3)
-            sendSpawnChoice(spawnType);
-        });
-        
-        // Add hover effects
-        button.addEventListener('mouseenter', function() {
-            this.classList.add('rectangle-active');
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.classList.remove('rectangle-active');
-        });
+    buttonMapping.forEach((buttonInfo) => {
+        const button = document.querySelector(buttonInfo.selector);
+        if (button) {
+            button.addEventListener('click', function() {
+                // Send spawn choice to server (0-3)
+                sendSpawnChoice(buttonInfo.spawnType);
+            });
+            
+            // Add hover effects
+            button.addEventListener('mouseenter', function() {
+                this.classList.add('rectangle-active');
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.classList.remove('rectangle-active');
+            });
+        }
     });
     
     // Initialize CEF event listener
