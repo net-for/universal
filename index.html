@@ -239,6 +239,8 @@
                 document.getElementsByClassName("speed")[0].style = "display: none"; //hide
             }
         });
+
+        
       
         // Pool data event handlers
         cef.on("data:pool:name", (name) => {
@@ -280,7 +282,18 @@
         cef.on("hide-pool", () => {
             document.getElementById("pool-container").style = "display: none";
         });
-        
+        // Main Menu Event
+cef.on("show-mainmenu", (show) => {
+    const menu = document.getElementById("cef-menu");
+    if(!menu) return;
+    menu.style.display = show ? "block" : "none";
+});
+
+// Close button
+document.getElementById("menu-close").addEventListener("click", () => {
+    cef.emit("hide-mainmenu"); // Pawn-ს შეიძლება სიგნალი
+});
+
     </script>
 
 
