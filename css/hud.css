@@ -338,3 +338,47 @@ progress::-webkit-progress-value {
     margin-bottom: 5px;
     margin-top: 5px;
 }
+
+/* Pool Data Interface */
+.pool-data {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(42, 42, 42, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: "Roboto";
+    width: 400px;
+    z-index: 1000;
+}
+
+.pool-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffcc00;
+    font-size: 20px;
+}
+
+.pool-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pool-item .label {
+    font-weight: 600;
+    color: #ccc;
+}
+
+.pool-item .value {
+    font-weight: 500;
+    color: white;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}

@@ -88,6 +88,45 @@
         </div>
     </div>
 
+    <!-- Pool Data Interface -->
+    <div class="pool-data" id="pool-container" style="display: none;">
+        <div class="pool-box">
+            <h2>Player Pool Information</h2>
+            <div class="pool-item">
+                <span class="label">Name:</span>
+                <span class="value" id="pool-name"></span>
+            </div>
+            <div class="pool-item">
+                <span class="label">Number:</span>
+                <span class="value" id="pool-number"></span>
+            </div>
+            <div class="pool-item">
+                <span class="label">Job:</span>
+                <span class="value" id="pool-job"></span>
+            </div>
+            <div class="pool-item">
+                <span class="label">Pass ID:</span>
+                <span class="value" id="pool-passid"></span>
+            </div>
+            <div class="pool-item">
+                <span class="label">Bank Cash:</span>
+                <span class="value" id="pool-bankcash"></span>
+            </div>
+            <div class="pool-item">
+                <span class="label">House:</span>
+                <span class="value" id="pool-havehouse"></span>
+            </div>
+            <div class="pool-item">
+                <span class="label">Car ID:</span>
+                <span class="value" id="pool-havecarid"></span>
+            </div>
+            <div class="pool-item">
+                <span class="label">Business:</span>
+                <span class="value" id="pool-havebiz"></span>
+            </div>
+        </div>
+    </div>
+
     <script>
         const arrowSpeed = document.getElementsByClassName('strelka')[0];
         const speedValue = document.getElementsByClassName('speed-text')[0];
@@ -201,6 +240,46 @@
             }
         });
       
+        // Pool data event handlers
+        cef.on("data:pool:name", (name) => {
+            document.getElementById("pool-name").innerText = name;
+        });
+
+        cef.on("data:pool:number", (number) => {
+            document.getElementById("pool-number").innerText = number;
+        });
+
+        cef.on("data:pool:job", (job) => {
+            document.getElementById("pool-job").innerText = job;
+        });
+
+        cef.on("data:pool:passid", (passid) => {
+            document.getElementById("pool-passid").innerText = passid;
+        });
+
+        cef.on("data:pool:bankcash", (bankcash) => {
+            document.getElementById("pool-bankcash").innerText = bankcash.toLocaleString('ru');
+        });
+
+        cef.on("data:pool:havehouse", (havehouse) => {
+            document.getElementById("pool-havehouse").innerText = havehouse;
+        });
+
+        cef.on("data:pool:havecarid", (havecarid) => {
+            document.getElementById("pool-havecarid").innerText = havecarid;
+        });
+
+        cef.on("data:pool:havebiz", (havebiz) => {
+            document.getElementById("pool-havebiz").innerText = havebiz;
+        });
+
+        cef.on("show-pool", () => {
+            document.getElementById("pool-container").style = "display: block";
+        });
+
+        cef.on("hide-pool", () => {
+            document.getElementById("pool-container").style = "display: none";
+        });
         
     </script>
 
