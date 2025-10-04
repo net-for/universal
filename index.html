@@ -3,141 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barley Roleplay</title>
+    <title>Barley Roleplay - Authentication</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Background -->
-    <div class="background"></div>
-
-    <!-- Logo -->
-    <div class="logo">
-        <h1>BARLEY</h1>
-        <p>ROLEPLAY</p>
+    <div class="background">
+        <div class="gradient-overlay"></div>
+        <div class="particles"></div>
     </div>
 
-    <!-- Debug Info (for testing) -->
-    <div id="debug-info" style="position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; font-family: monospace; font-size: 12px; max-width: 300px; max-height: 200px; overflow-y: auto; z-index: 9999;"></div>
-
-    <!-- Login Form -->
-    <div id="loginForm" class="form-container hidden">
-        <div class="form-card">
-            <div class="form-header">
-                <h2>WELCOME BACK</h2>
-                <p class="subtitle">Enter your credentials to continue</p>
-            </div>
-
-            <div class="form-content">
-                <div class="input-group">
-                    <label>USERNAME</label>
-                    <input type="text" id="loginUsername" readonly>
-                </div>
-
-                <div class="input-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
-                </div>
-
-                <button onclick="handleLogin()" class="btn-primary">LOGIN</button>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <h1>BARLEY</h1>
+                <span>ROLEPLAY</span>
             </div>
         </div>
-    </div>
 
-    <!-- Register Form -->
-    <div id="registerForm" class="form-container hidden">
-        <div class="form-card">
-            <div class="form-header">
-                <h2>CREATE ACCOUNT</h2>
-                <p class="subtitle">Join Barley Roleplay community</p>
+        <!-- Content Container -->
+        <div class="content-container">
+            <!-- Login Form -->
+            <div id="loginForm" class="form-container">
+                <div class="form-header">
+                    <h2>WELCOME BACK</h2>
+                    <p>Enter your credentials to continue</p>
+                </div>
+                
+                <form class="auth-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" id="loginUsername" placeholder="USERNAME" readonly>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="loginPassword" placeholder="PASSWORD" maxlength="20">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <span>LOGIN</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" id="showRegister">Create one</a></p>
+                </div>
             </div>
 
-            <div class="form-content">
-                <div class="input-group">
-                    <label>USERNAME</label>
-                    <input type="text" id="regUsername" readonly>
+            <!-- Register Form -->
+            <div id="registerForm" class="form-container" style="display: none;">
+                <div class="form-header">
+                    <h2>CREATE ACCOUNT</h2>
+                    <p>Join Barley Roleplay community</p>
                 </div>
-
-                <div class="input-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="regPassword" placeholder="5-20 characters">
+                
+                <form class="auth-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" id="registerUsername" placeholder="USERNAME" readonly>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="registerPassword" placeholder="PASSWORD" maxlength="20">
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="confirmPassword" placeholder="CONFIRM PASSWORD" maxlength="20">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <span>REGISTER</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" id="showLogin">Sign in</a></p>
                 </div>
-
-                <div class="input-group">
-                    <label>CONFIRM PASSWORD</label>
-                    <input type="password" id="regPasswordConfirm" placeholder="Re-enter password">
-                </div>
-
-                <button onclick="handleRegister()" class="btn-primary">REGISTER</button>
             </div>
-        </div>
-    </div>
 
-    <!-- Gender Selection -->
-    <div id="genderForm" class="form-container hidden">
-        <div class="form-card large">
-            <div class="form-header">
-                <h2>SELECT GENDER</h2>
-                <p class="subtitle">Choose your character's gender</p>
-            </div>
-
-            <div class="form-content">
+            <!-- Gender Selection -->
+            <div id="genderForm" class="form-container" style="display: none;">
+                <div class="form-header">
+                    <h2>SELECT GENDER</h2>
+                    <p>Choose your character's gender</p>
+                </div>
+                
                 <div class="gender-selection">
-                    <div class="gender-option" onclick="selectGender('male')">
-                        <div class="gender-icon">♂</div>
+                    <div class="gender-option" data-gender="male" data-skin="22">
+                        <div class="gender-icon">
+                            <i class="fas fa-mars"></i>
+                        </div>
                         <h3>MALE</h3>
                     </div>
-
-                    <div class="gender-option" onclick="selectGender('female')">
-                        <div class="gender-icon">♀</div>
+                    
+                    <div class="gender-option" data-gender="female" data-skin="56">
+                        <div class="gender-icon">
+                            <i class="fas fa-venus"></i>
+                        </div>
                         <h3>FEMALE</h3>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Spawn Selection -->
-    <div id="spawnForm" class="form-container hidden">
-        <div class="form-card large">
-            <div class="form-header">
-                <h2>SELECT SPAWN</h2>
-                <p class="subtitle">Choose where to start your journey</p>
-            </div>
-
-            <div class="form-content">
+            <!-- Spawn Selection -->
+            <div id="spawnForm" class="form-container" style="display: none;">
+                <div class="form-header">
+                    <h2>SELECT SPAWN</h2>
+                    <p>Choose where to start your journey</p>
+                </div>
+                
                 <div class="spawn-selection">
-                    <div class="spawn-option" onclick="selectSpawn('city')">
-                        <div class="spawn-icon">🏙️</div>
+                    <div class="spawn-option" data-spawn="city">
+                        <div class="spawn-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
                         <h3>CITY CENTER</h3>
                         <p>Downtown Los Santos</p>
                     </div>
-
-                    <div class="spawn-option" onclick="selectSpawn('beach')">
-                        <div class="spawn-icon">🏖️</div>
+                    
+                    <div class="spawn-option" data-spawn="beach">
+                        <div class="spawn-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
                         <h3>BEACH</h3>
                         <p>Santa Maria Beach</p>
                     </div>
-
-                    <div class="spawn-option" onclick="selectSpawn('airport')">
-                        <div class="spawn-icon">✈️</div>
+                    
+                    <div class="spawn-option" data-spawn="airport">
+                        <div class="spawn-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
                         <h3>AIRPORT</h3>
                         <p>LS International</p>
                     </div>
                 </div>
             </div>
+
+            <!-- Loading Screen -->
+            <div id="loadingScreen" class="loading-container" style="display: none;">
+                <div class="loading-spinner"></div>
+                <h3>Loading...</h3>
+            </div>
+
+            <!-- Success Screen -->
+            <div id="successScreen" class="success-container" style="display: none;">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3>SUCCESS!</h3>
+                <p>Welcome to Barley Roleplay</p>
+            </div>
         </div>
-    </div>
 
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="form-container hidden">
-        <div class="loading-spinner"></div>
-        <p class="loading-text">Loading...</p>
-    </div>
-
-    <!-- Success Message -->
-    <div id="successMessage" class="form-container hidden">
-        <div class="success-icon">✓</div>
-        <p id="successText" class="success-text">SUCCESS!</p>
+        <!-- Debug Info -->
+        <div id="debugInfo" class="debug-info"></div>
     </div>
 
     <script src="script.js"></script>
