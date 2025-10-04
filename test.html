@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal RP CEF - Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Test Controls -->
+    <div id="testControls" style="position: fixed; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.9); padding: 20px; border-radius: 10px; color: white; font-family: monospace; max-width: 300px;">
+        <h3>Universal RP CEF Test</h3>
+        <div style="margin: 10px 0;">
+            <button onclick="testEvent('registration')" style="margin: 5px; padding: 8px; background: #38AF91; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test Registration</button>
+            <button onclick="testEvent('authorization')" style="margin: 5px; padding: 8px; background: #38AF91; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test Authorization</button>
+            <button onclick="testEvent('phone')" style="margin: 5px; padding: 8px; background: #00D4FF; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test Phone</button>
+            <button onclick="testEvent('bank')" style="margin: 5px; padding: 8px; background: #00D4FF; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test Bank</button>
+        </div>
+        <div style="margin: 10px 0;">
+            <button onclick="testEvent('hud')" style="margin: 5px; padding: 8px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test HUD</button>
+            <button onclick="testEvent('vehicle')" style="margin: 5px; padding: 8px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test Vehicle</button>
+            <button onclick="testEvent('notification')" style="margin: 5px; padding: 8px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test Notification</button>
+            <button onclick="testEvent('zone')" style="margin: 5px; padding: 8px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Test Zone</button>
+        </div>
+        <div style="margin: 10px 0;">
+            <button onclick="testEvent('reset')" style="margin: 5px; padding: 8px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Reset All</button>
+        </div>
+    </div>
+
+    <!-- Main Interface (Same as index.html) -->
+    <div id="mainInterface" class="main-interface">
+        <!-- HUD System -->
+        <div id="hudSystem" class="hud-system">
+            <!-- Top HUD -->
+            <div class="hud-top">
+                <div class="hud-left">
+                    <div class="player-info">
+                        <div class="player-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="player-details">
+                            <div class="player-name" id="playerName">Test Player</div>
+                            <div class="player-level" id="playerLevel">Level 5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hud-center">
+                    <div class="server-time" id="serverTime">00:00</div>
+                </div>
+                <div class="hud-right">
+                    <div class="money-info">
+                        <div class="money-item">
+                            <i class="fas fa-wallet"></i>
+                            <span id="playerMoney">$0</span>
+                        </div>
+                        <div class="money-item">
+                            <i class="fas fa-university"></i>
+                            <span id="playerBank">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom HUD -->
+            <div class="hud-bottom">
+                <div class="hud-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <div class="stat-bar">
+                            <div class="stat-fill health" id="healthBar" style="width: 100%;"></div>
+                        </div>
+                        <span id="healthText">100</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="stat-bar">
+                            <div class="stat-fill armor" id="armorBar" style="width: 0%;"></div>
+                        </div>
+                        <span id="armorText">0</span>
+                    </div>
+                </div>
+                <div class="hud-zone" id="zoneIndicator">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Safe Zone</span>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div id="notificationContainer" class="notification-container"></div>
+        </div>
+
+        <!-- Registration System -->
+        <div id="registrationSystem" class="registration-system hidden">
+            <div class="reg-container">
+                <div class="reg-header">
+                    <div class="reg-logo">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2>Registration</h2>
+                    <p>Create a new account</p>
+                </div>
+                <div class="reg-form">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="regUsername" placeholder="Enter username" value="TestUser">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="regPassword" placeholder="Enter password" value="test123">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="regEmail" placeholder="Enter email" value="test@example.com">
+                    </div>
+                    <button class="reg-btn" onclick="submitRegistration()">
+                        <i class="fas fa-user-plus"></i>
+                        Register
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authorization System -->
+        <div id="authorizationSystem" class="authorization-system hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <h2>Authorization</h2>
+                    <p>Sign in to your account</p>
+                </div>
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="authPassword" placeholder="Enter password" value="test123">
+                    </div>
+                    <button class="auth-btn" onclick="submitAuthorization()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phone System -->
+        <div id="phoneSystem" class="phone-system hidden">
+            <div class="phone-container">
+                <div class="phone-header">
+                    <div class="phone-status">
+                        <div class="signal-bars">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                        <span>Universal Mobile</span>
+                    </div>
+                    <div class="phone-time" id="phoneTime">00:00</div>
+                    <div class="phone-battery">
+                        <i class="fas fa-battery-full"></i>
+                        <span>100%</span>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="phone-apps">
+                        <div class="app-grid">
+                            <div class="app-item" onclick="openApp('phone')">
+                                <i class="fas fa-phone"></i>
+                                <span>Phone</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('bank')">
+                                <i class="fas fa-university"></i>
+                                <span>Bank</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('taxi')">
+                                <i class="fas fa-taxi"></i>
+                                <span>Taxi</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('gps')">
+                                <i class="fas fa-map"></i>
+                                <span>GPS</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('settings')">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bank System -->
+        <div id="bankSystem" class="bank-system hidden">
+            <div class="bank-container">
+                <div class="bank-header">
+                    <h2><i class="fas fa-university"></i> Bank</h2>
+                    <button class="close-btn" onclick="closeBank()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="bank-content">
+                    <div class="bank-balance">
+                        <div class="balance-item">
+                            <i class="fas fa-wallet"></i>
+                            <div>
+                                <span class="balance-label">Cash Money</span>
+                                <span class="balance-amount" id="bankCash">$0</span>
+                            </div>
+                        </div>
+                        <div class="balance-item">
+                            <i class="fas fa-university"></i>
+                            <div>
+                                <span class="balance-label">Bank Account</span>
+                                <span class="balance-amount" id="bankAccount">$0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bank-actions">
+                        <button class="bank-btn" onclick="bankAction(0)">
+                            <i class="fas fa-home"></i>
+                            House Money
+                        </button>
+                        <button class="bank-btn" onclick="bankAction(1)">
+                            <i class="fas fa-mobile-alt"></i>
+                            Phone Balance
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle HUD -->
+        <div id="vehicleHUD" class="vehicle-hud hidden">
+            <div class="vehicle-container">
+                <div class="vehicle-info">
+                    <div class="vehicle-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="vehicle-details">
+                        <div class="vehicle-status">
+                            <div class="status-item">
+                                <i class="fas fa-cog" id="engineIcon" style="color: #e74c3c;"></i>
+                                <span id="engineStatus">Off</span>
+                            </div>
+                            <div class="status-item">
+                                <i class="fas fa-lightbulb" id="lightsIcon" style="color: #95a5a6;"></i>
+                                <span id="lightsStatus">Off</span>
+                            </div>
+                        </div>
+                        <div class="vehicle-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-gas-pump"></i>
+                                <div class="stat-bar">
+                                    <div class="stat-fill fuel" id="fuelBar" style="width: 100%;"></div>
+                                </div>
+                                <span id="fuelText">100%</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-heart"></i>
+                                <div class="stat-bar">
+                                    <div class="stat-fill health" id="vehicleHealthBar" style="width: 100%;"></div>
+                                </div>
+                                <span id="vehicleHealthText">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job System -->
+        <div id="jobSystem" class="job-system hidden">
+            <div class="job-container">
+                <div class="job-header">
+                    <h3>Job</h3>
+                </div>
+                <div class="job-content" id="jobContent">
+                    <div class="job-item">
+                        <h4>Unemployed</h4>
+                        <p>No job information available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quest System -->
+        <div id="questSystem" class="quest-system hidden">
+            <div class="quest-container">
+                <div class="quest-header">
+                    <h3>Quests</h3>
+                </div>
+                <div class="quest-content" id="questContent">
+                    <div class="quest-item">
+                        <h4>No Quests</h4>
+                        <p>No quest information available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Test functions
+        function testEvent(type) {
+            if (!window.universalRP) return;
+            
+            switch(type) {
+                case 'registration':
+                    window.universalRP.showRegistration();
+                    break;
+                case 'authorization':
+                    window.universalRP.showAuthorization();
+                    break;
+                case 'phone':
+                    window.universalRP.openPhone();
+                    break;
+                case 'bank':
+                    window.universalRP.openBank();
+                    break;
+                case 'hud':
+                    // Test HUD data
+                    window.universalRP.handleCEFEvent('Hud:pinfo', [85, 60]);
+                    window.universalRP.handleCEFEvent('game:CEF:money', {value: 50000});
+                    window.universalRP.handleCEFEvent('game:CEF:bank', {value: 100000});
+                    window.universalRP.handleCEFEvent('spawn:info', {value: 5});
+                    break;
+                case 'vehicle':
+                    // Test vehicle data
+                    window.universalRP.handleCEFEvent('data:vehicle', [1, 0, 1, 75, 90]);
+                    break;
+                case 'notification':
+                    window.universalRP.showNotification({
+                        type: 'success',
+                        header: 'Test',
+                        text: 'This is a test notification!'
+                    });
+                    break;
+                case 'zone':
+                    window.universalRP.updateZone(1);
+                    setTimeout(() => window.universalRP.updateZone(0), 3000);
+                    break;
+                case 'reset':
+                    window.universalRP.hideAllSystems();
+                    window.universalRP.updateZone(0);
+                    break;
+            }
+        }
+        
+        // Auto-test sequence
+        setTimeout(() => {
+            testEvent('hud');
+        }, 1000);
+        
+        setTimeout(() => {
+            testEvent('notification');
+        }, 2000);
+        
+        setTimeout(() => {
+            testEvent('vehicle');
+        }, 3000);
+    </script>
+</body>
+</html>
