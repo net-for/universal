@@ -34,10 +34,31 @@ class UniversalRP {
         // CEF Event Listeners
         window.addEventListener('message', (event) => {
             const data = event.data;
+            console.log('CEF Event received:', data);
+            if (data.type) {
+                this.handleCEFEvent(data.type, data);
+            } else {
+                console.log('No type in CEF event data:', data);
+            }
+        });
+
+        // Alternative CEF event listener for different event types
+        document.addEventListener('cef:event', (event) => {
+            const data = event.detail;
+            console.log('CEF Custom Event received:', data);
             if (data.type) {
                 this.handleCEFEvent(data.type, data);
             }
         });
+
+        // Test CEF events
+        setTimeout(() => {
+            console.log('Testing CEF events...');
+            const debugElement = document.getElementById('debugInfo');
+            if (debugElement) debugElement.innerHTML = 'Test event fired!';
+            this.handleCEFEvent('game:CEF:money', { value: 50000 });
+            this.handleCEFEvent('game:CEF:bank', { value: 100000 });
+        }, 2000);
 
         // Keyboard Events
         document.addEventListener('keydown', (event) => {
@@ -85,6 +106,7 @@ class UniversalRP {
     handleCEFEvent(type, data) {
         // Extract value from data object if it exists
         const value = data.value !== undefined ? data.value : data;
+        console.log('Handling CEF event:', type, 'Data:', data, 'Value:', value);
         
         switch (type) {
             case 'data:pool:reg':
@@ -480,15 +502,30 @@ class UniversalRP {
     }
 
     updateMoney(money) {
+        console.log('Updating money:', money);
         this.playerData.money = money;
         const moneyElement = document.getElementById('playerMoney');
-        if (moneyElement) moneyElement.textContent = `$${money.toLocaleString()}`;
+        const debugElement = document.getElementById('debugInfo');
+        if (moneyElement) {
+            moneyElement.textContent = `$${money.toLocaleString()}`;
+            console.log('Money element updated:', moneyElement.textContent);
+            if (debugElement) debugElement.innerHTML = `Money: ${money}`;
+        } else {
+            console.log('Money element not found!');
+            if (debugElement) debugElement.innerHTML = 'Money element not found!';
+        }
     }
 
     updateBank(bank) {
+        console.log('Updating bank:', bank);
         this.playerData.bank = bank;
         const bankElement = document.getElementById('playerBank');
-        if (bankElement) bankElement.textContent = `$${bank.toLocaleString()}`;
+        if (bankElement) {
+            bankElement.textContent = `$${bank.toLocaleString()}`;
+            console.log('Bank element updated:', bankElement.textContent);
+        } else {
+            console.log('Bank element not found!');
+        }
     }
 
     updateJobFrame(frame) {
