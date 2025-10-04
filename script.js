@@ -124,12 +124,25 @@ function handleLogin() {
     debug('Sending login event to SA-MP');
     showLoading();
 
-    // Send to SA-MP
-    if (typeof cef !== 'undefined' && cef.emit) {
-        debug('cef.emit found, sending login event');
-        cef.emit('login', password);
+    // Try different CEF methods
+    if (typeof cef !== 'undefined') {
+        debug('cef object found, trying different methods...');
+
+        if (cef.emit) {
+            debug('Trying cef.emit...');
+            cef.emit('login', password);
+        } else if (cef.trigger) {
+            debug('Trying cef.trigger...');
+            cef.trigger('login', password);
+        } else if (cef.call) {
+            debug('Trying cef.call...');
+            cef.call('login', password);
+        } else {
+            debug('No suitable CEF method found!');
+            alert('CEF plugin loaded but no communication method available!');
+        }
     } else {
-        debug('ERROR: cef.emit not found!');
+        debug('ERROR: cef object not found!');
         alert('CEF plugin not loaded! Please install SA-MP CEF plugin from forum.sa-mp.com');
         hideAll();
     }
@@ -160,12 +173,25 @@ function handleRegister() {
     debug('Sending register event to SA-MP');
     showLoading();
 
-    // Send to SA-MP
-    if (typeof cef !== 'undefined' && cef.emit) {
-        debug('cef.emit found, sending register event');
-        cef.emit('register', password, confirmPassword);
+    // Try different CEF methods
+    if (typeof cef !== 'undefined') {
+        debug('cef object found, trying different methods...');
+
+        if (cef.emit) {
+            debug('Trying cef.emit...');
+            cef.emit('register', password, confirmPassword);
+        } else if (cef.trigger) {
+            debug('Trying cef.trigger...');
+            cef.trigger('register', password, confirmPassword);
+        } else if (cef.call) {
+            debug('Trying cef.call...');
+            cef.call('register', password, confirmPassword);
+        } else {
+            debug('No suitable CEF method found!');
+            alert('CEF plugin loaded but no communication method available!');
+        }
     } else {
-        debug('ERROR: cef.emit not found!');
+        debug('ERROR: cef object not found!');
         alert('CEF plugin not loaded! Please install SA-MP CEF plugin from forum.sa-mp.com');
         hideAll();
     }
@@ -180,12 +206,25 @@ function selectGender(gender) {
 
     showLoading();
 
-    // Send to SA-MP
-    if (typeof cef !== 'undefined' && cef.emit) {
-        debug('cef.emit found, sending gender event');
-        cef.emit('selectGender', gender);
+    // Try different CEF methods
+    if (typeof cef !== 'undefined') {
+        debug('cef object found, trying different methods...');
+
+        if (cef.emit) {
+            debug('Trying cef.emit...');
+            cef.emit('selectGender', gender);
+        } else if (cef.trigger) {
+            debug('Trying cef.trigger...');
+            cef.trigger('selectGender', gender);
+        } else if (cef.call) {
+            debug('Trying cef.call...');
+            cef.call('selectGender', gender);
+        } else {
+            debug('No suitable CEF method found!');
+            alert('CEF plugin loaded but no communication method available!');
+        }
     } else {
-        debug('ERROR: cef.emit not found!');
+        debug('ERROR: cef object not found!');
         alert('CEF plugin not loaded! Please install SA-MP CEF plugin from forum.sa-mp.com');
         hideAll();
     }
@@ -200,12 +239,25 @@ function selectSpawn(spawnType) {
 
     showLoading();
 
-    // Send to SA-MP
-    if (typeof cef !== 'undefined' && cef.emit) {
-        debug('cef.emit found, sending spawn event');
-        cef.emit('selectSpawn', spawnType);
+    // Try different CEF methods
+    if (typeof cef !== 'undefined') {
+        debug('cef object found, trying different methods...');
+
+        if (cef.emit) {
+            debug('Trying cef.emit...');
+            cef.emit('selectSpawn', spawnType);
+        } else if (cef.trigger) {
+            debug('Trying cef.trigger...');
+            cef.trigger('selectSpawn', spawnType);
+        } else if (cef.call) {
+            debug('Trying cef.call...');
+            cef.call('selectSpawn', spawnType);
+        } else {
+            debug('No suitable CEF method found!');
+            alert('CEF plugin loaded but no communication method available!');
+        }
     } else {
-        debug('ERROR: cef.emit not found!');
+        debug('ERROR: cef object not found!');
         alert('CEF plugin not loaded! Please install SA-MP CEF plugin from forum.sa-mp.com');
         hideAll();
     }
