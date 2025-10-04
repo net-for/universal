@@ -1,152 +1,127 @@
 <!DOCTYPE html>
-<html lang="ka">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barley Role Play - Registration/Login</title>
+    <title>Barley Roleplay</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="background">
-        <div class="stars"></div>
-        <div class="twinkling"></div>
-        <div class="clouds"></div>
+    <!-- Background -->
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <!-- Logo -->
+    <div class="logo">
+        <h1>BARLEY</h1>
+        <p>ROLEPLAY</p>
     </div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Logo Section -->
-        <div class="logo-section">
-            <div class="logo">
-                <h1>BARLEY</h1>
-                <span class="role">ROLE</span>
-                <span class="play">PLAY</span>
+    <!-- Login Form -->
+    <div id="loginForm" class="form-container hidden">
+        <div class="form-card">
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Login to continue</p>
+            
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="loginUsername" readonly>
             </div>
-            <p class="server-info">Georgian Roleplay Server</p>
+            
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            
+            <button onclick="handleLogin()" class="btn-primary">LOGIN</button>
         </div>
+    </div>
 
-        <!-- Login Form -->
-        <div class="form-container" id="loginForm">
-            <div class="form-header">
-                <h2>Avtorizacia</h2>
-                <p>Sheiyvanot Tqveni Monacemebi</p>
+    <!-- Register Form -->
+    <div id="registerForm" class="form-container hidden">
+        <div class="form-card">
+            <h2>Create Account</h2>
+            <p class="subtitle">Join Barley Roleplay</p>
+            
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="regUsername" readonly>
             </div>
             
-            <form id="login" onsubmit="return handleLogin(event)">
-                <div class="input-group">
-                    <label for="loginUsername">Motamashis Saxeli</label>
-                    <input type="text" id="loginUsername" placeholder="Name_Surname" readonly>
-                    <span class="input-icon">👤</span>
-                </div>
-                
-                <div class="input-group">
-                    <label for="loginPassword">Paroli</label>
-                    <input type="password" id="loginPassword" placeholder="Sheiyvanot Paroli" required>
-                    <span class="input-icon">🔒</span>
-                    <span class="toggle-password" onclick="togglePassword('loginPassword')">👁️</span>
-                </div>
-                
-                <button type="submit" class="btn-primary">
-                    <span>Shesvla</span>
-                    <div class="btn-glow"></div>
-                </button>
-            </form>
-            
-            <div class="form-footer">
-                <p>Ar Gaqvt Angharishi? <a href="#" onclick="showRegister()">Daregistrirdi</a></p>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" placeholder="5-20 characters">
             </div>
+            
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" id="regPasswordConfirm" placeholder="Re-enter password">
+            </div>
+            
+            <button onclick="handleRegister()" class="btn-primary">REGISTER</button>
         </div>
+    </div>
 
-        <!-- Registration Form -->
-        <div class="form-container hidden" id="registerForm">
-            <div class="form-header">
-                <h2>Registracia</h2>
-                <p>Shექmnა Axali Angarishi</p>
-            </div>
-            
-            <form id="register" onsubmit="return handleRegister(event)">
-                <div class="input-group">
-                    <label for="regUsername">Motamashis Saxeli</label>
-                    <input type="text" id="regUsername" placeholder="Name_Surname" readonly>
-                    <span class="input-icon">👤</span>
-                </div>
-                
-                <div class="input-group">
-                    <label for="regPassword">Paroli</label>
-                    <input type="password" id="regPassword" placeholder="5-20 Simbolo" required minlength="5" maxlength="20">
-                    <span class="input-icon">🔒</span>
-                    <span class="toggle-password" onclick="togglePassword('regPassword')">👁️</span>
-                </div>
-                
-                <div class="input-group">
-                    <label for="regPasswordConfirm">Parolis Gameraeba</label>
-                    <input type="password" id="regPasswordConfirm" placeholder="Gaimoret Paroli" required minlength="5" maxlength="20">
-                    <span class="input-icon">🔒</span>
-                    <span class="toggle-password" onclick="togglePassword('regPasswordConfirm')">👁️</span>
-                </div>
-                
-                <div class="password-requirements">
-                    <p>Parolis Motkhovnebi:</p>
-                    <ul>
-                        <li id="req-length">✓ 5-20 Simbolo</li>
-                        <li id="req-letter">✓ Ertkhel Minchum Aso</li>
-                        <li id="req-number">✓ Ertkhel Minchum Cifri</li>
-                    </ul>
-                </div>
-                
-                <button type="submit" class="btn-primary">
-                    <span>Sheqmna</span>
-                    <div class="btn-glow"></div>
-                </button>
-            </form>
-            
-            <div class="form-footer">
-                <p>Ukve Gaqvt Angarishi? <a href="#" onclick="showLogin()">Shesuli</a></p>
-            </div>
-        </div>
-
-        <!-- Gender Selection Form -->
-        <div class="form-container hidden" id="genderForm">
-            <div class="form-header">
-                <h2>Airchiet Sqesi</h2>
-                <p>Personazhis Sqesis Archevani</p>
-            </div>
+    <!-- Gender Selection -->
+    <div id="genderForm" class="form-container hidden">
+        <div class="form-card large">
+            <h2>Choose Gender</h2>
+            <p class="subtitle">Select your character</p>
             
             <div class="gender-selection">
-                <div class="gender-card" onclick="selectGender('male')">
+                <div class="gender-option" onclick="selectGender('male')">
                     <div class="gender-icon">♂</div>
-                    <h3>Kaci</h3>
-                    <p>Male Character</p>
+                    <h3>Male</h3>
                 </div>
                 
-                <div class="gender-card" onclick="selectGender('female')">
+                <div class="gender-option" onclick="selectGender('female')">
                     <div class="gender-icon">♀</div>
-                    <h3>Qali</h3>
-                    <p>Female Character</p>
+                    <h3>Female</h3>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Loading Screen -->
-        <div class="loading-screen hidden" id="loadingScreen">
-            <div class="spinner"></div>
-            <p>Monacemta Chatvirtva...</p>
-        </div>
-
-        <!-- Success Message -->
-        <div class="success-message hidden" id="successMessage">
-            <div class="success-icon">✓</div>
-            <h3>Warmatebit!</h3>
-            <p id="successText"></p>
+    <!-- Spawn Selection -->
+    <div id="spawnForm" class="form-container hidden">
+        <div class="form-card large">
+            <h2>Choose Spawn</h2>
+            <p class="subtitle">Where do you want to start?</p>
+            
+            <div class="spawn-selection">
+                <div class="spawn-option" onclick="selectSpawn('city')">
+                    <div class="spawn-icon">🏙️</div>
+                    <h3>City Center</h3>
+                    <p>Downtown Los Santos</p>
+                </div>
+                
+                <div class="spawn-option" onclick="selectSpawn('beach')">
+                    <div class="spawn-icon">🏖️</div>
+                    <h3>Beach</h3>
+                    <p>Santa Maria Beach</p>
+                </div>
+                
+                <div class="spawn-option" onclick="selectSpawn('airport')">
+                    <div class="spawn-icon">✈️</div>
+                    <h3>Airport</h3>
+                    <p>LS International</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Particles Effect -->
-    <canvas id="particles"></canvas>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="form-container hidden">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading...</p>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="form-container hidden">
+        <div class="success-icon">✓</div>
+        <p id="successText" class="success-text">Success!</p>
+    </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
