@@ -6,7 +6,9 @@
 // Get player name from URL
 function getPlayerName() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('name') || 'Player';
+    const playerName = urlParams.get('name') || urlParams.get('player') || 'Player';
+    console.log('[CEF] Player name from URL:', playerName);
+    return playerName;
 }
 
 // Initialize on page load
@@ -97,11 +99,11 @@ function handleLogin() {
     
     // Send to SA-MP
     if (typeof cef !== 'undefined' && cef.emit) {
-        console.log('[CEF] Sending login event');
+        console.log('[CEF] Sending login event with password:', password);
         cef.emit('login', password);
     } else {
         console.log('[CEF] ERROR: cef.emit not found!');
-        alert('CEF plugin not loaded!');
+        alert('CEF plugin not loaded! Please install SA-MP CEF plugin.');
     }
 }
 
@@ -112,28 +114,28 @@ function handleLogin() {
 function handleRegister() {
     const password = document.getElementById('regPassword').value;
     const confirmPassword = document.getElementById('regPasswordConfirm').value;
-    
+
     if (password.length < 5 || password.length > 20) {
         alert('Password must be 5-20 characters!');
         return;
     }
-    
+
     if (password !== confirmPassword) {
         alert('Passwords do not match!');
         return;
     }
-    
+
     console.log('[CEF] Register - Password length:', password.length);
-    
+
     showLoading();
-    
+
     // Send to SA-MP
     if (typeof cef !== 'undefined' && cef.emit) {
         console.log('[CEF] Sending register event');
         cef.emit('register', password, confirmPassword);
     } else {
         console.log('[CEF] ERROR: cef.emit not found!');
-        alert('CEF plugin not loaded!');
+        alert('CEF plugin not loaded! Please install SA-MP CEF plugin.');
     }
 }
 
@@ -143,16 +145,16 @@ function handleRegister() {
 
 function selectGender(gender) {
     console.log('[CEF] Gender selected:', gender);
-    
+
     showLoading();
-    
+
     // Send to SA-MP
     if (typeof cef !== 'undefined' && cef.emit) {
         console.log('[CEF] Sending gender event');
         cef.emit('selectGender', gender);
     } else {
         console.log('[CEF] ERROR: cef.emit not found!');
-        alert('CEF plugin not loaded!');
+        alert('CEF plugin not loaded! Please install SA-MP CEF plugin.');
     }
 }
 
@@ -162,16 +164,16 @@ function selectGender(gender) {
 
 function selectSpawn(spawnType) {
     console.log('[CEF] Spawn selected:', spawnType);
-    
+
     showLoading();
-    
+
     // Send to SA-MP
     if (typeof cef !== 'undefined' && cef.emit) {
         console.log('[CEF] Sending spawn event');
         cef.emit('selectSpawn', spawnType);
     } else {
         console.log('[CEF] ERROR: cef.emit not found!');
-        alert('CEF plugin not loaded!');
+        alert('CEF plugin not loaded! Please install SA-MP CEF plugin.');
     }
 }
 

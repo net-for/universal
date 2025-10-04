@@ -9,7 +9,6 @@
 <body>
     <!-- Background -->
     <div class="background"></div>
-    <div class="overlay"></div>
 
     <!-- Logo -->
     <div class="logo">
@@ -20,63 +19,75 @@
     <!-- Login Form -->
     <div id="loginForm" class="form-container hidden">
         <div class="form-card">
-            <h2>Welcome Back</h2>
-            <p class="subtitle">Login to continue</p>
-            
-            <div class="input-group">
-                <label>Username</label>
-                <input type="text" id="loginUsername" readonly>
+            <div class="form-header">
+                <h2>WELCOME BACK</h2>
+                <p class="subtitle">Enter your credentials to continue</p>
             </div>
-            
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter your password">
+
+            <div class="form-content">
+                <div class="input-group">
+                    <label>USERNAME</label>
+                    <input type="text" id="loginUsername" readonly>
+                </div>
+
+                <div class="input-group">
+                    <label>PASSWORD</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+
+                <button onclick="handleLogin()" class="btn-primary">LOGIN</button>
             </div>
-            
-            <button onclick="handleLogin()" class="btn-primary">LOGIN</button>
         </div>
     </div>
 
     <!-- Register Form -->
     <div id="registerForm" class="form-container hidden">
         <div class="form-card">
-            <h2>Create Account</h2>
-            <p class="subtitle">Join Barley Roleplay</p>
-            
-            <div class="input-group">
-                <label>Username</label>
-                <input type="text" id="regUsername" readonly>
+            <div class="form-header">
+                <h2>CREATE ACCOUNT</h2>
+                <p class="subtitle">Join Barley Roleplay community</p>
             </div>
-            
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="regPassword" placeholder="5-20 characters">
+
+            <div class="form-content">
+                <div class="input-group">
+                    <label>USERNAME</label>
+                    <input type="text" id="regUsername" readonly>
+                </div>
+
+                <div class="input-group">
+                    <label>PASSWORD</label>
+                    <input type="password" id="regPassword" placeholder="5-20 characters">
+                </div>
+
+                <div class="input-group">
+                    <label>CONFIRM PASSWORD</label>
+                    <input type="password" id="regPasswordConfirm" placeholder="Re-enter password">
+                </div>
+
+                <button onclick="handleRegister()" class="btn-primary">REGISTER</button>
             </div>
-            
-            <div class="input-group">
-                <label>Confirm Password</label>
-                <input type="password" id="regPasswordConfirm" placeholder="Re-enter password">
-            </div>
-            
-            <button onclick="handleRegister()" class="btn-primary">REGISTER</button>
         </div>
     </div>
 
     <!-- Gender Selection -->
     <div id="genderForm" class="form-container hidden">
         <div class="form-card large">
-            <h2>Choose Gender</h2>
-            <p class="subtitle">Select your character</p>
-            
-            <div class="gender-selection">
-                <div class="gender-option" onclick="selectGender('male')">
-                    <div class="gender-icon">♂</div>
-                    <h3>Male</h3>
-                </div>
-                
-                <div class="gender-option" onclick="selectGender('female')">
-                    <div class="gender-icon">♀</div>
-                    <h3>Female</h3>
+            <div class="form-header">
+                <h2>SELECT GENDER</h2>
+                <p class="subtitle">Choose your character's gender</p>
+            </div>
+
+            <div class="form-content">
+                <div class="gender-selection">
+                    <div class="gender-option" onclick="selectGender('male')">
+                        <div class="gender-icon">♂</div>
+                        <h3>MALE</h3>
+                    </div>
+
+                    <div class="gender-option" onclick="selectGender('female')">
+                        <div class="gender-icon">♀</div>
+                        <h3>FEMALE</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,26 +96,30 @@
     <!-- Spawn Selection -->
     <div id="spawnForm" class="form-container hidden">
         <div class="form-card large">
-            <h2>Choose Spawn</h2>
-            <p class="subtitle">Where do you want to start?</p>
-            
-            <div class="spawn-selection">
-                <div class="spawn-option" onclick="selectSpawn('city')">
-                    <div class="spawn-icon">🏙️</div>
-                    <h3>City Center</h3>
-                    <p>Downtown Los Santos</p>
-                </div>
-                
-                <div class="spawn-option" onclick="selectSpawn('beach')">
-                    <div class="spawn-icon">🏖️</div>
-                    <h3>Beach</h3>
-                    <p>Santa Maria Beach</p>
-                </div>
-                
-                <div class="spawn-option" onclick="selectSpawn('airport')">
-                    <div class="spawn-icon">✈️</div>
-                    <h3>Airport</h3>
-                    <p>LS International</p>
+            <div class="form-header">
+                <h2>SELECT SPAWN</h2>
+                <p class="subtitle">Choose where to start your journey</p>
+            </div>
+
+            <div class="form-content">
+                <div class="spawn-selection">
+                    <div class="spawn-option" onclick="selectSpawn('city')">
+                        <div class="spawn-icon">🏙️</div>
+                        <h3>CITY CENTER</h3>
+                        <p>Downtown Los Santos</p>
+                    </div>
+
+                    <div class="spawn-option" onclick="selectSpawn('beach')">
+                        <div class="spawn-icon">🏖️</div>
+                        <h3>BEACH</h3>
+                        <p>Santa Maria Beach</p>
+                    </div>
+
+                    <div class="spawn-option" onclick="selectSpawn('airport')">
+                        <div class="spawn-icon">✈️</div>
+                        <h3>AIRPORT</h3>
+                        <p>LS International</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,7 +134,7 @@
     <!-- Success Message -->
     <div id="successMessage" class="form-container hidden">
         <div class="success-icon">✓</div>
-        <p id="successText" class="success-text">Success!</p>
+        <p id="successText" class="success-text">SUCCESS!</p>
     </div>
 
     <script src="script.js"></script>
