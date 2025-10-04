@@ -85,7 +85,7 @@ class BarleyAuth {
     initCEF() {
         // Wait for CEF object to be available
         const checkCEF = () => {
-            if (typeof cef !== 'undefined' && cef.emit) {
+            if (typeof cef !== 'undefined') {
                 this.cef = cef;
                 console.log('CEF object found and ready!');
                 this.debug('CEF communication initialized');
@@ -210,46 +210,37 @@ class BarleyAuth {
     sendToSAMP(event, data) {
         this.debug(`Sending to SA-MP: ${event} - ${data}`);
         
-        if (this.cef && this.cef.emit) {
-            try {
-                this.cef.emit(event, data);
-                this.debug(`Event sent successfully: ${event}`);
-            } catch (error) {
-                this.debug(`Error sending event: ${error.message}`);
-                console.error('CEF emit error:', error);
-            }
-        } else {
-            this.debug('CEF object not available, trying alternative methods...');
-            this.tryAlternativeCEF(event, data);
-        }
-    }
-
-    tryAlternativeCEF(event, data) {
         // Try different CEF communication methods
         const methods = [
+            () => { if (typeof cef !== 'undefined' && cef.emit) cef.emit(event, data); },
             () => { if (typeof cef !== 'undefined' && cef.trigger) cef.trigger(event, data); },
             () => { if (typeof cef !== 'undefined' && cef.call) cef.call(event, data); },
             () => { if (typeof cef !== 'undefined' && cef.send) cef.send(event, data); },
             () => { 
-                // Fallback: try to call SA-MP directly
+                // Try to call SA-MP directly
                 if (typeof samp !== 'undefined' && samp.call) {
                     samp.call(event, data);
                 }
+            },
+            () => {
+                // Try window.postMessage as fallback
+                window.postMessage({ type: event, data: data }, '*');
             }
         ];
 
         for (let method of methods) {
             try {
                 method();
-                this.debug(`Alternative CEF method succeeded: ${event}`);
+                this.debug(`CEF method succeeded: ${event}`);
                 return;
             } catch (error) {
-                this.debug(`Alternative method failed: ${error.message}`);
+                this.debug(`CEF method failed: ${error.message}`);
             }
         }
 
         this.debug('All CEF communication methods failed!');
     }
+
 
     showLoading(message = 'Loading...') {
         document.getElementById('loadingScreen').style.display = 'block';
