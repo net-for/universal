@@ -40,10 +40,17 @@ function checkURLParameters() {
         showLogin();
     } else if (mode === 'gender') {
         showGenderSelection();
+    } else if (mode === 'spawn') {
+        showSpawnSelection();
     }
     
     if (player) {
-        console.log('[CEF] Player ID:', player);
+        console.log('[CEF] Player name:', player);
+        // Update player name display
+        const playerNameElements = document.querySelectorAll('.player-name');
+        playerNameElements.forEach(el => {
+            el.textContent = player;
+        });
     }
 }
 
@@ -52,18 +59,32 @@ function checkURLParameters() {
 // ============================================================================
 
 function getPlayerNameFromSAMP() {
-    // This would normally get the name from SA-MP
-    // For now, we'll return a default value
-    if (typeof mp !== 'undefined' && mp.trigger) {
-        // RAGE:MP integration
-        return mp.players.local.name;
-    } else if (typeof alt !== 'undefined') {
-        // alt:V integration
-        return alt.Player.local.name;
-    } else {
-        // Fallback for testing
-        return 'Player_Name';
+    // Get player name from URL parameter (passed from SA-MP)
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerName = urlParams.get('player');
+    
+    if (playerName) {
+        console.log('[CEF] Player name from URL:', playerName);
+        return playerName;
     }
+    
+    // SA-MP CEF fallback
+    if (typeof cef !== 'undefined' && typeof cef.get_player_name === 'function') {
+        return cef.get_player_name();
+    }
+    
+    // RAGE:MP integration
+    if (typeof mp !== 'undefined' && mp.trigger) {
+        return mp.players.local.name;
+    }
+    
+    // alt:V integration
+    if (typeof alt !== 'undefined') {
+        return alt.Player.local.name;
+    }
+    
+    // Fallback for testing
+    return 'Player_Name';
 }
 
 function sendToSAMP(event, data) {
@@ -82,6 +103,8 @@ function sendToSAMP(event, data) {
             cef.emit(event, data.password || '');
         } else if (event === 'cef:gender') {
             cef.emit(event, data.gender || '');
+        } else if (event === 'cef:spawn') {
+            cef.emit(event, data.spawn || 'city');
         } else if (event === 'cef:close') {
             cef.emit(event);
         } else {
@@ -142,6 +165,15 @@ function showGenderSelection() {
     hideAllForms();
     document.getElementById('genderForm').classList.remove('hidden');
     currentMode = 'gender';
+}
+
+function showSpawnSelection() {
+    hideAllForms();
+    const spawnForm = document.getElementById('spawnForm');
+    if (spawnForm) {
+        spawnForm.classList.remove('hidden');
+    }
+    currentMode = 'spawn';
 }
 
 function showLoading() {
@@ -270,6 +302,16 @@ function selectGender(gender) {
             gender: gender
         });
     }, 500);
+}
+
+function selectSpawn(spawnChoice) {
+    console.log('[CEF] Spawn selected:', spawnChoice);
+    showLoading();
+    
+    sendToSAMP('cef:spawn', {
+        username: playerName,
+        spawn: spawnChoice
+    });
 }
 
 function handleGenderResponse(success) {
