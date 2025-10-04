@@ -124,22 +124,16 @@ function handleLogin() {
     debug('Sending login event to SA-MP');
     showLoading();
 
-    // Try different CEF methods
+    // Try CEF communication
     if (typeof cef !== 'undefined') {
-        debug('cef object found, trying different methods...');
+        debug('cef object found, trying cef.emit...');
 
-        if (cef.emit) {
-            debug('Trying cef.emit...');
+        try {
             cef.emit('login', password);
-        } else if (cef.trigger) {
-            debug('Trying cef.trigger...');
-            cef.trigger('login', password);
-        } else if (cef.call) {
-            debug('Trying cef.call...');
-            cef.call('login', password);
-        } else {
-            debug('No suitable CEF method found!');
-            alert('CEF plugin loaded but no communication method available!');
+            debug('cef.emit called successfully');
+        } catch (error) {
+            debug('ERROR calling cef.emit: ' + error);
+            alert('CEF communication failed!');
         }
     } else {
         debug('ERROR: cef object not found!');
@@ -173,22 +167,16 @@ function handleRegister() {
     debug('Sending register event to SA-MP');
     showLoading();
 
-    // Try different CEF methods
+    // Try CEF communication
     if (typeof cef !== 'undefined') {
-        debug('cef object found, trying different methods...');
+        debug('cef object found, trying cef.emit...');
 
-        if (cef.emit) {
-            debug('Trying cef.emit...');
+        try {
             cef.emit('register', password, confirmPassword);
-        } else if (cef.trigger) {
-            debug('Trying cef.trigger...');
-            cef.trigger('register', password, confirmPassword);
-        } else if (cef.call) {
-            debug('Trying cef.call...');
-            cef.call('register', password, confirmPassword);
-        } else {
-            debug('No suitable CEF method found!');
-            alert('CEF plugin loaded but no communication method available!');
+            debug('cef.emit called successfully');
+        } catch (error) {
+            debug('ERROR calling cef.emit: ' + error);
+            alert('CEF communication failed!');
         }
     } else {
         debug('ERROR: cef object not found!');
@@ -206,22 +194,16 @@ function selectGender(gender) {
 
     showLoading();
 
-    // Try different CEF methods
+    // Try CEF communication
     if (typeof cef !== 'undefined') {
-        debug('cef object found, trying different methods...');
+        debug('cef object found, trying cef.emit...');
 
-        if (cef.emit) {
-            debug('Trying cef.emit...');
+        try {
             cef.emit('selectGender', gender);
-        } else if (cef.trigger) {
-            debug('Trying cef.trigger...');
-            cef.trigger('selectGender', gender);
-        } else if (cef.call) {
-            debug('Trying cef.call...');
-            cef.call('selectGender', gender);
-        } else {
-            debug('No suitable CEF method found!');
-            alert('CEF plugin loaded but no communication method available!');
+            debug('cef.emit called successfully');
+        } catch (error) {
+            debug('ERROR calling cef.emit: ' + error);
+            alert('CEF communication failed!');
         }
     } else {
         debug('ERROR: cef object not found!');
@@ -239,22 +221,16 @@ function selectSpawn(spawnType) {
 
     showLoading();
 
-    // Try different CEF methods
+    // Try CEF communication
     if (typeof cef !== 'undefined') {
-        debug('cef object found, trying different methods...');
+        debug('cef object found, trying cef.emit...');
 
-        if (cef.emit) {
-            debug('Trying cef.emit...');
+        try {
             cef.emit('selectSpawn', spawnType);
-        } else if (cef.trigger) {
-            debug('Trying cef.trigger...');
-            cef.trigger('selectSpawn', spawnType);
-        } else if (cef.call) {
-            debug('Trying cef.call...');
-            cef.call('selectSpawn', spawnType);
-        } else {
-            debug('No suitable CEF method found!');
-            alert('CEF plugin loaded but no communication method available!');
+            debug('cef.emit called successfully');
+        } catch (error) {
+            debug('ERROR calling cef.emit: ' + error);
+            alert('CEF communication failed!');
         }
     } else {
         debug('ERROR: cef object not found!');
@@ -286,17 +262,31 @@ document.addEventListener('keypress', (e) => {
 
 debug('CEF Script loaded successfully!');
 
-// Check if cef object exists
+// Check CEF object and methods
 setTimeout(() => {
-    debug('Checking cef object after 1 second...');
+    debug('Checking cef object after 2 seconds...');
     if (typeof cef !== 'undefined') {
         debug('cef object found: ' + typeof cef);
-        if (cef.emit) {
-            debug('cef.emit function found!');
-        } else {
-            debug('ERROR: cef.emit function not found!');
+
+        // Check available methods
+        const methods = ['emit', 'trigger', 'call', 'on', 'subscribe'];
+        methods.forEach(method => {
+            if (cef[method]) {
+                debug('✓ cef.' + method + ' found');
+            } else {
+                debug('✗ cef.' + method + ' not found');
+            }
+        });
+
+        // Try to call a test event
+        try {
+            debug('Testing cef.emit with test event...');
+            cef.emit('test', 'hello');
+            debug('Test event sent successfully');
+        } catch (error) {
+            debug('ERROR sending test event: ' + error);
         }
     } else {
         debug('ERROR: cef object not found!');
     }
-}, 1000);
+}, 2000);
