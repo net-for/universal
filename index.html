@@ -1,289 +1,290 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ka">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal CEF System</title>
+    <title>Universal RP - CEF Interface</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Authentication Panel -->
-    <div id="auth-panel" class="panel hidden">
-        <div class="auth-container">
-            <div class="auth-header">
-                <h2 id="auth-title">Authentication</h2>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-gamepad"></i>
             </div>
-            <div class="auth-content">
-                <div id="reg-form" class="form-section">
-                    <input type="text" id="reg-username" placeholder="Username" maxlength="50">
-                    <input type="password" id="reg-password" placeholder="Password" maxlength="65">
-                    <input type="email" id="reg-email" placeholder="Email" maxlength="51">
-                    <button id="reg-submit">Register</button>
-                </div>
-                <div id="login-form" class="form-section">
-                    <input type="password" id="login-password" placeholder="Password" maxlength="65">
-                    <button id="login-submit">Login</button>
-                </div>
+            <div class="loading-text">Universal RP</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
             </div>
         </div>
     </div>
 
-    <!-- HUD Panel -->
-    <div id="hud-panel" class="panel">
-        <!-- Player Info -->
-        <div id="player-info" class="hud-section">
-            <div class="info-item">
-                <span class="label">Health:</span>
-                <div class="progress-bar">
-                    <div id="health-bar" class="progress-fill health"></div>
-                </div>
-                <span id="health-text">100</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Armor:</span>
-                <div class="progress-bar">
-                    <div id="armor-bar" class="progress-fill armor"></div>
-                </div>
-                <span id="armor-text">0</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Level:</span>
-                <span id="level-text">1</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Money:</span>
-                <span id="money-text">$0</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Bank:</span>
-                <span id="bank-text">$0</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Zone:</span>
-                <span id="zone-text">Unknown</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Weapon:</span>
-                <span id="weapon-text">Fist</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Ammo:</span>
-                <span id="ammo-text">0</span>
-            </div>
-            <div class="info-item">
-                <span class="label">Wanted:</span>
-                <span id="wanted-text">0</span>
-            </div>
-        </div>
-
-        <!-- Zone Status -->
-        <div id="zone-status" class="hud-section">
-            <div id="zone-indicator" class="zone-indicator safe">Safe Zone</div>
-        </div>
-
-        <!-- Timers -->
-        <div id="timers" class="hud-section">
-            <div class="timer-item">
-                <span class="label">Jail Time:</span>
-                <span id="jail-timer">0</span>
-            </div>
-            <div class="timer-item">
-                <span class="label">Taxi Time:</span>
-                <span id="taxi-timer">0</span>
-            </div>
-            <div class="timer-item">
-                <span class="label">Admin Level:</span>
-                <span id="admin-level">0</span>
-            </div>
-        </div>
-
-        <!-- Bonus Info -->
-        <div id="bonus-info" class="hud-section">
-            <div id="bonus-indicator" class="bonus-indicator hidden">Bonus Active</div>
-        </div>
-
-        <!-- Real Time Clock -->
-        <div id="real-time" class="hud-section">
-            <div class="time-item">
-                <span class="label">Time:</span>
-                <span id="current-time">00:00:00</span>
-            </div>
-            <div class="time-item">
-                <span class="label">Date:</span>
-                <span id="current-date">01/01/2024</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Vehicle Panel -->
-    <div id="vehicle-panel" class="panel hidden">
-        <div class="vehicle-container">
-            <div class="vehicle-header">
-                <h3>Vehicle Status</h3>
-            </div>
-            <div class="vehicle-content">
-                <div class="vehicle-item">
-                    <span class="label">Engine:</span>
-                    <span id="engine-status" class="status off">Off</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="label">Doors:</span>
-                    <span id="doors-status" class="status locked">Locked</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="label">Lights:</span>
-                    <span id="lights-status" class="status off">Off</span>
-                </div>
-                <div class="vehicle-item">
-                    <span class="label">Fuel:</span>
-                    <div class="progress-bar">
-                        <div id="fuel-bar" class="progress-fill fuel"></div>
+    <!-- Main Interface -->
+    <div id="mainInterface" class="main-interface">
+        <!-- HUD System -->
+        <div id="hudSystem" class="hud-system">
+            <!-- Top HUD -->
+            <div class="hud-top">
+                <div class="hud-left">
+                    <div class="player-info">
+                        <div class="player-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="player-details">
+                            <div class="player-name" id="playerName">Loading...</div>
+                            <div class="player-level" id="playerLevel">Level 1</div>
+                        </div>
                     </div>
-                    <span id="fuel-text">100%</span>
                 </div>
-                <div class="vehicle-item">
-                    <span class="label">Health:</span>
-                    <div class="progress-bar">
-                        <div id="vehicle-health-bar" class="progress-fill vehicle-health"></div>
+                <div class="hud-center">
+                    <div class="server-time" id="serverTime">00:00</div>
+                </div>
+                <div class="hud-right">
+                    <div class="money-info">
+                        <div class="money-item">
+                            <i class="fas fa-wallet"></i>
+                            <span id="playerMoney">$0</span>
+                        </div>
+                        <div class="money-item">
+                            <i class="fas fa-university"></i>
+                            <span id="playerBank">$0</span>
+                        </div>
                     </div>
-                    <span id="vehicle-health-text">1000</span>
+                </div>
+            </div>
+
+            <!-- Bottom HUD -->
+            <div class="hud-bottom">
+                <div class="hud-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <div class="stat-bar">
+                            <div class="stat-fill health" id="healthBar"></div>
+                        </div>
+                        <span id="healthText">100</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="stat-bar">
+                            <div class="stat-fill armor" id="armorBar"></div>
+                        </div>
+                        <span id="armorText">0</span>
+                    </div>
+                </div>
+                <div class="hud-zone" id="zoneIndicator">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Safe Zone</span>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div id="notificationContainer" class="notification-container"></div>
+        </div>
+
+        <!-- Registration System -->
+        <div id="registrationSystem" class="registration-system hidden">
+            <div class="reg-container">
+                <div class="reg-header">
+                    <div class="reg-logo">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2>რეგისტრაცია</h2>
+                    <p>შექმენით ახალი ანგარიში</p>
+                </div>
+                <div class="reg-form">
+                    <div class="form-group">
+                        <label>მომხმარებლის სახელი</label>
+                        <input type="text" id="regUsername" placeholder="შეიყვანეთ მომხმარებლის სახელი">
+                    </div>
+                    <div class="form-group">
+                        <label>პაროლი</label>
+                        <input type="password" id="regPassword" placeholder="შეიყვანეთ პაროლი">
+                    </div>
+                    <div class="form-group">
+                        <label>ელ-ფოსტა</label>
+                        <input type="email" id="regEmail" placeholder="შეიყვანეთ ელ-ფოსტა">
+                    </div>
+                    <button class="reg-btn" onclick="submitRegistration()">
+                        <i class="fas fa-user-plus"></i>
+                        რეგისტრაცია
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Notification Container -->
-    <div id="notification-container">
-        <!-- Notifications will be dynamically added here -->
-    </div>
-
-    <!-- Phone Panel -->
-    <div id="phone-panel" class="panel hidden">
-        <div class="phone-container">
-            <div class="phone-header">
-                <h3>Phone</h3>
-                <button id="phone-close">×</button>
-            </div>
-            <div class="phone-content">
-                <div class="phone-apps">
-                    <button class="app-button" data-app="taxi">Taxi</button>
-                    <button class="app-button" data-app="bank">Bank</button>
-                    <button class="app-button" data-app="gps">GPS</button>
+        <!-- Authorization System -->
+        <div id="authorizationSystem" class="authorization-system hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <h2>ავტორიზაცია</h2>
+                    <p>შედით თქვენს ანგარიშში</p>
+                </div>
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label>პაროლი</label>
+                        <input type="password" id="authPassword" placeholder="შეიყვანეთ პაროლი">
+                    </div>
+                    <button class="auth-btn" onclick="submitAuthorization()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        შესვლა
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bank Panel -->
-    <div id="bank-panel" class="panel hidden">
-        <div class="bank-container">
-            <div class="bank-header">
-                <h3>Bank</h3>
-                <button id="bank-close">×</button>
-            </div>
-            <div class="bank-content">
-                <div class="bank-info">
-                    <div class="bank-item">
-                        <span class="label">Cash:</span>
-                        <span id="bank-cash">$0</span>
+        <!-- Phone System -->
+        <div id="phoneSystem" class="phone-system hidden">
+            <div class="phone-container">
+                <div class="phone-header">
+                    <div class="phone-status">
+                        <div class="signal-bars">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                        <span>Universal Mobile</span>
                     </div>
-                    <div class="bank-item">
-                        <span class="label">Roulette Money:</span>
-                        <span id="bank-roulette">$0</span>
+                    <div class="phone-time" id="phoneTime">00:00</div>
+                    <div class="phone-battery">
+                        <i class="fas fa-battery-full"></i>
+                        <span>100%</span>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="phone-apps">
+                        <div class="app-grid">
+                            <div class="app-item" onclick="openApp('phone')">
+                                <i class="fas fa-phone"></i>
+                                <span>ტელეფონი</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('bank')">
+                                <i class="fas fa-university"></i>
+                                <span>ბანკი</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('taxi')">
+                                <i class="fas fa-taxi"></i>
+                                <span>ტაქსი</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('gps')">
+                                <i class="fas fa-map"></i>
+                                <span>GPS</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('settings')">
+                                <i class="fas fa-cog"></i>
+                                <span>პარამეტრები</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Spawn Panel -->
-    <div id="spawn-panel" class="panel hidden">
-        <div class="spawn-container">
-            <div class="spawn-header">
-                <h3>Choose Spawn Location</h3>
-            </div>
-            <div class="spawn-content">
-                <div class="spawn-info">
-                    <span class="label">Level:</span>
-                    <span id="spawn-level">1</span>
+        <!-- Bank System -->
+        <div id="bankSystem" class="bank-system hidden">
+            <div class="bank-container">
+                <div class="bank-header">
+                    <h2><i class="fas fa-university"></i> ბანკი</h2>
+                    <button class="close-btn" onclick="closeBank()">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <div class="spawn-locations">
-                    <button class="spawn-location" data-location="1">Location 1</button>
-                    <button class="spawn-location" data-location="2">Location 2</button>
-                    <button class="spawn-location" data-location="3">Location 3</button>
+                <div class="bank-content">
+                    <div class="bank-balance">
+                        <div class="balance-item">
+                            <i class="fas fa-wallet"></i>
+                            <div>
+                                <span class="balance-label">ნაღდი ფული</span>
+                                <span class="balance-amount" id="bankCash">$0</span>
+                            </div>
+                        </div>
+                        <div class="balance-item">
+                            <i class="fas fa-university"></i>
+                            <div>
+                                <span class="balance-label">ბანკის ანგარიში</span>
+                                <span class="balance-amount" id="bankAccount">$0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bank-actions">
+                        <button class="bank-btn" onclick="bankAction(0)">
+                            <i class="fas fa-home"></i>
+                            სახლის ფული
+                        </button>
+                        <button class="bank-btn" onclick="bankAction(1)">
+                            <i class="fas fa-mobile-alt"></i>
+                            ტელეფონის ბალანსი
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Job Panel -->
-    <div id="job-panel" class="panel hidden">
-        <div class="job-container">
-            <div class="job-header">
-                <h3>Job System</h3>
+        <!-- Vehicle HUD -->
+        <div id="vehicleHUD" class="vehicle-hud hidden">
+            <div class="vehicle-container">
+                <div class="vehicle-info">
+                    <div class="vehicle-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="vehicle-details">
+                        <div class="vehicle-status">
+                            <div class="status-item">
+                                <i class="fas fa-cog" id="engineIcon"></i>
+                                <span id="engineStatus">გამორთული</span>
+                            </div>
+                            <div class="status-item">
+                                <i class="fas fa-lightbulb" id="lightsIcon"></i>
+                                <span id="lightsStatus">გამორთული</span>
+                            </div>
+                        </div>
+                        <div class="vehicle-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-gas-pump"></i>
+                                <div class="stat-bar">
+                                    <div class="stat-fill fuel" id="fuelBar"></div>
+                                </div>
+                                <span id="fuelText">100%</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-heart"></i>
+                                <div class="stat-bar">
+                                    <div class="stat-fill health" id="vehicleHealthBar"></div>
+                                </div>
+                                <span id="vehicleHealthText">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="job-content">
-                <div id="job-frame" class="job-frame">
+        </div>
+
+        <!-- Job System -->
+        <div id="jobSystem" class="job-system hidden">
+            <div class="job-container">
+                <div class="job-header">
+                    <h3>სამუშაო</h3>
+                </div>
+                <div class="job-content" id="jobContent">
                     <!-- Job content will be loaded here -->
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Quest Panel -->
-    <div id="quest-panel" class="panel hidden">
-        <div class="quest-container">
-            <div class="quest-header">
-                <h3>Quest System</h3>
-            </div>
-            <div class="quest-content">
-                <div id="quest-frame" class="quest-frame">
-                    <!-- Quest content will be loaded here -->
+        <!-- Quest System -->
+        <div id="questSystem" class="quest-system hidden">
+            <div class="quest-container">
+                <div class="quest-header">
+                    <h3>ქვესტები</h3>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pool Data Panel -->
-    <div id="pool-panel" class="panel hidden">
-        <div class="pool-container">
-            <div class="pool-header">
-                <h3>Player Data</h3>
-            </div>
-            <div class="pool-content">
-                <div class="pool-info">
-                    <div class="pool-item">
-                        <span class="label">Name:</span>
-                        <span id="pool-name">Unknown</span>
-                    </div>
-                    <div class="pool-item">
-                        <span class="label">Number:</span>
-                        <span id="pool-number">0</span>
-                    </div>
-                    <div class="pool-item">
-                        <span class="label">Job:</span>
-                        <span id="pool-job">None</span>
-                    </div>
-                    <div class="pool-item">
-                        <span class="label">Passport ID:</span>
-                        <span id="pool-passid">0</span>
-                    </div>
-                    <div class="pool-item">
-                        <span class="label">Bank Cash:</span>
-                        <span id="pool-bankcash">$0</span>
-                    </div>
-                    <div class="pool-item">
-                        <span class="label">House:</span>
-                        <span id="pool-house">None</span>
-                    </div>
-                    <div class="pool-item">
-                        <span class="label">Car ID:</span>
-                        <span id="pool-carid">None</span>
-                    </div>
-                    <div class="pool-item">
-                        <span class="label">Business:</span>
-                        <span id="pool-business">None</span>
-                    </div>
+                <div class="quest-content" id="questContent">
+                    <!-- Quest content will be loaded here -->
                 </div>
             </div>
         </div>
