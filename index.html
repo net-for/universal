@@ -91,25 +91,25 @@
                     <div class="reg-logo">
                         <i class="fas fa-user-plus"></i>
                     </div>
-                    <h2>რეგისტრაცია</h2>
-                    <p>შექმენით ახალი ანგარიში</p>
+                    <h2>Registration</h2>
+                    <p>Create a new account</p>
                 </div>
                 <div class="reg-form">
                     <div class="form-group">
-                        <label>მომხმარებლის სახელი</label>
-                        <input type="text" id="regUsername" placeholder="შეიყვანეთ მომხმარებლის სახელი">
+                        <label>Username</label>
+                        <input type="text" id="regUsername" placeholder="Enter username">
                     </div>
                     <div class="form-group">
-                        <label>პაროლი</label>
-                        <input type="password" id="regPassword" placeholder="შეიყვანეთ პაროლი">
+                        <label>Password</label>
+                        <input type="password" id="regPassword" placeholder="Enter password">
                     </div>
                     <div class="form-group">
-                        <label>ელ-ფოსტა</label>
-                        <input type="email" id="regEmail" placeholder="შეიყვანეთ ელ-ფოსტა">
+                        <label>Email</label>
+                        <input type="email" id="regEmail" placeholder="Enter email">
                     </div>
                     <button class="reg-btn" onclick="submitRegistration()">
                         <i class="fas fa-user-plus"></i>
-                        რეგისტრაცია
+                        Register
                     </button>
                 </div>
             </div>
@@ -122,17 +122,17 @@
                     <div class="auth-logo">
                         <i class="fas fa-sign-in-alt"></i>
                     </div>
-                    <h2>ავტორიზაცია</h2>
-                    <p>შედით თქვენს ანგარიშში</p>
+                    <h2>Authorization</h2>
+                    <p>Sign in to your account</p>
                 </div>
                 <div class="auth-form">
                     <div class="form-group">
-                        <label>პაროლი</label>
-                        <input type="password" id="authPassword" placeholder="შეიყვანეთ პაროლი">
+                        <label>Password</label>
+                        <input type="password" id="authPassword" placeholder="Enter password">
                     </div>
                     <button class="auth-btn" onclick="submitAuthorization()">
                         <i class="fas fa-sign-in-alt"></i>
-                        შესვლა
+                        Sign In
                     </button>
                 </div>
             </div>
@@ -162,15 +162,15 @@
                         <div class="app-grid">
                             <div class="app-item" onclick="openApp('phone')">
                                 <i class="fas fa-phone"></i>
-                                <span>ტელეფონი</span>
+                                <span>Phone</span>
                             </div>
                             <div class="app-item" onclick="openApp('bank')">
                                 <i class="fas fa-university"></i>
-                                <span>ბანკი</span>
+                                <span>Bank</span>
                             </div>
                             <div class="app-item" onclick="openApp('taxi')">
                                 <i class="fas fa-taxi"></i>
-                                <span>ტაქსი</span>
+                                <span>Taxi</span>
                             </div>
                             <div class="app-item" onclick="openApp('gps')">
                                 <i class="fas fa-map"></i>
@@ -178,7 +178,7 @@
                             </div>
                             <div class="app-item" onclick="openApp('settings')">
                                 <i class="fas fa-cog"></i>
-                                <span>პარამეტრები</span>
+                                <span>Settings</span>
                             </div>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
         <div id="bankSystem" class="bank-system hidden">
             <div class="bank-container">
                 <div class="bank-header">
-                    <h2><i class="fas fa-university"></i> ბანკი</h2>
+                    <h2><i class="fas fa-university"></i> Bank</h2>
                     <button class="close-btn" onclick="closeBank()">
                         <i class="fas fa-times"></i>
                     </button>
@@ -200,14 +200,14 @@
                         <div class="balance-item">
                             <i class="fas fa-wallet"></i>
                             <div>
-                                <span class="balance-label">ნაღდი ფული</span>
+                                <span class="balance-label">Cash Money</span>
                                 <span class="balance-amount" id="bankCash">$0</span>
                             </div>
                         </div>
                         <div class="balance-item">
                             <i class="fas fa-university"></i>
                             <div>
-                                <span class="balance-label">ბანკის ანგარიში</span>
+                                <span class="balance-label">Bank Account</span>
                                 <span class="balance-amount" id="bankAccount">$0</span>
                             </div>
                         </div>
@@ -215,11 +215,11 @@
                     <div class="bank-actions">
                         <button class="bank-btn" onclick="bankAction(0)">
                             <i class="fas fa-home"></i>
-                            სახლის ფული
+                            House Money
                         </button>
                         <button class="bank-btn" onclick="bankAction(1)">
                             <i class="fas fa-mobile-alt"></i>
-                            ტელეფონის ბალანსი
+                            Phone Balance
                         </button>
                     </div>
                 </div>
@@ -237,11 +237,11 @@
                         <div class="vehicle-status">
                             <div class="status-item">
                                 <i class="fas fa-cog" id="engineIcon"></i>
-                                <span id="engineStatus">გამორთული</span>
+                                <span id="engineStatus">Off</span>
                             </div>
                             <div class="status-item">
                                 <i class="fas fa-lightbulb" id="lightsIcon"></i>
-                                <span id="lightsStatus">გამორთული</span>
+                                <span id="lightsStatus">Off</span>
                             </div>
                         </div>
                         <div class="vehicle-stats">
@@ -269,7 +269,7 @@
         <div id="jobSystem" class="job-system hidden">
             <div class="job-container">
                 <div class="job-header">
-                    <h3>სამუშაო</h3>
+                    <h3>Job</h3>
                 </div>
                 <div class="job-content" id="jobContent">
                     <!-- Job content will be loaded here -->
@@ -281,7 +281,7 @@
         <div id="questSystem" class="quest-system hidden">
             <div class="quest-container">
                 <div class="quest-header">
-                    <h3>ქვესტები</h3>
+                    <h3>Quests</h3>
                 </div>
                 <div class="quest-content" id="questContent">
                     <!-- Quest content will be loaded here -->

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal RP CEF - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Demo Controls -->
+    <div id="demoControls" style="position: fixed; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.8); padding: 20px; border-radius: 10px; color: white; font-family: monospace;">
+        <h3>Universal RP CEF Demo</h3>
+        <div style="margin: 10px 0;">
+            <button onclick="demoEvent('registration')" style="margin: 5px; padding: 10px; background: #38AF91; color: white; border: none; border-radius: 5px; cursor: pointer;">რეგისტრაცია</button>
+            <button onclick="demoEvent('authorization')" style="margin: 5px; padding: 10px; background: #38AF91; color: white; border: none; border-radius: 5px; cursor: pointer;">ავტორიზაცია</button>
+            <button onclick="demoEvent('phone')" style="margin: 5px; padding: 10px; background: #38AF91; color: white; border: none; border-radius: 5px; cursor: pointer;">ტელეფონი</button>
+            <button onclick="demoEvent('bank')" style="margin: 5px; padding: 10px; background: #38AF91; color: white; border: none; border-radius: 5px; cursor: pointer;">ბანკი</button>
+        </div>
+        <div style="margin: 10px 0;">
+            <button onclick="demoEvent('hud')" style="margin: 5px; padding: 10px; background: #00D4FF; color: white; border: none; border-radius: 5px; cursor: pointer;">HUD</button>
+            <button onclick="demoEvent('vehicle')" style="margin: 5px; padding: 10px; background: #00D4FF; color: white; border: none; border-radius: 5px; cursor: pointer;">მანქანა</button>
+            <button onclick="demoEvent('notification')" style="margin: 5px; padding: 10px; background: #00D4FF; color: white; border: none; border-radius: 5px; cursor: pointer;">შეტყობინება</button>
+            <button onclick="demoEvent('zone')" style="margin: 5px; padding: 10px; background: #00D4FF; color: white; border: none; border-radius: 5px; cursor: pointer;">ზონა</button>
+        </div>
+        <div style="margin: 10px 0;">
+            <button onclick="demoEvent('job')" style="margin: 5px; padding: 10px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer;">სამუშაო</button>
+            <button onclick="demoEvent('quest')" style="margin: 5px; padding: 10px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer;">ქვესტი</button>
+            <button onclick="demoEvent('bonus')" style="margin: 5px; padding: 10px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer;">ბონუსი</button>
+            <button onclick="demoEvent('reset')" style="margin: 5px; padding: 10px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">რესეტი</button>
+        </div>
+    </div>
+
+    <!-- Main Interface (Same as index.html) -->
+    <div id="mainInterface" class="main-interface">
+        <!-- HUD System -->
+        <div id="hudSystem" class="hud-system">
+            <!-- Top HUD -->
+            <div class="hud-top">
+                <div class="hud-left">
+                    <div class="player-info">
+                        <div class="player-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="player-details">
+                            <div class="player-name" id="playerName">Demo Player</div>
+                            <div class="player-level" id="playerLevel">Level 5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hud-center">
+                    <div class="server-time" id="serverTime">00:00</div>
+                </div>
+                <div class="hud-right">
+                    <div class="money-info">
+                        <div class="money-item">
+                            <i class="fas fa-wallet"></i>
+                            <span id="playerMoney">$50,000</span>
+                        </div>
+                        <div class="money-item">
+                            <i class="fas fa-university"></i>
+                            <span id="playerBank">$100,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom HUD -->
+            <div class="hud-bottom">
+                <div class="hud-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <div class="stat-bar">
+                            <div class="stat-fill health" id="healthBar" style="width: 85%;"></div>
+                        </div>
+                        <span id="healthText">85</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="stat-bar">
+                            <div class="stat-fill armor" id="armorBar" style="width: 60%;"></div>
+                        </div>
+                        <span id="armorText">60</span>
+                    </div>
+                </div>
+                <div class="hud-zone" id="zoneIndicator">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Safe Zone</span>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div id="notificationContainer" class="notification-container"></div>
+        </div>
+
+        <!-- Registration System -->
+        <div id="registrationSystem" class="registration-system hidden">
+            <div class="reg-container">
+                <div class="reg-header">
+                    <div class="reg-logo">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2>რეგისტრაცია</h2>
+                    <p>შექმენით ახალი ანგარიში</p>
+                </div>
+                <div class="reg-form">
+                    <div class="form-group">
+                        <label>მომხმარებლის სახელი</label>
+                        <input type="text" id="regUsername" placeholder="შეიყვანეთ მომხმარებლის სახელი" value="DemoUser">
+                    </div>
+                    <div class="form-group">
+                        <label>პაროლი</label>
+                        <input type="password" id="regPassword" placeholder="შეიყვანეთ პაროლი" value="demo123">
+                    </div>
+                    <div class="form-group">
+                        <label>ელ-ფოსტა</label>
+                        <input type="email" id="regEmail" placeholder="შეიყვანეთ ელ-ფოსტა" value="demo@example.com">
+                    </div>
+                    <button class="reg-btn" onclick="submitRegistration()">
+                        <i class="fas fa-user-plus"></i>
+                        რეგისტრაცია
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authorization System -->
+        <div id="authorizationSystem" class="authorization-system hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <h2>ავტორიზაცია</h2>
+                    <p>შედით თქვენს ანგარიშში</p>
+                </div>
+                <div class="auth-form">
+                    <div class="form-group">
+                        <label>პაროლი</label>
+                        <input type="password" id="authPassword" placeholder="შეიყვანეთ პაროლი" value="demo123">
+                    </div>
+                    <button class="auth-btn" onclick="submitAuthorization()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        შესვლა
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phone System -->
+        <div id="phoneSystem" class="phone-system hidden">
+            <div class="phone-container">
+                <div class="phone-header">
+                    <div class="phone-status">
+                        <div class="signal-bars">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                        <span>Universal Mobile</span>
+                    </div>
+                    <div class="phone-time" id="phoneTime">00:00</div>
+                    <div class="phone-battery">
+                        <i class="fas fa-battery-full"></i>
+                        <span>100%</span>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="phone-apps">
+                        <div class="app-grid">
+                            <div class="app-item" onclick="openApp('phone')">
+                                <i class="fas fa-phone"></i>
+                                <span>ტელეფონი</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('bank')">
+                                <i class="fas fa-university"></i>
+                                <span>ბანკი</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('taxi')">
+                                <i class="fas fa-taxi"></i>
+                                <span>ტაქსი</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('gps')">
+                                <i class="fas fa-map"></i>
+                                <span>GPS</span>
+                            </div>
+                            <div class="app-item" onclick="openApp('settings')">
+                                <i class="fas fa-cog"></i>
+                                <span>პარამეტრები</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bank System -->
+        <div id="bankSystem" class="bank-system hidden">
+            <div class="bank-container">
+                <div class="bank-header">
+                    <h2><i class="fas fa-university"></i> ბანკი</h2>
+                    <button class="close-btn" onclick="closeBank()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="bank-content">
+                    <div class="bank-balance">
+                        <div class="balance-item">
+                            <i class="fas fa-wallet"></i>
+                            <div>
+                                <span class="balance-label">ნაღდი ფული</span>
+                                <span class="balance-amount" id="bankCash">$50,000</span>
+                            </div>
+                        </div>
+                        <div class="balance-item">
+                            <i class="fas fa-university"></i>
+                            <div>
+                                <span class="balance-label">ბანკის ანგარიში</span>
+                                <span class="balance-amount" id="bankAccount">$100,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bank-actions">
+                        <button class="bank-btn" onclick="bankAction(0)">
+                            <i class="fas fa-home"></i>
+                            სახლის ფული
+                        </button>
+                        <button class="bank-btn" onclick="bankAction(1)">
+                            <i class="fas fa-mobile-alt"></i>
+                            ტელეფონის ბალანსი
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle HUD -->
+        <div id="vehicleHUD" class="vehicle-hud hidden">
+            <div class="vehicle-container">
+                <div class="vehicle-info">
+                    <div class="vehicle-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="vehicle-details">
+                        <div class="vehicle-status">
+                            <div class="status-item">
+                                <i class="fas fa-cog" id="engineIcon" style="color: #27ae60;"></i>
+                                <span id="engineStatus">ჩართული</span>
+                            </div>
+                            <div class="status-item">
+                                <i class="fas fa-lightbulb" id="lightsIcon" style="color: #f39c12;"></i>
+                                <span id="lightsStatus">ჩართული</span>
+                            </div>
+                        </div>
+                        <div class="vehicle-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-gas-pump"></i>
+                                <div class="stat-bar">
+                                    <div class="stat-fill fuel" id="fuelBar" style="width: 75%;"></div>
+                                </div>
+                                <span id="fuelText">75%</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-heart"></i>
+                                <div class="stat-bar">
+                                    <div class="stat-fill health" id="vehicleHealthBar" style="width: 90%;"></div>
+                                </div>
+                                <span id="vehicleHealthText">90%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job System -->
+        <div id="jobSystem" class="job-system hidden">
+            <div class="job-container">
+                <div class="job-header">
+                    <h3>სამუშაო</h3>
+                </div>
+                <div class="job-content" id="jobContent">
+                    <div class="job-item">
+                        <h4>Taxi Driver</h4>
+                        <p>Current job information and status</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quest System -->
+        <div id="questSystem" class="quest-system hidden">
+            <div class="quest-container">
+                <div class="quest-header">
+                    <h3>ქვესტები</h3>
+                </div>
+                <div class="quest-content" id="questContent">
+                    <div class="quest-item">
+                        <h4>Quest 1</h4>
+                        <p>Quest description and objectives</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Demo functions
+        function demoEvent(type) {
+            if (!window.universalRP) return;
+            
+            switch(type) {
+                case 'registration':
+                    window.universalRP.showRegistration();
+                    break;
+                case 'authorization':
+                    window.universalRP.showAuthorization();
+                    break;
+                case 'phone':
+                    window.universalRP.openPhone();
+                    break;
+                case 'bank':
+                    window.universalRP.openBank();
+                    break;
+                case 'hud':
+                    window.universalRP.showNotification({
+                        type: 'info',
+                        header: 'HUD',
+                        text: 'HUD სისტემა აქტიურია!'
+                    });
+                    break;
+                case 'vehicle':
+                    window.universalRP.updateVehicleData({
+                        engine: 1,
+                        lights: 1,
+                        fuel: 75,
+                        health: 90,
+                        doors: 0
+                    });
+                    break;
+                case 'notification':
+                    window.universalRP.showNotification({
+                        type: 'success',
+                        header: 'Demo',
+                        text: 'ეს არის დემო შეტყობინება!'
+                    });
+                    break;
+                case 'zone':
+                    window.universalRP.updateZone(1);
+                    setTimeout(() => window.universalRP.updateZone(0), 3000);
+                    break;
+                case 'job':
+                    window.universalRP.updateJobFrame(4);
+                    break;
+                case 'quest':
+                    window.universalRP.updateQuestFrame(1);
+                    break;
+                case 'bonus':
+                    window.universalRP.updateBonusInfo(2);
+                    break;
+                case 'reset':
+                    window.universalRP.hideAllSystems();
+                    window.universalRP.updateZone(0);
+                    break;
+            }
+        }
+        
+        // Auto-demo sequence
+        setTimeout(() => {
+            demoEvent('notification');
+        }, 2000);
+        
+        setTimeout(() => {
+            demoEvent('vehicle');
+        }, 4000);
+        
+        setTimeout(() => {
+            demoEvent('zone');
+        }, 6000);
+    </script>
+</body>
+</html>

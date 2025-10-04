@@ -210,8 +210,8 @@ class UniversalRP {
         if (!username || !password || !email) {
             this.showNotification({
                 type: 'error',
-                header: 'შეცდომა',
-                text: 'შეავსეთ ყველა ველი'
+                header: 'Error',
+                text: 'Please fill in all fields'
             });
             return;
         }
@@ -227,8 +227,8 @@ class UniversalRP {
         if (!password) {
             this.showNotification({
                 type: 'error',
-                header: 'შეცდომა',
-                text: 'შეიყვანეთ პაროლი'
+                header: 'Error',
+                text: 'Please enter password'
             });
             return;
         }
@@ -349,10 +349,10 @@ class UniversalRP {
         if (engineIcon && engineStatus) {
             if (this.vehicleData.engine === 1) {
                 engineIcon.style.color = '#27ae60';
-                engineStatus.textContent = 'ჩართული';
+                engineStatus.textContent = 'On';
             } else {
                 engineIcon.style.color = '#e74c3c';
-                engineStatus.textContent = 'გამორთული';
+                engineStatus.textContent = 'Off';
             }
         }
 
@@ -362,10 +362,10 @@ class UniversalRP {
         if (lightsIcon && lightsStatus) {
             if (this.vehicleData.lights === 1) {
                 lightsIcon.style.color = '#f39c12';
-                lightsStatus.textContent = 'ჩართული';
+                lightsStatus.textContent = 'On';
             } else {
                 lightsIcon.style.color = '#95a5a6';
-                lightsStatus.textContent = 'გამორთული';
+                lightsStatus.textContent = 'Off';
             }
         }
 
