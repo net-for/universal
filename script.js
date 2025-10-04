@@ -83,63 +83,68 @@ class UniversalRP {
     }
 
     handleCEFEvent(type, data) {
+        // Extract value from data object if it exists
+        const value = data.value !== undefined ? data.value : data;
+        
         switch (type) {
             case 'data:pool:reg':
                 this.handleRegistration(data);
                 break;
             case 'data:pool:name':
-                this.updatePlayerName(data.value);
+                this.updatePlayerName(value);
                 break;
             case 'data:pool:number':
-                this.updatePlayerNumber(data.value);
+                this.updatePlayerNumber(value);
                 break;
             case 'data:pool:job':
-                this.updatePlayerJob(data.value);
+                this.updatePlayerJob(value);
                 break;
             case 'data:pool:passid':
-                this.updatePlayerPassId(data.value);
+                this.updatePlayerPassId(value);
                 break;
             case 'data:pool:bankcash':
-                this.updatePlayerBank(data.value);
+                this.updatePlayerBank(value);
                 break;
             case 'data:pool:havehouse':
-                this.updatePlayerHouse(data.value);
+                this.updatePlayerHouse(value);
                 break;
             case 'data:pool:havecarid':
-                this.updatePlayerCar(data.value);
+                this.updatePlayerCar(value);
                 break;
             case 'data:pool:havebiz':
-                this.updatePlayerBusiness(data.value);
+                this.updatePlayerBusiness(value);
                 break;
             case 'reg:name':
-                this.updatePlayerName(data.value);
+                this.updatePlayerName(value);
                 break;
             case 'atv:name':
-                this.updatePlayerName(data.value);
+                this.updatePlayerName(value);
                 break;
             case 'Hud:zona':
-                this.updateZone(data.value);
+                this.updateZone(value);
                 break;
             case 'bonus:info':
-                this.updateBonusInfo(data.value);
+                this.updateBonusInfo(value);
                 break;
             case 'job:bonus':
-                this.updateJobBonus(data.value);
+                this.updateJobBonus(value);
                 break;
             case 'data:hud:stats':
-                this.updateHudStats(data.value);
+                this.updateHudStats(value);
                 break;
             case 'data:not':
                 this.showNotification(data);
                 break;
             case 'data:vehicle':
-                this.updateVehicleData(data);
+                // Handle vehicle data from Pawn (comes as array of values)
+                const vehicleData = Array.isArray(data) ? data : [data.engine, data.doors, data.lights, data.fuel, data.health];
+                this.updateVehicleData(vehicleData);
                 break;
             case 'Hud:timers':
                 this.updateTimers(data);
                 break;
             case 'spawn:info':
-                this.updateSpawnInfo(data.value);
+                this.updateSpawnInfo(value);
                 break;
             case 'spawn:lock':
                 this.updateSpawnLock(data);
@@ -148,19 +153,28 @@ class UniversalRP {
                 this.updateBankInfo(data);
                 break;
             case 'Hud:pinfo':
-                this.updatePlayerInfo(data);
+                // Handle HUD player info (comes as array of values)
+                if (Array.isArray(data)) {
+                    this.playerData.health = data[0] || 100;
+                    this.playerData.armor = data[1] || 0;
+                } else {
+                    this.playerData.health = data.health || 100;
+                    this.playerData.armor = data.armor || 0;
+                }
+                this.updateHealthBar();
+                this.updateArmorBar();
                 break;
             case 'game:CEF:money':
-                this.updateMoney(data.value);
+                this.updateMoney(value);
                 break;
             case 'game:CEF:bank':
-                this.updateBank(data.value);
+                this.updateBank(value);
                 break;
             case 'job:frame':
-                this.updateJobFrame(data.value);
+                this.updateJobFrame(value);
                 break;
             case 'quest:frame':
-                this.updateQuestFrame(data.value);
+                this.updateQuestFrame(value);
                 break;
             default:
                 console.log('Unknown CEF event:', type, data);
@@ -322,11 +336,20 @@ class UniversalRP {
     }
 
     updateVehicleData(data) {
-        if (data.engine !== undefined) this.vehicleData.engine = data.engine;
-        if (data.lights !== undefined) this.vehicleData.lights = data.lights;
-        if (data.fuel !== undefined) this.vehicleData.fuel = data.fuel;
-        if (data.health !== undefined) this.vehicleData.health = data.health;
-        if (data.doors !== undefined) this.vehicleData.doors = data.doors;
+        // Handle vehicle data from Pawn (comes as array of values)
+        if (Array.isArray(data)) {
+            this.vehicleData.engine = data[0] || 0;
+            this.vehicleData.doors = data[1] || 0;
+            this.vehicleData.lights = data[2] || 0;
+            this.vehicleData.fuel = data[3] || 0;
+            this.vehicleData.health = data[4] || 0;
+        } else {
+            if (data.engine !== undefined) this.vehicleData.engine = data.engine;
+            if (data.lights !== undefined) this.vehicleData.lights = data.lights;
+            if (data.fuel !== undefined) this.vehicleData.fuel = data.fuel;
+            if (data.health !== undefined) this.vehicleData.health = data.health;
+            if (data.doors !== undefined) this.vehicleData.doors = data.doors;
+        }
 
         this.updateVehicleHUD();
     }
@@ -405,16 +428,24 @@ class UniversalRP {
     }
 
     updateBankInfo(data) {
-        if (data.money !== undefined) {
-            this.playerData.money = data.money;
-            const moneyElement = document.getElementById('playerMoney');
-            if (moneyElement) moneyElement.textContent = `$${data.money.toLocaleString()}`;
+        // Handle bank info from Pawn (comes as array of values)
+        if (Array.isArray(data)) {
+            this.playerData.money = data[0] || 0;
+            this.playerData.bank = data[1] || 0;
+        } else {
+            if (data.money !== undefined) {
+                this.playerData.money = data.money;
+            }
+            if (data.bank !== undefined) {
+                this.playerData.bank = data.bank;
+            }
         }
-        if (data.bank !== undefined) {
-            this.playerData.bank = data.bank;
-            const bankElement = document.getElementById('playerBank');
-            if (bankElement) bankElement.textContent = `$${data.bank.toLocaleString()}`;
-        }
+        
+        const moneyElement = document.getElementById('playerMoney');
+        if (moneyElement) moneyElement.textContent = `$${this.playerData.money.toLocaleString()}`;
+        
+        const bankElement = document.getElementById('playerBank');
+        if (bankElement) bankElement.textContent = `$${this.playerData.bank.toLocaleString()}`;
     }
 
     updatePlayerInfo(data) {
