@@ -69,6 +69,13 @@ function getPlayerNameFromSAMP() {
 function sendToSAMP(event, data) {
     console.log('[CEF] Sending to SAMP:', event, data);
     
+    // SA-MP CEF Plugin
+    if (typeof cef !== 'undefined' && typeof cef.emit === 'function') {
+        console.log('[CEF] Using SA-MP CEF plugin');
+        cef.emit(event, data.username || '', data.password || '', data.passwordConfirm || '', data.gender || '');
+        return true;
+    }
+    
     // RAGE:MP
     if (typeof mp !== 'undefined' && mp.trigger) {
         mp.trigger(event, JSON.stringify(data));
@@ -78,12 +85,6 @@ function sendToSAMP(event, data) {
     // alt:V
     if (typeof alt !== 'undefined' && alt.emit) {
         alt.emit(event, data);
-        return true;
-    }
-    
-    // SA-MP CEF (if available)
-    if (typeof cef !== 'undefined' && cef.emit) {
-        cef.emit(event, data);
         return true;
     }
     
