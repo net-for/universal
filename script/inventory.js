@@ -12,10 +12,12 @@ class InventorySystem {
     }
 
     init() {
+        console.log('Inventory System: Initializing...');
         this.setupEventListeners();
         this.generateInventorySlots();
         this.loadShopItems();
         this.setupTooltips();
+        console.log('Inventory System: Initialized successfully!');
     }
 
     setupEventListeners() {
@@ -30,18 +32,25 @@ class InventorySystem {
         });
 
         // CEF Event Listeners
+        console.log('Setting up CEF event listeners...');
         if (typeof cef !== 'undefined') {
+            console.log('CEF object found!');
             cef.on('inventory:data', (data) => {
+                console.log('Received inventory:data event:', data);
                 this.updateInventory(JSON.parse(data));
             });
 
             cef.on('inventory:playerData', (data) => {
+                console.log('Received inventory:playerData event:', data);
                 this.updatePlayerData(JSON.parse(data));
             });
 
             cef.on('inventory:shopData', (data) => {
+                console.log('Received inventory:shopData event:', data);
                 this.updateShopData(JSON.parse(data));
             });
+        } else {
+            console.log('CEF object not found!');
         }
     }
 
@@ -69,7 +78,13 @@ class InventorySystem {
 
     // Inventory Management
     generateInventorySlots() {
+        console.log('Generating inventory slots...');
         const grid = document.getElementById('inventoryGrid');
+        if (!grid) {
+            console.error('inventoryGrid element not found!');
+            return;
+        }
+        
         grid.innerHTML = '';
 
         for (let i = 0; i < 40; i++) {
@@ -81,6 +96,8 @@ class InventorySystem {
             slot.addEventListener('mouseleave', () => this.hideTooltip());
             grid.appendChild(slot);
         }
+        
+        console.log('Generated 40 inventory slots');
     }
 
     selectSlot(slotIndex) {
@@ -97,17 +114,21 @@ class InventorySystem {
     }
 
     updateInventory(inventoryData) {
+        console.log('Updating inventory with data:', inventoryData);
         this.inventory = inventoryData;
         this.renderInventory();
     }
 
     renderInventory() {
+        console.log('Rendering inventory with', this.inventory.length, 'items');
         const slots = document.querySelectorAll('.inventory-slot');
+        console.log('Found', slots.length, 'inventory slots');
         
         slots.forEach((slot, index) => {
             const item = this.inventory.find(item => item.slot === index);
             
             if (item) {
+                console.log('Rendering item in slot', index, ':', item);
                 slot.className = 'inventory-slot';
                 slot.innerHTML = `
                     <div class="item-icon">${this.getItemIcon(item.item_type)}</div>
@@ -119,6 +140,8 @@ class InventorySystem {
                 slot.innerHTML = '';
             }
         });
+        
+        console.log('Inventory rendering completed!');
     }
 
     getItemIcon(itemType) {
@@ -258,6 +281,7 @@ class InventorySystem {
 
     // Player Data Management
     updatePlayerData(data) {
+        console.log('Updating player data with:', data);
         this.playerData = data;
         
         document.getElementById('playerName').textContent = data.name || 'Player Name';
@@ -268,6 +292,8 @@ class InventorySystem {
         if (data.avatar) {
             document.getElementById('playerAvatar').src = data.avatar;
         }
+        
+        console.log('Player data updated successfully!');
     }
 
     // Statistics
