@@ -19,48 +19,86 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 60px; height: 60px; top: 60%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 100px; height: 100px; top: 80%; left: 20%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 40px; height: 40px; top: 10%; left: 70%; animation-delay: 1s; }
+        .particle:nth-child(5) { width: 120px; height: 120px; top: 40%; left: 50%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
         .container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             text-align: center;
-            animation: slideIn 0.8s ease-out;
+            animation: slideIn 1s ease-out;
+            position: relative;
+            z-index: 2;
         }
 
         @keyframes slideIn {
             0% {
                 opacity: 0;
-                transform: translateY(50px);
+                transform: translateY(50px) scale(0.9);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
         .logo {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            position: relative;
         }
 
         .logo h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: #fff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            margin-bottom: 10px;
-            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            margin-bottom: 15px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .logo p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
             font-weight: 300;
+            letter-spacing: 2px;
         }
 
         .form-container {
@@ -73,39 +111,43 @@
 
         .form-title {
             color: #fff;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .form-subtitle {
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 30px;
-            font-size: 1rem;
+            margin-bottom: 35px;
+            font-size: 1.1rem;
+            line-height: 1.5;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             position: relative;
         }
 
         .input-group input {
             width: 100%;
-            padding: 15px 20px;
+            padding: 18px 25px;
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
-            font-size: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
             outline: none;
+            backdrop-filter: blur(10px);
         }
 
         .input-group input:focus {
             border-color: #fff;
             background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
         .input-group input::placeholder {
@@ -114,30 +156,34 @@
 
         .btn {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             background: linear-gradient(45deg, #ff6b6b, #ee5a24);
             color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
+            transition: all 0.4s ease;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(45deg, #ff5252, #d63031);
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .switch-form {
             color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .switch-form a {
@@ -145,91 +191,111 @@
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .switch-form a:hover {
             color: #ff6b6b;
         }
 
+        /* Gender Selection */
         .gender-selection {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin-bottom: 35px;
         }
 
         .gender-option {
-            padding: 20px;
+            padding: 30px 20px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             border: 2px solid transparent;
+            backdrop-filter: blur(10px);
         }
 
         .gender-option:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .gender-option.selected {
             border-color: #fff;
             background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
         }
 
         .gender-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
         .gender-text {
             color: #fff;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
+        /* Spawn Selection */
         .spawn-selection {
             display: grid;
-            gap: 15px;
+            gap: 20px;
         }
 
         .spawn-option {
-            padding: 20px;
+            padding: 25px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             border: 2px solid transparent;
             text-align: left;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
         }
 
         .spawn-option:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateX(10px);
+            transform: translateX(15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .spawn-option.selected {
             border-color: #fff;
             background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
         }
 
         .spawn-icon {
-            font-size: 1.5rem;
-            margin-right: 15px;
+            font-size: 2.5rem;
+            margin-right: 20px;
             display: inline-block;
-            width: 30px;
+            width: 50px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
         .spawn-text h3 {
             color: #fff;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .spawn-text p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.4;
         }
 
+        /* Loading Screen */
         .loading {
             display: none;
             text-align: center;
@@ -240,13 +306,13 @@
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border: 4px solid rgba(255, 255, 255, 0.3);
             border-top: 4px solid #fff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
         }
 
         @keyframes spin {
@@ -254,6 +320,18 @@
             100% { transform: rotate(360deg); }
         }
 
+        .loading h3 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .loading p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        /* Success Screen */
         .success {
             display: none;
             text-align: center;
@@ -264,15 +342,16 @@
         }
 
         .success-icon {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background: linear-gradient(45deg, #00b894, #00cec9);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
             animation: pulse 2s infinite;
+            box-shadow: 0 0 30px rgba(0, 184, 148, 0.5);
         }
 
         @keyframes pulse {
@@ -282,16 +361,63 @@
 
         .success h3 {
             color: #fff;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .success p {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px;
+                margin: 20px;
+            }
+            
+            .logo h1 {
+                font-size: 2.5rem;
+            }
+            
+            .gender-selection {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .spawn-option {
+                padding: 20px;
+            }
+        }
+
+        /* Debug Info */
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+            display: none;
         }
     </style>
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
     <div class="container">
         <div class="logo">
             <h1>BARLEY</h1>
@@ -301,7 +427,7 @@
         <!-- Login Form -->
         <div id="loginForm" class="form-container active">
             <h2 class="form-title">Welcome Back</h2>
-            <p class="form-subtitle">Enter your credentials to continue</p>
+            <p class="form-subtitle">Enter your credentials to continue your journey</p>
             
             <div class="input-group">
                 <input type="text" id="loginUsername" placeholder="Username" readonly>
@@ -321,7 +447,7 @@
         <!-- Register Form -->
         <div id="registerForm" class="form-container">
             <h2 class="form-title">Create Account</h2>
-            <p class="form-subtitle">Join Barley Roleplay community</p>
+            <p class="form-subtitle">Join the Barley Roleplay community</p>
             
             <div class="input-group">
                 <input type="text" id="registerUsername" placeholder="Username" readonly>
@@ -363,30 +489,30 @@
         <!-- Spawn Selection -->
         <div id="spawnForm" class="form-container">
             <h2 class="form-title">Select Spawn</h2>
-            <p class="form-subtitle">Choose where to start your journey</p>
+            <p class="form-subtitle">Choose where to start your adventure</p>
             
             <div class="spawn-selection">
                 <div class="spawn-option" onclick="selectSpawn('city')">
                     <span class="spawn-icon">🏙️</span>
                     <div class="spawn-text">
                         <h3>City Center</h3>
-                        <p>Downtown Los Santos</p>
+                        <p>Downtown Los Santos - The heart of the city</p>
                     </div>
                 </div>
                 
                 <div class="spawn-option" onclick="selectSpawn('beach')">
                     <span class="spawn-icon">🏖️</span>
                     <div class="spawn-text">
-                        <h3>Beach</h3>
-                        <p>Santa Maria Beach</p>
+                        <h3>Santa Maria Beach</h3>
+                        <p>Beautiful beach with ocean views</p>
                     </div>
                 </div>
                 
                 <div class="spawn-option" onclick="selectSpawn('airport')">
                     <span class="spawn-icon">✈️</span>
                     <div class="spawn-text">
-                        <h3>Airport</h3>
-                        <p>LS International</p>
+                        <h3>LS International</h3>
+                        <p>Los Santos International Airport</p>
                     </div>
                 </div>
             </div>
@@ -395,7 +521,8 @@
         <!-- Loading Screen -->
         <div id="loadingScreen" class="loading">
             <div class="spinner"></div>
-            <h3 style="color: #fff;">Loading...</h3>
+            <h3>Loading...</h3>
+            <p>Please wait while we process your request</p>
         </div>
 
         <!-- Success Screen -->
@@ -404,6 +531,11 @@
             <h3>SUCCESS!</h3>
             <p>Welcome to Barley Roleplay</p>
         </div>
+    </div>
+
+    <!-- Debug Info -->
+    <div id="debugInfo" class="debug-info">
+        <div id="debugContent"></div>
     </div>
 
     <script>
@@ -423,6 +555,11 @@
             
             // Show appropriate form
             showForm(currentMode);
+            
+            // Debug info
+            debug('Page loaded successfully');
+            debug('Player name: ' + playerName);
+            debug('Mode: ' + currentMode);
         });
 
         function showForm(formType) {
@@ -434,6 +571,8 @@
             // Show selected form
             document.getElementById(formType + 'Form').classList.add('active');
             currentMode = formType;
+            
+            debug('Showing form: ' + formType);
         }
 
         function handleLogin() {
@@ -444,6 +583,7 @@
                 return;
             }
             
+            debug('Login attempt - Password length: ' + password.length);
             showLoading();
             sendToSAMP('login', password);
         }
@@ -462,6 +602,7 @@
                 return;
             }
             
+            debug('Register attempt - Password length: ' + password.length);
             showLoading();
             sendToSAMP('register', password);
         }
@@ -475,6 +616,7 @@
             // Add selection to clicked option
             event.target.closest('.gender-option').classList.add('selected');
             
+            debug('Gender selected: ' + gender + ' (skin: ' + skin + ')');
             showLoading();
             setTimeout(() => {
                 sendToSAMP('gender', skin.toString());
@@ -490,6 +632,7 @@
             // Add selection to clicked option
             event.target.closest('.spawn-option').classList.add('selected');
             
+            debug('Spawn selected: ' + spawnType);
             showLoading();
             setTimeout(() => {
                 sendToSAMP('spawn', spawnType);
@@ -515,7 +658,7 @@
         }
 
         function sendToSAMP(event, data) {
-            console.log('Sending to SA-MP:', event, data);
+            debug('Sending to SA-MP: ' + event + ' | Data: ' + data);
             
             // Try different CEF communication methods
             const methods = [
@@ -530,18 +673,39 @@
                 }
             ];
 
+            let success = false;
             for (let method of methods) {
                 try {
                     method();
-                    console.log('CEF method succeeded:', event);
-                    return;
+                    debug('CEF method succeeded: ' + event);
+                    success = true;
+                    break;
                 } catch (error) {
-                    console.log('CEF method failed:', error.message);
+                    debug('CEF method failed: ' + error.message);
                 }
             }
 
-            console.log('All CEF communication methods failed!');
+            if (!success) {
+                debug('All CEF communication methods failed!');
+            }
         }
+
+        function debug(message) {
+            const debugContent = document.getElementById('debugContent');
+            const timestamp = new Date().toLocaleTimeString();
+            debugContent.innerHTML += '[' + timestamp + '] ' + message + '<br>';
+            debugContent.scrollTop = debugContent.scrollHeight;
+            
+            // Show debug info
+            document.getElementById('debugInfo').style.display = 'block';
+        }
+
+        // Check for CEF object availability
+        setInterval(() => {
+            if (typeof cef !== 'undefined') {
+                debug('CEF object available');
+            }
+        }, 2000);
     </script>
 </body>
 </html>
