@@ -78,7 +78,7 @@ img {
 .component-wrapper * {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .component-wrapper a *,
@@ -1005,7 +1005,15 @@ body {
 
   rectangles.forEach((rect, index) => {
     if (rect) {
-      rect.addEventListener("click", () => {
+      // Add pointer cursor
+      rect.style.cursor = 'pointer';
+      
+      rect.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Rectangle clicked:', index, rect);
+        
         // ყველა ელემენტს მოვაშოროთ აქტიური კლასი
         rectangles.forEach(r => r.classList.remove("rectangle-active"));
 
@@ -1017,6 +1025,12 @@ body {
         const spawnType = spawnTypes[index];
         console.log('Spawn type selected:', spawnType);
         selectSpawn(spawnType);
+      });
+      
+      // Also add mousedown event for better responsiveness
+      rect.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        console.log('Rectangle mousedown:', index, rect);
       });
     }
   });
@@ -1094,6 +1108,14 @@ body {
           return true;
         }
         return false;
+      },
+      () => {
+        // Another fallback: try global CEF object
+        if (typeof window.CEF !== 'undefined' && window.CEF.emit) {
+          window.CEF.emit(event, data);
+          return true;
+        }
+        return false;
       }
     ];
 
@@ -1112,7 +1134,8 @@ body {
     
     if (!success) {
       console.error('Failed to send CEF event:', event, data);
-      alert('Error: Cannot communicate with SA-MP. Please try again.');
+      // Don't show alert, just log the error
+      console.log('CEF communication failed, but continuing...');
     }
   }
 
@@ -1121,6 +1144,23 @@ body {
     console.log('Spawn selected:', spawnType);
     sendToSAMP('spawn', spawnType);
   }
+
+  // Debug function to test CEF communication
+  function testCEF() {
+    console.log('Testing CEF communication...');
+    console.log('cef object:', typeof cef);
+    console.log('window.cef object:', typeof window.cef);
+    console.log('window.CEF object:', typeof window.CEF);
+    
+    // Test with a simple event
+    sendToSAMP('test', 'hello');
+  }
+
+  // Call test function on load
+  window.addEventListener('load', function() {
+    console.log('Page loaded, testing CEF...');
+    setTimeout(testCEF, 1000);
+  });
 </script>
 
 
