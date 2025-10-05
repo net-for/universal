@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barley RP - Spawn Selection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .spawn-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .spawn-option {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .spawn-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .spawn-option.selected {
+            border-color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.2);
+        }
+
+        .spawn-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            min-width: 50px;
+        }
+
+        .spawn-text h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .spawn-text p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4ecdc4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success {
+            display: none;
+            color: #4ecdc4;
+            font-weight: 500;
+            margin: 20px 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="close-btn" onclick="closeCEF()">×</button>
+        
+        <div class="logo">BARLEY RP</div>
+        <div class="subtitle">Archev gachenis adgili</div>
+        
+        <div class="spawn-options">
+            <div class="spawn-option" data-spawn="gachenisadgili" onclick="selectSpawn('gachenisadgili', this)">
+                <span class="spawn-icon">🏙️</span>
+                <div class="spawn-text">
+                    <h3>Gachenisadgili</h3>
+                    <p>Los Santos City Hall</p>
+                </div>
+            </div>
+            
+            <div class="spawn-option" data-spawn="saxli" onclick="selectSpawn('saxli', this)">
+                <span class="spawn-icon">🏠</span>
+                <div class="spawn-text">
+                    <h3>Saxli</h3>
+                    <p>House spawn location</p>
+                </div>
+            </div>
+            
+            <div class="spawn-option" data-spawn="fraqcia" onclick="selectSpawn('fraqcia', this)">
+                <span class="spawn-icon">🚔</span>
+                <div class="spawn-text">
+                    <h3>Fraqcia</h3>
+                    <p>LSPD spawn location</p>
+                </div>
+            </div>
+        </div>
+        
+        <button id="confirmBtn" class="btn" onclick="confirmSpawn()" disabled>Archev Spawn</button>
+        
+        <div class="loading" id="spawnLoading">
+            <div class="loading-spinner"></div>
+            <div>Mokvda...</div>
+        </div>
+        
+        <div class="success" id="spawnSuccess">Spawn archev!</div>
+    </div>
+
+    <script>
+        let selectedSpawn = null;
+
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerName = urlParams.get('player') || 'Player';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Spawn page loaded for player:', playerName);
+        });
+
+        function selectSpawn(spawnType, element) {
+            console.log('Spawn selected:', spawnType, element);
+            
+            // Remove selection from all options
+            document.querySelectorAll('.spawn-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            if (element) {
+                element.classList.add('selected');
+            }
+            
+            selectedSpawn = spawnType;
+            document.getElementById('confirmBtn').disabled = false;
+            
+            console.log('Selected spawn:', selectedSpawn);
+        }
+
+        function confirmSpawn() {
+            if (!selectedSpawn) {
+                alert('Archev spawn!');
+                return;
+            }
+            
+            console.log('Confirming spawn:', selectedSpawn);
+            showLoading();
+            
+            setTimeout(() => {
+                sendToSAMP('spawn', selectedSpawn);
+                showSuccess();
+            }, 500);
+        }
+
+        function showLoading() {
+            document.getElementById('spawnLoading').style.display = 'block';
+            document.getElementById('confirmBtn').disabled = true;
+        }
+
+        function showSuccess() {
+            document.getElementById('spawnSuccess').style.display = 'block';
+        }
+
+        function closeCEF() {
+            console.log('Close button clicked');
+            sendToSAMP('close', '');
+        }
+
+        // CEF Communication Functions
+        function sendToSAMP(event, data) {
+            console.log('Sending to SAMP:', event, data);
+            
+            // Try different CEF methods for SA-MP
+            const methods = [
+                () => { 
+                    if (typeof cef !== 'undefined' && cef.emit) {
+                        cef.emit(event, data);
+                        return true;
+                    }
+                    return false;
+                },
+                () => { 
+                    if (typeof cef !== 'undefined' && cef.trigger) {
+                        cef.trigger(event, data);
+                        return true;
+                    }
+                    return false;
+                },
+                () => { 
+                    if (typeof cef !== 'undefined' && cef.call) {
+                        cef.call(event, data);
+                        return true;
+                    }
+                    return false;
+                },
+                () => { 
+                    if (typeof cef !== 'undefined' && cef.send) {
+                        cef.send(event, data);
+                        return true;
+                    }
+                    return false;
+                },
+                () => {
+                    // Fallback: try direct window method
+                    if (typeof window.cef !== 'undefined') {
+                        window.cef.emit(event, data);
+                        return true;
+                    }
+                    return false;
+                }
+            ];
+
+            let success = false;
+            for (let method of methods) {
+                try {
+                    if (method()) {
+                        success = true;
+                        console.log('CEF event sent successfully:', event, data);
+                        break;
+                    }
+                } catch (error) {
+                    console.log('CEF method failed:', error.message);
+                }
+            }
+            
+            if (!success) {
+                console.error('Failed to send CEF event:', event, data);
+                console.log('CEF communication failed, but continuing...');
+            }
+        }
+
+        // Debug function to test CEF communication
+        function testCEF() {
+            console.log('Testing CEF communication...');
+            console.log('cef object:', typeof cef);
+            console.log('window.cef object:', typeof window.cef);
+            
+            // Test with a simple event
+            sendToSAMP('test', 'hello');
+        }
+
+        // Call test function on load
+        window.addEventListener('load', function() {
+            console.log('Spawn page loaded, testing CEF...');
+            setTimeout(testCEF, 1000);
+        });
+    </script>
+</body>
+</html>

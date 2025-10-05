@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barley Roleplay</title>
+    <title>Barley RP - Authentication</title>
     <style>
         * {
             margin: 0;
@@ -12,79 +12,59 @@
         }
 
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            color: #fff;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 40px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             max-width: 400px;
-            width: 90%;
+            width: 100%;
             text-align: center;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .logo {
-            margin-bottom: 30px;
-        }
-
-        .logo h1 {
             font-size: 2.5rem;
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 2px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .logo p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            font-weight: 300;
-            letter-spacing: 4px;
-        }
-
-        .form-container {
-            display: none;
-        }
-
-        .form-container.active {
-            display: block;
-        }
-
-        .form-title {
-            color: #fff;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .form-subtitle {
-            color: rgba(255, 255, 255, 0.6);
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
             margin-bottom: 30px;
-            font-size: 0.9rem;
-            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            position: relative;
         }
 
-        .input-group input {
+        input[type="text"], input[type="password"] {
             width: 100%;
             padding: 14px 16px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -93,17 +73,17 @@
             color: #fff;
             font-size: 0.95rem;
             transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
             outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: #4a9eff;
+            border-color: #4ecdc4;
             background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
         }
 
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+        input[type="text"]::placeholder, input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .readonly-input {
@@ -121,148 +101,76 @@
         .btn {
             width: 100%;
             padding: 14px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             border: none;
             border-radius: 8px;
-            background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
-            color: #fff;
-            font-size: 0.95rem;
+            color: white;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 20px;
+            margin-top: 10px;
         }
 
         .btn:hover {
-            background: linear-gradient(135deg, #357abd 0%, #2c5aa0 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .btn:active {
             transform: translateY(0);
         }
 
-        .switch-form {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-        }
-
-        .switch-form a {
-            color: #4a9eff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .switch-form a:hover {
-            color: #357abd;
-        }
-
-        /* Gender Selection */
-        .gender-selection {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .gender-options {
+            display: flex;
             gap: 15px;
-            margin-bottom: 30px;
+            margin: 20px 0;
         }
 
         .gender-option {
+            flex: 1;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
         }
 
         .gender-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         .gender-option.selected {
-            border-color: #4a9eff;
-            background: rgba(74, 158, 255, 0.1);
+            border-color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.2);
         }
 
         .gender-icon {
             font-size: 2rem;
-            margin-bottom: 8px;
-            color: #fff;
+            margin-bottom: 10px;
         }
 
         .gender-text {
-            color: #fff;
-            font-weight: 500;
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        /* Spawn Selection */
-        .spawn-selection {
-            display: grid;
-            gap: 12px;
-        }
-
-        .spawn-option {
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: left;
-            display: flex;
-            align-items: center;
-        }
-
-        .spawn-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .spawn-option.selected {
-            border-color: #4a9eff;
-            background: rgba(74, 158, 255, 0.1);
-        }
-
-        .spawn-icon {
-            font-size: 1.5rem;
-            margin-right: 12px;
-            width: 30px;
-            text-align: center;
-        }
-
-        .spawn-text h3 {
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .spawn-text p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.8rem;
-        }
-
-        /* Loading Screen */
         .loading {
             display: none;
-            text-align: center;
+            margin: 20px 0;
         }
 
-        .loading.active {
-            display: block;
-        }
-
-        .spinner {
+        .loading-spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            border-top: 3px solid #4a9eff;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4ecdc4;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto;
         }
 
         @keyframes spin {
@@ -270,347 +178,266 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loading h3 {
-            color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .loading p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-        }
-
-        /* Success Screen */
         .success {
             display: none;
-            text-align: center;
+            color: #4ecdc4;
+            font-weight: 500;
+            margin: 20px 0;
         }
 
-        .success.active {
-            display: block;
-        }
-
-        .success-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #00d4aa 0%, #00a085 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .success h3 {
-            color: #fff;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .success p {
-            color: rgba(255, 255, 255, 0.7);
+        .error {
+            color: #ff6b6b;
             font-size: 0.9rem;
+            margin-top: 10px;
         }
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-                margin: 20px;
-            }
-            
-            .logo h1 {
-                font-size: 2rem;
-            }
-            
-            .gender-selection {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            <h1>BARLEY</h1>
-            <p>ROLEPLAY</p>
-        </div>
-
+        <button class="close-btn" onclick="closeCEF()">×</button>
+        
         <!-- Login Form -->
-        <div id="loginForm" class="form-container active">
-            <h2 class="form-title">Welcome Back</h2>
-            <p class="form-subtitle">Enter your password to continue</p>
+        <div id="loginForm" class="form-container">
+            <div class="logo">BARLEY RP</div>
+            <div class="subtitle">Gamarjoba! Shemdeg shesasvleli</div>
             
-            <div class="input-group">
-                <div id="loginUsername" class="readonly-input">Username</div>
+            <div class="form-group">
+                <label>Saxeli:</label>
+                <div class="input-group">
+                    <div id="loginUsername" class="readonly-input">Username</div>
+                </div>
             </div>
             
-            <div class="input-group">
-                <input type="password" id="loginPassword" placeholder="Password" maxlength="20">
+            <div class="form-group">
+                <label>Paroli:</label>
+                <div class="input-group">
+                    <input type="password" id="loginPassword" placeholder="Shemoitanet paroli">
+                </div>
             </div>
             
-            <button id="loginBtn" class="btn">LOGIN</button>
+            <button id="loginBtn" class="btn">SHEMOTANA</button>
             
-            <div class="switch-form">
-                Don't have an account? <a href="#" onclick="showForm('register')">Register</a>
+            <div class="loading" id="loginLoading">
+                <div class="loading-spinner"></div>
+                <div>Mokvda...</div>
             </div>
+            
+            <div class="success" id="loginSuccess">Gamarjoba!</div>
         </div>
 
         <!-- Register Form -->
-        <div id="registerForm" class="form-container">
-            <h2 class="form-title">Create Account</h2>
-            <p class="form-subtitle">Join Barley Roleplay</p>
+        <div id="registerForm" class="form-container" style="display: none;">
+            <div class="logo">BARLEY RP</div>
+            <div class="subtitle">Axali motamashis registracia</div>
             
-            <div class="input-group">
-                <div id="registerUsername" class="readonly-input">Username</div>
+            <div class="form-group">
+                <label>Saxeli:</label>
+                <div class="input-group">
+                    <div id="registerUsername" class="readonly-input">Username</div>
+                </div>
             </div>
             
-            <div class="input-group">
-                <input type="password" id="registerPassword" placeholder="Password" maxlength="20">
+            <div class="form-group">
+                <label>Paroli:</label>
+                <div class="input-group">
+                    <input type="password" id="registerPassword" placeholder="Shemoitanet paroli">
+                </div>
             </div>
             
-            <div class="input-group">
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" maxlength="20">
+            <div class="form-group">
+                <label>Parolis GagrZeleba:</label>
+                <div class="input-group">
+                    <input type="password" id="registerConfirmPassword" placeholder="GagrZeleb paroli">
+                </div>
             </div>
             
-            <button id="registerBtn" class="btn">REGISTER</button>
+            <button id="registerBtn" class="btn">REGISTRACIA</button>
             
-            <div class="switch-form">
-                Already have an account? <a href="#" onclick="showForm('login')">Login</a>
+            <div class="loading" id="registerLoading">
+                <div class="loading-spinner"></div>
+                <div>Registracia...</div>
             </div>
+            
+            <div class="success" id="registerSuccess">Registracia warmatebit!</div>
         </div>
 
         <!-- Gender Selection -->
-        <div id="genderForm" class="form-container">
-            <h2 class="form-title">Select Gender</h2>
-            <p class="form-subtitle">Choose your character's gender</p>
+        <div id="genderForm" class="form-container" style="display: none;">
+            <div class="logo">BARLEY RP</div>
+            <div class="subtitle">Archev sqesi</div>
             
-            <div class="gender-selection">
-                <div class="gender-option" onclick="selectGender('male', 22, this)">
-                    <div class="gender-icon">♂</div>
-                    <div class="gender-text">MALE</div>
+            <div class="gender-options">
+                <div class="gender-option" onclick="selectGender('56', this)">
+                    <div class="gender-icon">👨</div>
+                    <div class="gender-text">Kaci</div>
                 </div>
-                
-                <div class="gender-option" onclick="selectGender('female', 56, this)">
-                    <div class="gender-icon">♀</div>
-                    <div class="gender-text">FEMALE</div>
+                <div class="gender-option" onclick="selectGender('141', this)">
+                    <div class="gender-icon">👩</div>
+                    <div class="gender-text">Qali</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Spawn Selection -->
-        <div id="spawnForm" class="form-container">
-            <h2 class="form-title">Select Spawn</h2>
-            <p class="form-subtitle">Choose where to start</p>
             
-            <div class="spawn-selection">
-                <div class="spawn-option" data-spawn="city" onclick="selectSpawn('city', this)">
-                    <span class="spawn-icon">🏙️</span>
-                    <div class="spawn-text">
-                        <h3>City Center</h3>
-                        <p>Downtown Los Santos</p>
-                    </div>
-                </div>
-                
-                <div class="spawn-option" data-spawn="beach" onclick="selectSpawn('beach', this)">
-                    <span class="spawn-icon">🏖️</span>
-                    <div class="spawn-text">
-                        <h3>Beach</h3>
-                        <p>Santa Maria Beach</p>
-                    </div>
-                </div>
-                
-                <div class="spawn-option" data-spawn="airport" onclick="selectSpawn('airport', this)">
-                    <span class="spawn-icon">✈️</span>
-                    <div class="spawn-text">
-                        <h3>Airport</h3>
-                        <p>LS International</p>
-                    </div>
-                </div>
+            <div class="loading" id="genderLoading">
+                <div class="loading-spinner"></div>
+                <div>Mokvda...</div>
             </div>
-        </div>
-
-        <!-- Loading Screen -->
-        <div id="loadingScreen" class="loading">
-            <div class="spinner"></div>
-            <h3>Loading...</h3>
-            <p>Please wait</p>
-        </div>
-
-        <!-- Success Screen -->
-        <div id="successScreen" class="success">
-            <div class="success-icon">✓</div>
-            <h3>Success!</h3>
-            <p>Welcome to Barley Roleplay</p>
+            
+            <div class="success" id="genderSuccess">Sqesi archev!</div>
         </div>
     </div>
 
     <script>
-        let currentMode = 'login';
-        let playerName = '';
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode') || 'login';
+        const playerName = urlParams.get('player') || 'Player';
 
-        // Initialize
-        window.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            playerName = urlParams.get('player') || 'Unknown';
-            currentMode = urlParams.get('mode') || 'login';
+        // Initialize based on mode
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, mode:', mode, 'player:', playerName);
             
+            // Set player name
             document.getElementById('loginUsername').textContent = playerName;
             document.getElementById('registerUsername').textContent = playerName;
             
-            // Add click event listeners for spawn options
-            document.querySelectorAll('.spawn-option').forEach(option => {
-                option.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const spawnType = this.getAttribute('data-spawn') || 
-                                    (this.onclick && this.onclick.toString().match(/selectSpawn\('([^']+)'/))?.[1];
-                    if (spawnType) {
-                        selectSpawn(spawnType, this);
-                    }
-                });
-            });
-            
-            // Add click event listeners for gender options
-            document.querySelectorAll('.gender-option').forEach(option => {
-                option.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const onclickStr = this.onclick.toString();
-                    const genderMatch = onclickStr.match(/selectGender\('([^']+)',\s*(\d+)/);
-                    if (genderMatch) {
-                        selectGender(genderMatch[1], parseInt(genderMatch[2]), this);
-                    }
-                });
-            });
-            
-            // Add click event listeners for buttons
-            document.getElementById('loginBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log('Login button clicked');
-                handleLogin();
-            });
-            
-            document.getElementById('registerBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log('Register button clicked');
-                handleRegister();
-            });
-            
-            showForm(currentMode);
+            // Show appropriate form
+            if (mode === 'register') {
+                showRegisterForm();
+            } else if (mode === 'gender') {
+                showGenderForm();
+            } else {
+                showLoginForm();
+            }
         });
 
-        function showForm(formType) {
-            document.querySelectorAll('.form-container').forEach(form => {
-                form.classList.remove('active');
-            });
-            document.getElementById(formType + 'Form').classList.add('active');
-            currentMode = formType;
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('genderForm').style.display = 'none';
         }
+
+        function showRegisterForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('genderForm').style.display = 'none';
+        }
+
+        function showGenderForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('genderForm').style.display = 'block';
+        }
+
+        function showLoading(formType) {
+            document.getElementById(formType + 'Loading').style.display = 'block';
+        }
+
+        function hideLoading(formType) {
+            document.getElementById(formType + 'Loading').style.display = 'none';
+        }
+
+        function showSuccess(formType) {
+            document.getElementById(formType + 'Success').style.display = 'block';
+        }
+
+        // Button event listeners
+        document.getElementById('loginBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Login button clicked');
+            handleLogin();
+        });
+
+        document.getElementById('registerBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Register button clicked');
+            handleRegister();
+        });
 
         function handleLogin() {
             const password = document.getElementById('loginPassword').value;
             
-            if (!password || password.length < 5) {
-                alert('Password must be at least 5 characters long!');
+            if (!password) {
+                alert('Shemoitanet paroli!');
                 return;
             }
             
-            showLoading();
-            sendToSAMP('login', password);
+            console.log('Login attempt:', password);
+            showLoading('login');
+            
+            setTimeout(() => {
+                sendToSAMP('login', password);
+                showSuccess('login');
+            }, 500);
         }
 
         function handleRegister() {
             const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
             
-            if (!password || password.length < 5) {
-                alert('Password must be at least 5 characters long!');
+            if (!password) {
+                alert('Shemoitanet paroli!');
                 return;
             }
             
             if (password !== confirmPassword) {
-                alert('Passwords do not match!');
+                alert('Parolebi ar emtxveva!');
                 return;
             }
             
-            showLoading();
-            sendToSAMP('register', password);
+            if (password.length < 4) {
+                alert('Paroli unda iyos 4 simboloze meti!');
+                return;
+            }
+            
+            console.log('Register attempt:', password);
+            showLoading('register');
+            
+            setTimeout(() => {
+                sendToSAMP('register', password);
+                showSuccess('register');
+            }, 500);
         }
 
-        function selectGender(gender, skin, element) {
-            console.log('Gender selected:', gender, skin);
-            
-            // Remove selected class from all options
+        function selectGender(skin, element) {
+            console.log('Gender selected:', skin, element);
             document.querySelectorAll('.gender-option').forEach(option => {
                 option.classList.remove('selected');
             });
-            
-            // Add selected class to clicked option
             if (element) {
                 element.classList.add('selected');
             }
-            
-            showLoading();
+            showLoading('gender');
             setTimeout(() => {
-                sendToSAMP('gender', skin.toString());
+                sendToSAMP('gender', skin);
+                showSuccess('gender');
             }, 500);
         }
 
-        function selectSpawn(spawnType, element) {
-            console.log('Spawn selected:', spawnType, element);
-            
-            // Remove selected class from all options
-            document.querySelectorAll('.spawn-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked option
-            if (element) {
-                element.classList.add('selected');
-            } else {
-                // Fallback: find the option by spawnType
-                const options = document.querySelectorAll('.spawn-option');
-                options.forEach(option => {
-                    if (option.onclick && option.onclick.toString().includes(spawnType)) {
-                        option.classList.add('selected');
-                    }
-                });
-            }
-            
-            // Visual feedback
-            console.log('Sending spawn event to SAMP:', spawnType);
-            
-            showLoading();
-            setTimeout(() => {
-                sendToSAMP('spawn', spawnType);
-                showSuccess();
-            }, 500);
+        function closeCEF() {
+            console.log('Close button clicked');
+            sendToSAMP('close', '');
         }
 
-        function showLoading() {
-            document.querySelectorAll('.form-container').forEach(form => {
-                form.classList.remove('active');
-            });
-            document.getElementById('loadingScreen').classList.add('active');
-        }
-
-        function showSuccess() {
-            document.getElementById('loadingScreen').classList.remove('active');
-            document.getElementById('successScreen').classList.add('active');
-            
-            setTimeout(() => {
-                sendToSAMP('close', '');
-            }, 2000);
-        }
-
+        // CEF Communication Functions
         function sendToSAMP(event, data) {
             console.log('Sending to SAMP:', event, data);
             
@@ -669,9 +496,25 @@
             
             if (!success) {
                 console.error('Failed to send CEF event:', event, data);
-                alert('Error: Cannot communicate with SA-MP. Please try again.');
+                console.log('CEF communication failed, but continuing...');
             }
         }
+
+        // Debug function to test CEF communication
+        function testCEF() {
+            console.log('Testing CEF communication...');
+            console.log('cef object:', typeof cef);
+            console.log('window.cef object:', typeof window.cef);
+            
+            // Test with a simple event
+            sendToSAMP('test', 'hello');
+        }
+
+        // Call test function on load
+        window.addEventListener('load', function() {
+            console.log('Page loaded, testing CEF...');
+            setTimeout(testCEF, 1000);
+        });
     </script>
 </body>
 </html>
