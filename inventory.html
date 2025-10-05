@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory & Menu System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/inventory.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="player-info">
+                <div class="avatar">
+                    <img src="res/avatar.png" alt="Avatar" id="playerAvatar">
+                </div>
+                <div class="player-details">
+                    <h2 id="playerName">Player Name</h2>
+                    <p id="playerLevel">Level: 1</p>
+                    <p id="playerMoney">$5,000</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="closeInventory()">Close</button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs">
+            <button class="tab active" data-tab="inventory" onclick="switchTab('inventory')">
+                <i class="icon">🎒</i>
+                Inventory
+            </button>
+            <button class="tab" data-tab="shop" onclick="switchTab('shop')">
+                <i class="icon">🛒</i>
+                Shop
+            </button>
+            <button class="tab" data-tab="settings" onclick="switchTab('settings')">
+                <i class="icon">⚙️</i>
+                Settings
+            </button>
+            <button class="tab" data-tab="stats" onclick="switchTab('stats')">
+                <i class="icon">📊</i>
+                Statistics
+            </button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="content">
+            <!-- Inventory Tab -->
+            <div class="tab-content active" id="inventory-tab">
+                <div class="inventory-grid" id="inventoryGrid">
+                    <!-- Inventory slots will be generated here -->
+                </div>
+                <div class="inventory-actions">
+                    <button class="btn btn-primary" onclick="useSelectedItem()">Use Item</button>
+                    <button class="btn btn-danger" onclick="dropSelectedItem()">Drop Item</button>
+                </div>
+            </div>
+
+            <!-- Shop Tab -->
+            <div class="tab-content" id="shop-tab">
+                <div class="shop-categories">
+                    <button class="category-btn active" data-category="weapons" onclick="switchCategory('weapons')">Weapons</button>
+                    <button class="category-btn" data-category="food" onclick="switchCategory('food')">Food</button>
+                    <button class="category-btn" data-category="clothes" onclick="switchCategory('clothes')">Clothes</button>
+                    <button class="category-btn" data-category="misc" onclick="switchCategory('misc')">Misc</button>
+                </div>
+                <div class="shop-grid" id="shopGrid">
+                    <!-- Shop items will be generated here -->
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings-tab">
+                <div class="settings-section">
+                    <h3>Game Settings</h3>
+                    <div class="setting-item">
+                        <label>Music Volume</label>
+                        <input type="range" min="0" max="100" value="50" id="musicVolume">
+                    </div>
+                    <div class="setting-item">
+                        <label>Sound Effects</label>
+                        <input type="range" min="0" max="100" value="75" id="soundVolume">
+                    </div>
+                    <div class="setting-item">
+                        <label>Chat Size</label>
+                        <select id="chatSize">
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Interface</h3>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="showHUD" checked>
+                            Show HUD
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="showMinimap" checked>
+                            Show Minimap
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Tab -->
+            <div class="tab-content" id="stats-tab">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Play Time</h4>
+                        <p id="playTime">0 hours</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Kills</h4>
+                        <p id="kills">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Deaths</h4>
+                        <p id="deaths">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Distance Traveled</h4>
+                        <p id="distance">0 km</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Item Tooltip -->
+    <div class="tooltip" id="itemTooltip">
+        <h4 id="tooltipName"></h4>
+        <p id="tooltipDescription"></p>
+        <div class="tooltip-stats" id="tooltipStats"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <script src="script/inventory.js"></script>
+</body>
+</html>
