@@ -1,0 +1,200 @@
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $login = $_POST['Login'];
+        $password = $_POST['Password'];
+
+        $servername = "149.202.88.119";
+        $username = "gs274966";
+        $sqlpassword = "SANDOVAL";
+        $database = "gs274966";
+
+        $conn = new mysqli($servername, $username, $sqlpassword, $database);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM `accounts` WHERE `Name` = '$login' AND `password` = '$password'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            echo "Login successful!";
+            
+            $valueUpdate= "UPDATE `accounts` SET `pLogin` = '1' WHERE `Name` = '$login'";
+            if ($conn->query($valueUpdate) === TRUE) {
+                echo "Record updated successfully";
+            } else {
+                echo "Error updating record: " . $conn->error;
+            }
+
+        } 
+        else {
+            echo "Invalid login credentials.";
+        }
+
+        $conn->close();
+    }
+    ?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'Regular';
+            src: url('/fonts/TBCContracticaCAPS-Regular.ttf') format('truetype');
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            height: 100vh;
+            margin: 0; 
+            user-select: none;
+        }
+        #bg{
+            background-image: url("./images/thumb-1920-849437\ 1.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            z-index: 0;
+        }
+        #bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 10, 36, 0.93);
+            z-index: 1;
+        }
+        form{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            gap: 20px;
+            z-index: 3;
+        }
+        .login-input {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            width: 342px;
+            height: 72px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.048);
+            border-radius: 10px;
+        }
+        .password-input {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            width: 342px;
+            height: 72px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.048);
+            border-radius: 10px;
+        }
+        input {
+            width: 311px;
+            height: 30px;
+            background: none;
+            border: none;
+            transform: translateX(8%);
+            color: white;
+        }
+        input::placeholder{
+            color: white;
+            font-family: 'Regular';
+        }
+        input:focus {
+            outline: none; 
+            border: none;  
+          }
+        .title-login{
+            font-family: 'Regular';
+            transform: translateX(25px);
+            color: #ffffff40;
+        }
+        .title-password{
+            font-family: 'Regular';
+            transform: translateX(25px);
+            color: #ffffff40;
+        }
+        .userIcon{
+            position: absolute;
+            transform: translateX(300px);
+        }
+        #Submit{
+            transform: translateX(0);
+            font-family: 'Regular';
+            color: white;
+            width: 342px;
+            height: 72px;
+            background: linear-gradient(267.79deg, #0047FF -6.38%, rgba(102, 136, 255, 0.79) 136.1%);
+            border-radius: 10px;
+            filter: drop-shadow(0 0 0.75rem #0047FF);
+        }
+        .imgur{
+            position: absolute;
+            width: 514px;
+            right: 0;
+            bottom: 0;
+        }
+        .imgur2{
+            position: absolute;
+            width: 314px;
+            left: 0;
+            bottom: 0;
+        }
+        @media screen and (max-height: 702px) {
+            .imgur{
+                width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="bg"></div>
+    <img class="imgur" src="./images/rightman.png" alt="">
+    <img class="imgur2" src="./images/hr2.png" alt="">
+
+    <form action="" method="post">
+        <img src="./images/Group24.png" style="width: 200px;" alt="">
+        <div class="login-input">
+            <h5 class="title-login">ლოგინი</h5>
+            <input type="text" name="Login" placeholder="სახელი_გვარი" id="login">
+            <img src="./images/User.png" class="userIcon" width="15px" alt="">
+        </div>
+        <div class="password-input">
+            <h5 class="title-password">პაროლი</h5>
+            <input type="password" name="Password" placeholder="შეიყვანეთ პაროლი" id="password">
+            <img src="./images/eye.png" class="userIcon" width="15px" alt="" id="togglePassword">
+        </div>
+        <input type="submit" name="submit" value="ავტორიზაცია" id="Submit">
+    </form>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        });
+    </script>
+</body>
+</html>
