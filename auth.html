@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rockety Role Play - ავტორიზაცია</title>
+    <link rel="stylesheet" href="auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <div class="auth-container">
+            <div class="logo-section">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <h1>Rockety RP</h1>
+                </div>
+                <p class="subtitle">მოგესალმებით ჩვენს სერვერზე</p>
+            </div>
+
+            <div class="auth-forms">
+                <!-- Login Form -->
+                <div class="form-container active" id="loginForm">
+                    <div class="form-header">
+                        <h2>ავტორიზაცია</h2>
+                        <p>შეიყვანეთ თქვენი მონაცემები</p>
+                    </div>
+                    
+                    <form class="auth-form" id="loginFormElement">
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="loginUsername" placeholder="მომხმარებლის სახელი" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="loginPassword" placeholder="პაროლი" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="rememberMe">
+                                <span class="checkmark"></span>
+                                დამახსოვრება
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="auth-btn">
+                            <span>შესვლა</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                    
+                    <div class="form-footer">
+                        <p>არ გაქვთ ანგარიში? <a href="#" onclick="switchForm('register')">რეგისტრაცია</a></p>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div class="form-container" id="registerForm">
+                    <div class="form-header">
+                        <h2>რეგისტრაცია</h2>
+                        <p>შექმენით ახალი ანგარიში</p>
+                    </div>
+                    
+                    <form class="auth-form" id="registerFormElement">
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="registerUsername" placeholder="მომხმარებლის სახელი" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="registerEmail" placeholder="ელ-ფოსტა" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="registerPassword" placeholder="პაროლი" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirmPassword" placeholder="პაროლის გამეორება" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span class="checkmark"></span>
+                                ვეთანხმები <a href="#" class="terms-link">წესებს და პირობებს</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="auth-btn">
+                            <span>რეგისტრაცია</span>
+                            <i class="fas fa-user-plus"></i>
+                        </button>
+                    </form>
+                    
+                    <div class="form-footer">
+                        <p>უკვე გაქვთ ანგარიში? <a href="#" onclick="switchForm('login')">ავტორიზაცია</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>მიმდინარეობს დამუშავება...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-info-circle"></i>
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
