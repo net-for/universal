@@ -383,12 +383,12 @@
             <p class="form-subtitle">Choose your character's gender</p>
             
             <div class="gender-selection">
-                <div class="gender-option" onclick="selectGender('male', 22)">
+                <div class="gender-option" onclick="selectGender('male', 22, this)">
                     <div class="gender-icon">♂</div>
                     <div class="gender-text">MALE</div>
                 </div>
                 
-                <div class="gender-option" onclick="selectGender('female', 56)">
+                <div class="gender-option" onclick="selectGender('female', 56, this)">
                     <div class="gender-icon">♀</div>
                     <div class="gender-text">FEMALE</div>
                 </div>
@@ -401,7 +401,7 @@
             <p class="form-subtitle">Choose where to start</p>
             
             <div class="spawn-selection">
-                <div class="spawn-option" onclick="selectSpawn('city')">
+                <div class="spawn-option" data-spawn="city" onclick="selectSpawn('city', this)">
                     <span class="spawn-icon">🏙️</span>
                     <div class="spawn-text">
                         <h3>City Center</h3>
@@ -409,7 +409,7 @@
                     </div>
                 </div>
                 
-                <div class="spawn-option" onclick="selectSpawn('beach')">
+                <div class="spawn-option" data-spawn="beach" onclick="selectSpawn('beach', this)">
                     <span class="spawn-icon">🏖️</span>
                     <div class="spawn-text">
                         <h3>Beach</h3>
@@ -417,7 +417,7 @@
                     </div>
                 </div>
                 
-                <div class="spawn-option" onclick="selectSpawn('airport')">
+                <div class="spawn-option" data-spawn="airport" onclick="selectSpawn('airport', this)">
                     <span class="spawn-icon">✈️</span>
                     <div class="spawn-text">
                         <h3>Airport</h3>
@@ -454,6 +454,30 @@
             
             document.getElementById('loginUsername').value = playerName;
             document.getElementById('registerUsername').value = playerName;
+            
+            // Add click event listeners for spawn options
+            document.querySelectorAll('.spawn-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const spawnType = this.getAttribute('data-spawn') || 
+                                    (this.onclick && this.onclick.toString().match(/selectSpawn\('([^']+)'/))?.[1];
+                    if (spawnType) {
+                        selectSpawn(spawnType, this);
+                    }
+                });
+            });
+            
+            // Add click event listeners for gender options
+            document.querySelectorAll('.gender-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const onclickStr = this.onclick.toString();
+                    const genderMatch = onclickStr.match(/selectGender\('([^']+)',\s*(\d+)/);
+                    if (genderMatch) {
+                        selectGender(genderMatch[1], parseInt(genderMatch[2]), this);
+                    }
+                });
+            });
             
             showForm(currentMode);
         });
@@ -496,11 +520,18 @@
             sendToSAMP('register', password);
         }
 
-        function selectGender(gender, skin) {
+        function selectGender(gender, skin, element) {
+            console.log('Gender selected:', gender, skin);
+            
+            // Remove selected class from all options
             document.querySelectorAll('.gender-option').forEach(option => {
                 option.classList.remove('selected');
             });
-            event.target.closest('.gender-option').classList.add('selected');
+            
+            // Add selected class to clicked option
+            if (element) {
+                element.classList.add('selected');
+            }
             
             showLoading();
             setTimeout(() => {
@@ -508,11 +539,29 @@
             }, 500);
         }
 
-        function selectSpawn(spawnType) {
+        function selectSpawn(spawnType, element) {
+            console.log('Spawn selected:', spawnType, element);
+            
+            // Remove selected class from all options
             document.querySelectorAll('.spawn-option').forEach(option => {
                 option.classList.remove('selected');
             });
-            event.target.closest('.spawn-option').classList.add('selected');
+            
+            // Add selected class to clicked option
+            if (element) {
+                element.classList.add('selected');
+            } else {
+                // Fallback: find the option by spawnType
+                const options = document.querySelectorAll('.spawn-option');
+                options.forEach(option => {
+                    if (option.onclick && option.onclick.toString().includes(spawnType)) {
+                        option.classList.add('selected');
+                    }
+                });
+            }
+            
+            // Visual feedback
+            console.log('Sending spawn event to SAMP:', spawnType);
             
             showLoading();
             setTimeout(() => {
