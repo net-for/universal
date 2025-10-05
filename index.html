@@ -4,181 +4,544 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barley Roleplay - Authentication</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .logo p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-title {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .switch-form {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .switch-form a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .switch-form a:hover {
+            color: #ff6b6b;
+        }
+
+        .gender-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .gender-option {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .gender-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .gender-option.selected {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .gender-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .gender-text {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .spawn-selection {
+            display: grid;
+            gap: 15px;
+        }
+
+        .spawn-option {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: left;
+        }
+
+        .spawn-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        .spawn-option.selected {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .spawn-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            display: inline-block;
+            width: 30px;
+        }
+
+        .spawn-text h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .spawn-text p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success {
+            display: none;
+            text-align: center;
+        }
+
+        .success.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .success h3 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .success p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
 </head>
 <body>
-    <!-- Background -->
-    <div class="background">
-        <div class="gradient-overlay"></div>
-        <div class="particles"></div>
-    </div>
-
-    <!-- Main Container -->
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <i class="fas fa-crown"></i>
-                <h1>BARLEY</h1>
-                <span>ROLEPLAY</span>
+        <div class="logo">
+            <h1>BARLEY</h1>
+            <p>ROLEPLAY</p>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="form-container active">
+            <h2 class="form-title">Welcome Back</h2>
+            <p class="form-subtitle">Enter your credentials to continue</p>
+            
+            <div class="input-group">
+                <input type="text" id="loginUsername" placeholder="Username" readonly>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="loginPassword" placeholder="Password" maxlength="20">
+            </div>
+            
+            <button class="btn" onclick="handleLogin()">LOGIN</button>
+            
+            <div class="switch-form">
+                Don't have an account? <a href="#" onclick="showForm('register')">Create one</a>
             </div>
         </div>
 
-        <!-- Content Container -->
-        <div class="content-container">
-            <!-- Login Form -->
-            <div id="loginForm" class="form-container">
-                <div class="form-header">
-                    <h2>WELCOME BACK</h2>
-                    <p>Enter your credentials to continue</p>
+        <!-- Register Form -->
+        <div id="registerForm" class="form-container">
+            <h2 class="form-title">Create Account</h2>
+            <p class="form-subtitle">Join Barley Roleplay community</p>
+            
+            <div class="input-group">
+                <input type="text" id="registerUsername" placeholder="Username" readonly>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="registerPassword" placeholder="Password" maxlength="20">
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" maxlength="20">
+            </div>
+            
+            <button class="btn" onclick="handleRegister()">REGISTER</button>
+            
+            <div class="switch-form">
+                Already have an account? <a href="#" onclick="showForm('login')">Sign in</a>
+            </div>
+        </div>
+
+        <!-- Gender Selection -->
+        <div id="genderForm" class="form-container">
+            <h2 class="form-title">Select Gender</h2>
+            <p class="form-subtitle">Choose your character's gender</p>
+            
+            <div class="gender-selection">
+                <div class="gender-option" onclick="selectGender('male', 22)">
+                    <div class="gender-icon">♂</div>
+                    <div class="gender-text">MALE</div>
                 </div>
                 
-                <form class="auth-form">
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <input type="text" id="loginUsername" placeholder="USERNAME" readonly>
-                    </div>
-                    
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <input type="password" id="loginPassword" placeholder="PASSWORD" maxlength="20">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <span>LOGIN</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </form>
-                
-                <div class="form-footer">
-                    <p>Don't have an account? <a href="#" id="showRegister">Create one</a></p>
+                <div class="gender-option" onclick="selectGender('female', 56)">
+                    <div class="gender-icon">♀</div>
+                    <div class="gender-text">FEMALE</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Register Form -->
-            <div id="registerForm" class="form-container" style="display: none;">
-                <div class="form-header">
-                    <h2>CREATE ACCOUNT</h2>
-                    <p>Join Barley Roleplay community</p>
-                </div>
-                
-                <form class="auth-form">
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <input type="text" id="registerUsername" placeholder="USERNAME" readonly>
-                    </div>
-                    
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <input type="password" id="registerPassword" placeholder="PASSWORD" maxlength="20">
-                    </div>
-                    
-                    <div class="input-group">
-                        <div class="input-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <input type="password" id="confirmPassword" placeholder="CONFIRM PASSWORD" maxlength="20">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <span>REGISTER</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </form>
-                
-                <div class="form-footer">
-                    <p>Already have an account? <a href="#" id="showLogin">Sign in</a></p>
-                </div>
-            </div>
-
-            <!-- Gender Selection -->
-            <div id="genderForm" class="form-container" style="display: none;">
-                <div class="form-header">
-                    <h2>SELECT GENDER</h2>
-                    <p>Choose your character's gender</p>
-                </div>
-                
-                <div class="gender-selection">
-                    <div class="gender-option" data-gender="male" data-skin="22">
-                        <div class="gender-icon">
-                            <i class="fas fa-mars"></i>
-                        </div>
-                        <h3>MALE</h3>
-                    </div>
-                    
-                    <div class="gender-option" data-gender="female" data-skin="56">
-                        <div class="gender-icon">
-                            <i class="fas fa-venus"></i>
-                        </div>
-                        <h3>FEMALE</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Spawn Selection -->
-            <div id="spawnForm" class="form-container" style="display: none;">
-                <div class="form-header">
-                    <h2>SELECT SPAWN</h2>
-                    <p>Choose where to start your journey</p>
-                </div>
-                
-                <div class="spawn-selection">
-                    <div class="spawn-option" data-spawn="city">
-                        <div class="spawn-icon">
-                            <i class="fas fa-city"></i>
-                        </div>
-                        <h3>CITY CENTER</h3>
+        <!-- Spawn Selection -->
+        <div id="spawnForm" class="form-container">
+            <h2 class="form-title">Select Spawn</h2>
+            <p class="form-subtitle">Choose where to start your journey</p>
+            
+            <div class="spawn-selection">
+                <div class="spawn-option" onclick="selectSpawn('city')">
+                    <span class="spawn-icon">🏙️</span>
+                    <div class="spawn-text">
+                        <h3>City Center</h3>
                         <p>Downtown Los Santos</p>
                     </div>
-                    
-                    <div class="spawn-option" data-spawn="beach">
-                        <div class="spawn-icon">
-                            <i class="fas fa-umbrella-beach"></i>
-                        </div>
-                        <h3>BEACH</h3>
+                </div>
+                
+                <div class="spawn-option" onclick="selectSpawn('beach')">
+                    <span class="spawn-icon">🏖️</span>
+                    <div class="spawn-text">
+                        <h3>Beach</h3>
                         <p>Santa Maria Beach</p>
                     </div>
-                    
-                    <div class="spawn-option" data-spawn="airport">
-                        <div class="spawn-icon">
-                            <i class="fas fa-plane"></i>
-                        </div>
-                        <h3>AIRPORT</h3>
+                </div>
+                
+                <div class="spawn-option" onclick="selectSpawn('airport')">
+                    <span class="spawn-icon">✈️</span>
+                    <div class="spawn-text">
+                        <h3>Airport</h3>
                         <p>LS International</p>
                     </div>
                 </div>
             </div>
-
-            <!-- Loading Screen -->
-            <div id="loadingScreen" class="loading-container" style="display: none;">
-                <div class="loading-spinner"></div>
-                <h3>Loading...</h3>
-            </div>
-
-            <!-- Success Screen -->
-            <div id="successScreen" class="success-container" style="display: none;">
-                <div class="success-icon">
-                    <i class="fas fa-check"></i>
-                </div>
-                <h3>SUCCESS!</h3>
-                <p>Welcome to Barley Roleplay</p>
-            </div>
         </div>
 
-        <!-- Debug Info -->
-        <div id="debugInfo" class="debug-info"></div>
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="loading">
+            <div class="spinner"></div>
+            <h3 style="color: #fff;">Loading...</h3>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="successScreen" class="success">
+            <div class="success-icon">✓</div>
+            <h3>SUCCESS!</h3>
+            <p>Welcome to Barley Roleplay</p>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let currentMode = 'login';
+        let playerName = '';
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            // Get player name from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            playerName = urlParams.get('player') || 'Unknown';
+            currentMode = urlParams.get('mode') || 'login';
+            
+            // Set player names
+            document.getElementById('loginUsername').value = playerName;
+            document.getElementById('registerUsername').value = playerName;
+            
+            // Show appropriate form
+            showForm(currentMode);
+        });
+
+        function showForm(formType) {
+            // Hide all forms
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            // Show selected form
+            document.getElementById(formType + 'Form').classList.add('active');
+            currentMode = formType;
+        }
+
+        function handleLogin() {
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!password || password.length < 5) {
+                alert('Password must be at least 5 characters long!');
+                return;
+            }
+            
+            showLoading();
+            sendToSAMP('login', password);
+        }
+
+        function handleRegister() {
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!password || password.length < 5) {
+                alert('Password must be at least 5 characters long!');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            showLoading();
+            sendToSAMP('register', password);
+        }
+
+        function selectGender(gender, skin) {
+            // Remove previous selection
+            document.querySelectorAll('.gender-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            event.target.closest('.gender-option').classList.add('selected');
+            
+            showLoading();
+            setTimeout(() => {
+                sendToSAMP('gender', skin.toString());
+            }, 500);
+        }
+
+        function selectSpawn(spawnType) {
+            // Remove previous selection
+            document.querySelectorAll('.spawn-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            event.target.closest('.spawn-option').classList.add('selected');
+            
+            showLoading();
+            setTimeout(() => {
+                sendToSAMP('spawn', spawnType);
+                showSuccess();
+            }, 500);
+        }
+
+        function showLoading() {
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById('loadingScreen').classList.add('active');
+        }
+
+        function showSuccess() {
+            document.getElementById('loadingScreen').classList.remove('active');
+            document.getElementById('successScreen').classList.add('active');
+            
+            // Close CEF after success
+            setTimeout(() => {
+                sendToSAMP('close', '');
+            }, 2000);
+        }
+
+        function sendToSAMP(event, data) {
+            console.log('Sending to SA-MP:', event, data);
+            
+            // Try different CEF communication methods
+            const methods = [
+                () => { if (typeof cef !== 'undefined' && cef.emit) cef.emit(event, data); },
+                () => { if (typeof cef !== 'undefined' && cef.trigger) cef.trigger(event, data); },
+                () => { if (typeof cef !== 'undefined' && cef.call) cef.call(event, data); },
+                () => { if (typeof cef !== 'undefined' && cef.send) cef.send(event, data); },
+                () => { 
+                    if (typeof samp !== 'undefined' && samp.call) {
+                        samp.call(event, data);
+                    }
+                }
+            ];
+
+            for (let method of methods) {
+                try {
+                    method();
+                    console.log('CEF method succeeded:', event);
+                    return;
+                } catch (error) {
+                    console.log('CEF method failed:', error.message);
+                }
+            }
+
+            console.log('All CEF communication methods failed!');
+        }
+    </script>
 </body>
 </html>
